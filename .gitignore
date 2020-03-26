@@ -1,0 +1,8 @@
+# Generated binaries
+bin/
+
+# Editor cache
+.idea/
+
+# Project files
+*.iml
