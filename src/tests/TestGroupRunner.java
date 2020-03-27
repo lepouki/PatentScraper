@@ -7,11 +7,11 @@ public class TestGroupRunner {
 
 		for (Test test : tests) {
 			testGroup.initializeNextTest();
-			tryToRunTest(test);
+			runTest(test);
 		}
 	}
 
-	private static void tryToRunTest(Test test) {
+	private static void runTest(Test test) {
 		try {
 			test.run();
 		}

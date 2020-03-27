@@ -5,9 +5,7 @@ import tests.TestGroupRunner;
 
 public class Main {
 
-	public static void main(String[] args) {
-		runTestGroups();
-	}
+	public static void main(String[] args) { runTestGroups(); }
 
 	private static void runTestGroups() {
 		TestGroup[] testGroups = getTestGroups();
@@ -17,8 +15,6 @@ public class Main {
 		}
 	}
 
-	private static TestGroup[] getTestGroups() {
-		return new TestGroup[] {};
-	}
+	private static TestGroup[] getTestGroups() { return new TestGroup[] {}; }
 
 }

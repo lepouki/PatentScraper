@@ -2,7 +2,8 @@ package scraper.core.options;
 
 public class Options {
 
-	boolean useNativeDocumentLanguage;
-	// TODO.
+	public boolean useNativeDocumentLanguage = false;
+	public TextOptions textOptions;
+	public ScrapingOptions scrapingOptions;
 
 }
