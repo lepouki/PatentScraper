@@ -36,7 +36,7 @@ public class EventSourceTestGroup implements TestGroup {
 		}
 
 		private void givenAnEventListener() {
-			eventListener = new EmptyEventListener();
+			eventListener = new DummyEventListener();
 		}
 
 		private void whenAddingTheListenerToAnEmptyEventSource() {
@@ -64,7 +64,7 @@ public class EventSourceTestGroup implements TestGroup {
 		}
 
 		private void givenAnEventListener() {
-			eventListener = new EmptyEventListener();
+			eventListener = new DummyEventListener();
 		}
 
 		private void whenAddingTheListenerToAnEmptyEventSource() {
@@ -93,7 +93,7 @@ public class EventSourceTestGroup implements TestGroup {
 		}
 
 		private void givenAnEventListener() {
-			eventListener = new EmptyEventListener();
+			eventListener = new DummyEventListener();
 		}
 
 		private void givenAnEventSourceThatContainsOnlyTheListener() {
@@ -113,7 +113,7 @@ public class EventSourceTestGroup implements TestGroup {
 
 	}
 
-	private static class EmptyEventListener implements EventListener {
+	private static class DummyEventListener implements EventListener {
 
 		@Override
 		public void eventReceived(Event event) {

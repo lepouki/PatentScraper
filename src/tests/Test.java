@@ -13,9 +13,9 @@ public class Test {
 	public void run() throws Exception {
 	}
 
-	protected void assertCondition(boolean condition, String errorMessage) throws AssertionException {
+	protected void assertCondition(boolean condition, String description) throws AssertionException {
 		if (!condition) {
-			throw new AssertionException(errorMessage);
+			throw new AssertionException(description);
 		}
 	}
 

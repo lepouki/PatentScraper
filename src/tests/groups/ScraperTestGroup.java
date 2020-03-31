@@ -1,7 +1,9 @@
 package tests.groups;
 
 import scraper.core.Document;
+import scraper.core.OutputTarget;
 import scraper.core.Scraper;
+import scraper.core.ScrapingStep;
 import scraper.core.events.Event;
 import scraper.core.events.EventListener;
 import tests.Test;
@@ -22,7 +24,8 @@ public class ScraperTestGroup implements TestGroup {
 	@Override
 	public Test[] getTests() {
 		return new Test[] {
-			new ScrapingProgressEventCountTest()
+			new ScrapingProgressEventCountTest(),
+			new ScrapingStepProgressEventCountTest()
 		};
 	}
 
@@ -32,9 +35,11 @@ public class ScraperTestGroup implements TestGroup {
 
 		@Override
 		public void run() throws Exception {
-			givenOneDocumentListContainingOneDocument();
 			givenAnEventListenerCountingTheNumberOfScrapingProgressEvents();
-			whenScrapingTheDocumentList();
+			givenOneSingleDocumentToScrape();
+
+			whenScrapingTheDocument();
+
 			thenOnlyOneScrapingProgressEventMustOccur();
 		}
 
@@ -45,7 +50,11 @@ public class ScraperTestGroup implements TestGroup {
 			}
 		}
 
-		private void givenOneDocumentListContainingOneDocument() {
+		private void givenAnEventListenerCountingTheNumberOfScrapingProgressEvents() {
+			scraper.pushEventListener(this);
+		}
+
+		private void givenOneSingleDocumentToScrape() {
 			List<Document> documents = new ArrayList<>(1);
 
 			Document document = new Document();
@@ -54,19 +63,81 @@ public class ScraperTestGroup implements TestGroup {
 			scraper.setDocuments(documents);
 		}
 
-		private void givenAnEventListenerCountingTheNumberOfScrapingProgressEvents() {
-			scraper.pushEventListener(this);
-		}
-
-		private void whenScrapingTheDocumentList() {
+		private void whenScrapingTheDocument() {
 			scraper.scrapeDocuments();
 		}
 
 		private void thenOnlyOneScrapingProgressEventMustOccur() throws AssertionException {
 			assertCondition(
 				scrapingProgressEventCount == 1,
-				"Scraper ScrapingProgressTest failed."
+				"Scraper ScrapingProgressEventCountTest failed."
 			);
+		}
+
+	}
+
+	private class ScrapingStepProgressEventCountTest extends Test implements EventListener {
+
+		int scrapingStepProgressEventCount = 0;
+
+		@Override
+		public void run() throws Exception {
+			givenAnEventListenerCountingTheNumberOfScrapingStepProgressEvents();
+			givenOneSingleDocumentToScrape();
+			givenOneSingleDocumentScrapingStep();
+
+			whenScrapingTheDocument();
+
+			thenOnlyOneScrapingStepProgressEventMustOccur();
+		}
+
+		@Override
+		public void eventReceived(Event event) {
+			if (event instanceof Scraper.ScrapingStepProgressEvent) {
+				++scrapingStepProgressEventCount;
+			}
+		}
+
+		private void givenAnEventListenerCountingTheNumberOfScrapingStepProgressEvents() {
+			scraper.pushEventListener(this);
+		}
+
+		private void givenOneSingleDocumentToScrape() {
+			List<Document> documents = new ArrayList<>(1);
+
+			Document document = new Document();
+			documents.add(document);
+
+			scraper.setDocuments(documents);
+		}
+
+		private void givenOneSingleDocumentScrapingStep() {
+			List<ScrapingStep> scrapingSteps = new ArrayList<>(1);
+
+			OutputTarget outputTarget = new DummyOutputTarget();
+			ScrapingStep scrapingStep = new ScrapingStep(outputTarget);
+			scrapingSteps.add(scrapingStep);
+
+			scraper.setScrapingSteps(scrapingSteps);
+		}
+
+		private void whenScrapingTheDocument() {
+			scraper.scrapeDocuments();
+		}
+
+		private void thenOnlyOneScrapingStepProgressEventMustOccur() throws AssertionException {
+			assertCondition(
+				scrapingStepProgressEventCount == 1,
+				"Scraper ScrapingStepProgressEventCountTest failed."
+			);
+		}
+
+	}
+
+	private static class DummyOutputTarget implements OutputTarget {
+
+		@Override
+		public void write(String information) {
 		}
 
 	}
