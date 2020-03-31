@@ -1,5 +1,6 @@
 # Generated binaries
 bin/
+out/
 
 # Editor cache
 .idea/

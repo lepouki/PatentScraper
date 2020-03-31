@@ -5,6 +5,8 @@ import java.util.Set;
 
 public class EventSource {
 
+	private Set<EventListener> eventListeners;
+
 	public EventSource() {
 		eventListeners = new HashSet<>();
 	}
@@ -13,13 +15,17 @@ public class EventSource {
 		return eventListeners.contains(eventListener);
 	}
 
-	public void addEventListener(EventListener eventListener) {
+	public int eventListenerCount() {
+		return eventListeners.size();
+	}
+
+	public void pushEventListener(EventListener eventListener) {
 		if (eventListener != null) {
 			eventListeners.add(eventListener);
 		}
 	}
 
-	public void removeEventListener(EventListener eventListener) {
+	public void popEventListener(EventListener eventListener) {
 		eventListeners.remove(eventListener);
 	}
 
@@ -28,7 +34,5 @@ public class EventSource {
 			eventListener.eventReceived(event);
 		}
 	}
-
-	private Set<EventListener> eventListeners;
 
 }

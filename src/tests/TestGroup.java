@@ -2,7 +2,7 @@ package tests;
 
 public interface TestGroup {
 
-	void initializeNextTest();
+	void initializeStateForNextTest();
 	Test[] getTests();
 
 }
