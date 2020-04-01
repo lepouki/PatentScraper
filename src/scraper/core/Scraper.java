@@ -104,18 +104,18 @@ public class Scraper extends EventSource {
 		for (int i = 0; i < documents.size(); ++i) {
 			Document document = documents.get(i);
 			scrapeDocument(document);
-			notifyEventListenersCurrentDocumentDone(i, document);
+			notifyEventListenersDocumentScraped(i, document);
 		}
 	}
 
-	private void notifyEventListenersCurrentDocumentDone(int currentDocumentIndex, Document currentDocument) {
-		float progressPercentage = calculateScrapingProgressPercentage(currentDocumentIndex);
-		ScrapingProgress scrapingProgress = new ScrapingProgress(progressPercentage, currentDocument);
+	private void notifyEventListenersDocumentScraped(int documentIndex, Document document) {
+		float progressPercentage = calculateScrapingProgressPercentage(documentIndex);
+		ScrapingProgress scrapingProgress = new ScrapingProgress(progressPercentage, document);
 		notifyEventListenersScrapingProgress(scrapingProgress);
 	}
 
-	private float calculateScrapingProgressPercentage(int currentDocumentIndex) {
-		return (float)(currentDocumentIndex + 1) / documents.size() * 100.0f;
+	private float calculateScrapingProgressPercentage(int documentIndex) {
+		return (float)(documentIndex + 1) / documents.size() * 100.0f;
 	}
 
 	private void notifyEventListenersScrapingProgress(ScrapingProgress scrapingProgress) {
@@ -127,18 +127,18 @@ public class Scraper extends EventSource {
 		for (int i = 0; i < scrapingSteps.size(); ++i) {
 			ScrapingStep scrapingStep = scrapingSteps.get(i);
 			scrapingStep.writeStepInformation(document);
-			notifyEventListenersCurrentScrapingStepDone(i, scrapingStep);
+			notifyEventListenersScrapingStepDone(i, scrapingStep);
 		}
 	}
 
-	private void notifyEventListenersCurrentScrapingStepDone(int currentScrapingStepIndex, ScrapingStep currentScrapingStep) {
-		float progressPercentage = calculateScrapingStepProgressPercentage(currentScrapingStepIndex);
-		ScrapingStepProgress scrapingStepProgress = new ScrapingStepProgress(progressPercentage, currentScrapingStep);
+	private void notifyEventListenersScrapingStepDone(int scrapingStepIndex, ScrapingStep scrapingStep) {
+		float progressPercentage = calculateScrapingStepProgressPercentage(scrapingStepIndex);
+		ScrapingStepProgress scrapingStepProgress = new ScrapingStepProgress(progressPercentage, scrapingStep);
 		notifyEventListenersScrapingStepProgress(scrapingStepProgress);
 	}
 
-	private float calculateScrapingStepProgressPercentage(int currentScrapingStepIndex) {
-		return (float)(currentScrapingStepIndex + 1) / scrapingSteps.size() * 100.0f;
+	private float calculateScrapingStepProgressPercentage(int scrapingStepIndex) {
+		return (float)(scrapingStepIndex + 1) / scrapingSteps.size() * 100.0f;
 	}
 
 	private void notifyEventListenersScrapingStepProgress(ScrapingStepProgress scrapingStepProgress) {

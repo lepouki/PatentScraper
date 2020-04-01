@@ -2,16 +2,16 @@ package scraper.core;
 
 public class ScrapingStep {
 
-	private Target target;
+	private WriteTarget writeTarget;
 	private String description;
 
-	public ScrapingStep(Target target, String description) {
-		setTarget(target);
+	public ScrapingStep(WriteTarget writeTarget, String description) {
+		setWriteTarget(writeTarget);
 		this.description = description;
 	}
 
-	public void setTarget(Target target) {
-		this.target = target;
+	public void setWriteTarget(WriteTarget writeTarget) {
+		this.writeTarget = writeTarget;
 	}
 
 	public String getDescription() {
@@ -19,14 +19,14 @@ public class ScrapingStep {
 	}
 
 	public void writeStepInformation(Document document) {
-		String stepInformation = scrapeDocumentStepInformation(document);
-		target.write(stepInformation);
+		String stepInformation = retrieveStepInformation(document);
+		writeTarget.write(stepInformation);
 	}
 
 	/**
 	 * Gets overridden by the actual scraping steps.
 	 */
-	protected String scrapeDocumentStepInformation(Document document) {
+	protected String retrieveStepInformation(Document document) {
 		return "";
 	}
 

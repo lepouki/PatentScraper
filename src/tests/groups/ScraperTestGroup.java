@@ -1,7 +1,7 @@
 package tests.groups;
 
 import scraper.core.Document;
-import scraper.core.Target;
+import scraper.core.WriteTarget;
 import scraper.core.Scraper;
 import scraper.core.ScrapingStep;
 import scraper.core.events.Event;
@@ -141,22 +141,11 @@ public class ScraperTestGroup implements TestGroup {
 	private class ScrapingProgressLoggerTest extends Test {
 
 		@Override
-		public void run() throws Exception {
+		public void run() {
 			givenOneSingleDocumentToScrape();
 			givenOneConsoleScrapingProgressLoggerListeningToTheScraper();
 
-			whenScrapingTheDocument();
-
-			thenTheScrapingProgressLoggerMustLogToTheConsoleOnce();
-		}
-
-		private void givenOneConsoleScrapingProgressLoggerListeningToTheScraper() {
-			ScrapingProgressLogger consoleScrapingProgressLogger = new ScrapingProgressLogger();
-
-			ConsoleSink consoleSink = new ConsoleSink();
-			consoleScrapingProgressLogger.pushSink(consoleSink);
-
-			scraper.pushEventListener(consoleScrapingProgressLogger);
+			seeConsoleForScrapingProgressOutput();
 		}
 
 		private void givenOneSingleDocumentToScrape() {
@@ -168,15 +157,17 @@ public class ScraperTestGroup implements TestGroup {
 			scraper.setDocuments(documents);
 		}
 
-		private void whenScrapingTheDocument() {
-			scraper.scrapeDocuments();
+		private void givenOneConsoleScrapingProgressLoggerListeningToTheScraper() {
+			ScrapingProgressLogger consoleScrapingProgressLogger = new ScrapingProgressLogger();
+
+			ConsoleSink consoleSink = new ConsoleSink();
+			consoleScrapingProgressLogger.pushSink(consoleSink);
+
+			scraper.pushEventListener(consoleScrapingProgressLogger);
 		}
 
-		private void thenTheScrapingProgressLoggerMustLogToTheConsoleOnce() throws AssertionException {
-			assertCondition(
-				true,
-				"This test only exists to check the ScrapingProgressLogger's output format"
-			);
+		private void seeConsoleForScrapingProgressOutput() {
+			scraper.scrapeDocuments();
 		}
 
 	}
@@ -184,23 +175,12 @@ public class ScraperTestGroup implements TestGroup {
 	private class ScrapingStepProgressLoggerTest extends Test {
 
 		@Override
-		public void run() throws Exception {
+		public void run() {
 			givenOneSingleDocumentToScrape();
 			givenOneSingleScrapingStep();
 			givenOneConsoleScrapingStepProgressLoggerListeningToTheScraper();
 
-			whenScrapingTheDocument();
-
-			thenTheScrapingStepProgressLoggerMustLogToTheConsoleOnce();
-		}
-
-		private void givenOneConsoleScrapingStepProgressLoggerListeningToTheScraper() {
-			ScrapingStepProgressLogger consoleScrapingStepProgressLogger = new ScrapingStepProgressLogger();
-
-			ConsoleSink consoleSink = new ConsoleSink();
-			consoleScrapingStepProgressLogger.pushSink(consoleSink);
-
-			scraper.pushEventListener(consoleScrapingStepProgressLogger);
+			seeConsoleForScrapingStepProgressOutput();
 		}
 
 		private void givenOneSingleDocumentToScrape() {
@@ -221,15 +201,17 @@ public class ScraperTestGroup implements TestGroup {
 			scraper.setScrapingSteps(scrapingSteps);
 		}
 
-		private void whenScrapingTheDocument() {
-			scraper.scrapeDocuments();
+		private void givenOneConsoleScrapingStepProgressLoggerListeningToTheScraper() {
+			ScrapingStepProgressLogger consoleScrapingStepProgressLogger = new ScrapingStepProgressLogger();
+
+			ConsoleSink consoleSink = new ConsoleSink();
+			consoleScrapingStepProgressLogger.pushSink(consoleSink);
+
+			scraper.pushEventListener(consoleScrapingStepProgressLogger);
 		}
 
-		private void thenTheScrapingStepProgressLoggerMustLogToTheConsoleOnce() throws AssertionException {
-			assertCondition(
-				true,
-				"This test only exists to check the ScrapingStepProgressLogger's output format"
-			);
+		private void seeConsoleForScrapingStepProgressOutput() {
+			scraper.scrapeDocuments();
 		}
 
 	}
@@ -237,12 +219,12 @@ public class ScraperTestGroup implements TestGroup {
 	private static class DummyScrapingStep extends ScrapingStep {
 
 		public DummyScrapingStep() {
-			super(new DummyTarget(), "Dummy scraping step");
+			super(new DummyWriteTarget(), "Dummy scraping step");
 		}
 
 	}
 
-	private static class DummyTarget implements Target {
+	private static class DummyWriteTarget implements WriteTarget {
 
 		@Override
 		public void write(String information) {

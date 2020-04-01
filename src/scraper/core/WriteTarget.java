@@ -1,6 +1,6 @@
 package scraper.core;
 
-public interface Target {
+public interface WriteTarget {
 
 	void write(String information);
 
