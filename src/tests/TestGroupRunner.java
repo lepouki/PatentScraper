@@ -5,14 +5,14 @@ import scraper.core.time.Timer;
 public class TestGroupRunner {
 
 	public static void runTestGroup(TestGroup testGroup) {
-		String testGroupName = getObjectClassName(testGroup);
+		String testGroupName = getClassName(testGroup);
 		System.out.printf("\nRunning test group \"%s\"\n", testGroupName);
 
 		double executionTime = monitorTestGroup(testGroup);
 		System.out.printf("Test group \"%s\" exited after %fs\n", testGroupName, executionTime);
 	}
 
-	private static String getObjectClassName(Object object) {
+	private static String getClassName(Object object) {
 		return object.getClass().getName();
 	}
 
@@ -29,7 +29,7 @@ public class TestGroupRunner {
 	}
 
 	private static double runTest(Test test) {
-		String testName = getObjectClassName(test);
+		String testName = getClassName(test);
 		System.out.printf("- Running test \"%s\"\n", testName);
 
 		double executionTime = monitorTest(test);

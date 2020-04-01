@@ -2,19 +2,25 @@ package scraper.core;
 
 public class ScrapingStep {
 
-	private OutputTarget outputTarget;
+	private Target target;
+	private String description;
 
-	public ScrapingStep(OutputTarget target) {
-		setOutputTarget(target);
+	public ScrapingStep(Target target, String description) {
+		setTarget(target);
+		this.description = description;
 	}
 
-	public void setOutputTarget(OutputTarget outputTarget) {
-		this.outputTarget = outputTarget;
+	public void setTarget(Target target) {
+		this.target = target;
 	}
 
-	public void writeDocumentStepInformationToOutputTarget(Document document) {
+	public String getDescription() {
+		return description;
+	}
+
+	public void writeStepInformation(Document document) {
 		String stepInformation = scrapeDocumentStepInformation(document);
-		outputTarget.write(stepInformation);
+		target.write(stepInformation);
 	}
 
 	/**

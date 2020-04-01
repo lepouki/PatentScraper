@@ -31,7 +31,9 @@ public class EventSourceTestGroup implements TestGroup {
 		@Override
 		public void run() throws Exception {
 			givenAnEventListener();
+
 			whenAddingTheListenerToAnEmptyEventSource();
+
 			thenTheEventSourceMustContainOneListener();
 		}
 
@@ -46,7 +48,7 @@ public class EventSourceTestGroup implements TestGroup {
 		private void thenTheEventSourceMustContainOneListener() throws AssertionException {
 			assertCondition(
 				eventSource.eventListenerCount() == 1,
-				"EventSource ListenerCountTest failed."
+				"EventSource ListenerCountTest failed"
 			);
 		}
 
@@ -59,7 +61,9 @@ public class EventSourceTestGroup implements TestGroup {
 		@Override
 		public void run() throws Exception {
 			givenAnEventListener();
+
 			whenAddingTheListenerToAnEmptyEventSource();
+
 			thenTheEventSourceMustContainTheListener();
 		}
 
@@ -74,7 +78,7 @@ public class EventSourceTestGroup implements TestGroup {
 		private void thenTheEventSourceMustContainTheListener() throws AssertionException {
 			assertCondition(
 				eventSource.hasEventListener(eventListener),
-				"EventSource HasListenerTest failed."
+				"EventSource HasListenerTest failed"
 			);
 		}
 
@@ -88,7 +92,9 @@ public class EventSourceTestGroup implements TestGroup {
 		public void run() throws AssertionException {
 			givenAnEventListener();
 			givenAnEventSourceThatContainsOnlyTheListener();
+
 			whenPoppingTheListenerFromTheEventSource();
+
 			thenTheEventSourceMustContainZeroListeners();
 		}
 
@@ -107,7 +113,7 @@ public class EventSourceTestGroup implements TestGroup {
 		private void thenTheEventSourceMustContainZeroListeners() throws AssertionException {
 			assertCondition(
 				eventSource.eventListenerCount() == 0,
-				"EventSource PopListenerTest failed."
+				"EventSource PopListenerTest failed"
 			);
 		}
 
