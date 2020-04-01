@@ -15,7 +15,7 @@ public class EventSource {
 		return eventListeners.contains(eventListener);
 	}
 
-	public int eventListenerCount() {
+	public int getEventListenerCount() {
 		return eventListeners.size();
 	}
 

@@ -21,7 +21,7 @@ public class TestGroupRunner {
 		Test[] testsToRun = testGroup.getTests();
 
 		for (Test test : testsToRun) {
-			testGroup.initializeStateForNextTest();
+			testGroup.beginNextTest();
 			executionTime += runTest(test);
 		}
 

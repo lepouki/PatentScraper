@@ -11,7 +11,7 @@ public class EventSourceTestGroup implements TestGroup {
 	private EventSource eventSource;
 
 	@Override
-	public void initializeStateForNextTest() {
+	public void beginNextTest() {
 		eventSource = new EventSource();
 	}
 
@@ -47,7 +47,7 @@ public class EventSourceTestGroup implements TestGroup {
 
 		private void thenTheEventSourceMustContainOneListener() throws AssertionException {
 			assertCondition(
-				eventSource.eventListenerCount() == 1,
+				eventSource.getEventListenerCount() == 1,
 				"EventSource ListenerCountTest failed"
 			);
 		}
@@ -112,7 +112,7 @@ public class EventSourceTestGroup implements TestGroup {
 
 		private void thenTheEventSourceMustContainZeroListeners() throws AssertionException {
 			assertCondition(
-				eventSource.eventListenerCount() == 0,
+				eventSource.getEventListenerCount() == 0,
 				"EventSource PopListenerTest failed"
 			);
 		}

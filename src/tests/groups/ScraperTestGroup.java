@@ -20,7 +20,7 @@ public class ScraperTestGroup implements TestGroup {
 	private Scraper scraper;
 
 	@Override
-	public void initializeStateForNextTest() {
+	public void beginNextTest() {
 		scraper = Scraper.createEmptyScraper();
 	}
 
@@ -55,10 +55,6 @@ public class ScraperTestGroup implements TestGroup {
 			}
 		}
 
-		private void givenAnEventListenerCountingTheNumberOfScrapingProgressEvents() {
-			scraper.pushEventListener(this);
-		}
-
 		private void givenOneSingleDocumentToScrape() {
 			List<Document> documents = new ArrayList<>(1);
 
@@ -66,6 +62,10 @@ public class ScraperTestGroup implements TestGroup {
 			documents.add(dummyDocument);
 
 			scraper.setDocuments(documents);
+		}
+
+		private void givenAnEventListenerCountingTheNumberOfScrapingProgressEvents() {
+			scraper.pushEventListener(this);
 		}
 
 		private void whenScrapingTheDocument() {
