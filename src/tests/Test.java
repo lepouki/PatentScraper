@@ -10,6 +10,11 @@ public class Test {
 
 	}
 
+	/**
+	 * Gets overridden by the actual tests.
+	 *
+	 * @throws Exception When an exception is thrown by the test.
+	 */
 	public void run() throws Exception {
 	}
 

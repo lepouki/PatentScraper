@@ -9,9 +9,4 @@ public class ConsoleSink implements Sink {
 		System.out.print(message);
 	}
 
-	@Override
-	public void log(String format, Object... arguments) {
-		System.out.printf(format, arguments);
-	}
-
 }

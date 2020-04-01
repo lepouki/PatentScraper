@@ -15,7 +15,7 @@ public class Logger {
 		return sinks.contains(sink);
 	}
 
-	public int sinkCount() {
+	public int getSinkCount() {
 		return sinks.size();
 	}
 
@@ -29,15 +29,14 @@ public class Logger {
 		sinks.remove(sink);
 	}
 
+	public void log(String format, Object... arguments) {
+		String message = String.format(format, arguments);
+		log(message);
+	}
+
 	public void log(String message) {
 		for (Sink sink : sinks) {
 			sink.log(message);
-		}
-	}
-
-	public void log(String format, Object... arguments) {
-		for (Sink sink : sinks) {
-			sink.log(format, arguments);
 		}
 	}
 
