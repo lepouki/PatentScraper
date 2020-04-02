@@ -1,4 +1,4 @@
-package scraper.core.log;
+package scraper.core.logs;
 
 public interface Sink {
 

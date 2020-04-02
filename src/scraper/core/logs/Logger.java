@@ -1,4 +1,4 @@
-package scraper.core.log;
+package scraper.core.logs;
 
 import java.util.HashSet;
 import java.util.Set;

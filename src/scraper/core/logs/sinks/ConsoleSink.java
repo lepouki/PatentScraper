@@ -1,6 +1,6 @@
-package scraper.core.log.sinks;
+package scraper.core.logs.sinks;
 
-import scraper.core.log.Sink;
+import scraper.core.logs.Sink;
 
 public class ConsoleSink implements Sink {
 

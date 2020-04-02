@@ -7,74 +7,119 @@ import scraper.core.events.EventSource;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Scraper extends EventSource implements EventListener {
+public class Scraper extends EventSource {
 
-	public static class Progress extends scraper.core.Progress {
+	public static class DocumentProcessed extends Event {
 
-		private String lastDocumentIdentifier;
+		private Progress progress;
 
-		public Progress(float percentage, String lastDocumentIdentifier) {
-			super(percentage);
-			this.lastDocumentIdentifier = lastDocumentIdentifier;
+		public DocumentProcessed(Object source, Progress progress) {
+			super(source);
+			this.progress = progress;
 		}
 
-		@Override
-		public String getLastItemProcessed() {
-			return lastDocumentIdentifier;
+		public Progress getProgress() {
+			return progress;
+		}
+
+	}
+
+	public static class PropertyProcessed extends Event {
+
+		private Progress progress;
+
+		public PropertyProcessed(Object source, Progress progress) {
+			super(source);
+			this.progress = progress;
+		}
+
+		public Progress getProgress() {
+			return progress;
+		}
+
+	}
+
+	public static class Progress {
+
+		private float percentage;
+		private String lastElementProcessed;
+
+		public Progress(float percentage, String lastElementProcessed) {
+			this.percentage = percentage;
+			this.lastElementProcessed = lastElementProcessed;
+		}
+
+		public float getPercentage() {
+			return percentage;
+		}
+
+		public String getLastElementProcessed() {
+			return lastElementProcessed;
 		}
 
 	}
 
 	public static Scraper createEmptyScraper() {
 		List<Document> documents = new ArrayList<>(0);
-		List<PropertyWriter> propertyWriters = new ArrayList<>(0);
-		return new Scraper(documents, propertyWriters);
+		List<PropertyScraper> propertyScrapers = new ArrayList<>(0);
+		return new Scraper(documents, propertyScrapers);
 	}
 
 	private List<Document> documents;
-	private DocumentScraper documentScraper;
+	private List<PropertyScraper> propertyScrapers;
 
-	public Scraper(List<Document> documents, List<PropertyWriter> propertyWriters) {
+	public Scraper(List<Document> documents, List<PropertyScraper> propertyScrapers) {
 		setDocuments(documents);
-		documentScraper = new DocumentScraper(propertyWriters);
-		documentScraper.pushEventListener(this);
+		setPropertyScrapers(propertyScrapers);
 	}
 
 	public void setDocuments(List<Document> documents) {
 		this.documents = documents;
 	}
 
-	public void setPropertyWriters(List<PropertyWriter> propertyWriters) {
-		documentScraper.setPropertyWriters(propertyWriters);
+	public void setPropertyScrapers(List<PropertyScraper> propertyScrapers) {
+		this.propertyScrapers = propertyScrapers;
 	}
 
 	public void scrapeDocuments() {
 		for (int i = 0; i < documents.size(); ++i) {
 			Document document = documents.get(i);
-			documentScraper.scrapeDocumentProperties(document);
-			notifyEventListenersDocumentScraped(i, document);
+			scrapeProperties(document);
+			notifyEventListenersDocumentProcessed(i, document);
 		}
 	}
 
-	@Override
-	public void eventReceived(Event event) {
-		if (event.getSource() instanceof DocumentScraper) {
-			notifyEventListeners(event);
-		}
+	private void notifyEventListenersDocumentProcessed(int documentIndex, Document document) {
+		Progress progress = new Progress(calculateDocumentProgressPercentage(documentIndex), document.identifier);
+
+		notifyEventListeners(
+			new DocumentProcessed(this, progress)
+		);
 	}
 
-	private void notifyEventListenersDocumentScraped(int documentIndex, Document document) {
-		Progress progress = new Progress(calculateProgressPercentage(documentIndex), document.identifier);
-		notifyEventListenersProgress(progress);
-	}
-
-	private float calculateProgressPercentage(int documentIndex) {
+	private float calculateDocumentProgressPercentage(int documentIndex) {
 		return (float)(documentIndex + 1) / documents.size() * 100.0f;
 	}
 
-	private void notifyEventListenersProgress(Progress progress) {
-		ProgressEvent event = new ProgressEvent(this, progress);
-		notifyEventListeners(event);
+	private void scrapeProperties(Document document) {
+		for (int i = 0; i < propertyScrapers.size(); ++i) {
+			PropertyScraper propertyScraper = propertyScrapers.get(i);
+			propertyScraper.scrapeProperty(document);
+			notifyEventListenersPropertyProcessed(i, propertyScraper);
+		}
+	}
+
+	private void notifyEventListenersPropertyProcessed(int propertyIndex, PropertyScraper propertyScraper) {
+		String property = propertyScraper.getProperty();
+		Progress progress = new Progress(calculatePropertyProgressPercentage(propertyIndex), property);
+
+		notifyEventListeners(
+			new PropertyProcessed(this, progress)
+		);
+	}
+
+	private float calculatePropertyProgressPercentage(int propertyIndex) {
+		return (float)(propertyIndex + 1) / propertyScrapers.size() * 100.0f;
 	}
 
 }
