@@ -12,9 +12,6 @@ public class PropertyRetriever {
 		return property;
 	}
 
-	/**
-	 * Gets overridden by the actual PropertyRetriever classes.
-	 */
 	public String retrievePropertyData(Document document) {
 		return "";
 	}
