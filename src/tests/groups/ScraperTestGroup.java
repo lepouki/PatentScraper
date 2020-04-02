@@ -1,9 +1,6 @@
 package tests.groups;
 
-import scraper.core.Document;
-import scraper.core.WriteTarget;
-import scraper.core.Scraper;
-import scraper.core.ScrapingStep;
+import scraper.core.*;
 import scraper.core.events.Event;
 import scraper.core.events.EventListener;
 import scraper.core.log.sinks.ConsoleSink;
@@ -98,7 +95,7 @@ public class ScraperTestGroup implements TestGroup {
 
 		@Override
 		public void eventReceived(Event event) {
-			if (event instanceof Scraper.ScrapingStepProgressEvent) {
+			if (event instanceof DocumentScraper.ScrapingStepProgressEvent) {
 				++scrapingStepProgressEventCount;
 			}
 		}

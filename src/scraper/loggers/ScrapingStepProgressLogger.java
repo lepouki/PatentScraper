@@ -1,6 +1,6 @@
 package scraper.loggers;
 
-import scraper.core.Scraper;
+import scraper.core.DocumentScraper;
 import scraper.core.ScrapingStep;
 import scraper.core.events.Event;
 import scraper.core.events.EventListener;
@@ -10,18 +10,18 @@ public class ScrapingStepProgressLogger extends Logger implements EventListener 
 
 	@Override
 	public void eventReceived(Event event) {
-		if (event instanceof Scraper.ScrapingStepProgressEvent) {
-			Scraper.ScrapingStepProgressEvent scrapingStepProgressEvent = (Scraper.ScrapingStepProgressEvent)event;
+		if (event instanceof DocumentScraper.ScrapingStepProgressEvent) {
+			DocumentScraper.ScrapingStepProgressEvent scrapingStepProgressEvent = (DocumentScraper.ScrapingStepProgressEvent)event;
 			logScrapingStepProgressEvent(scrapingStepProgressEvent);
 		}
 	}
 
-	private void logScrapingStepProgressEvent(Scraper.ScrapingStepProgressEvent event) {
-		Scraper.ScrapingStepProgress scrapingStepProgress = event.getScrapingStepProgress();
+	private void logScrapingStepProgressEvent(DocumentScraper.ScrapingStepProgressEvent event) {
+		DocumentScraper.ScrapingStepProgress scrapingStepProgress = event.getScrapingStepProgress();
 		logScrapingStepProgress(scrapingStepProgress);
 	}
 
-	private void logScrapingStepProgress(Scraper.ScrapingStepProgress scrapingStepProgress) {
+	private void logScrapingStepProgress(DocumentScraper.ScrapingStepProgress scrapingStepProgress) {
 		log("--> Scraping step progress: ");
 
 		float progressPercentage = scrapingStepProgress.getProgressPercentage();
