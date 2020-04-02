@@ -7,71 +7,55 @@ import java.util.List;
 
 public class DocumentScraper extends EventSource {
 
-	public static class ScrapingStepProgressEvent extends Event {
+	public static class Progress extends scraper.core.Progress {
 
-		private ScrapingStepProgress scrapingStepProgress;
+		private String lastProperty;
 
-		public ScrapingStepProgressEvent(Object source, ScrapingStepProgress scrapingStepProgress) {
-			super(source);
-			this.scrapingStepProgress = scrapingStepProgress;
+		public Progress(float percentage, String lastProperty) {
+			super(percentage);
+			this.lastProperty = lastProperty;
 		}
 
-		public ScrapingStepProgress getScrapingStepProgress() {
-			return scrapingStepProgress;
-		}
-
-	}
-
-	public static class ScrapingStepProgress {
-
-		private float progressPercentage;
-		private ScrapingStep lastScrapingStepDone;
-
-		public ScrapingStepProgress(float progressPercentage, ScrapingStep lastScrapingStepDone) {
-			this.progressPercentage = progressPercentage;
-			this.lastScrapingStepDone = lastScrapingStepDone;
-		}
-
-		public float getProgressPercentage() {
-			return progressPercentage;
-		}
-
-		public ScrapingStep getLastScrapingStepDone() {
-			return lastScrapingStepDone;
+		@Override
+		public String getLastItemProcessed() {
+			return lastProperty;
 		}
 
 	}
 
-	private List<ScrapingStep> scrapingSteps;
+	private List<PropertyWriter> propertyWriters;
 
-	public DocumentScraper(List<ScrapingStep> scrapingSteps) {
-		setScrapingSteps(scrapingSteps);
+	public DocumentScraper(List<PropertyWriter> propertyWriters) {
+		setPropertyWriters(propertyWriters);
 	}
 
-	public void setScrapingSteps(List<ScrapingStep> scrapingSteps) {
-		this.scrapingSteps = scrapingSteps;
+	public void setPropertyWriters(List<PropertyWriter> propertyWriters) {
+		this.propertyWriters = propertyWriters;
 	}
 
-	public void scrape(Document document) {
-		for (int i = 0; i < scrapingSteps.size(); ++i) {
-			ScrapingStep scrapingStep = scrapingSteps.get(i);
-			scrapingStep.writeStepInformation(document);
-			notifyEventListenersScrapingStepDone(i, scrapingStep);
+	public void scrapeDocumentProperties(Document document) {
+		for (int i = 0; i < propertyWriters.size(); ++i) {
+			PropertyWriter propertyWriter = propertyWriters.get(i);
+			propertyWriter.writePropertyData(document);
+			notifyEventListenersPropertyScraped(i, propertyWriter);
 		}
 	}
 
-	private void notifyEventListenersScrapingStepDone(int scrapingStepIndex, ScrapingStep scrapingStep) {
-		float progressPercentage = calculateScrapingStepProgressPercentage(scrapingStepIndex);
-		ScrapingStepProgress scrapingStepProgress = new ScrapingStepProgress(progressPercentage, scrapingStep);
-		notifyEventListenersScrapingStepProgress(scrapingStepProgress);
+	private void notifyEventListenersPropertyScraped(int propertyIndex, PropertyWriter propertyWriter) {
+		float progressPercentage = calculatePropertyProgressPercentage(propertyIndex);
+
+		String property = propertyWriter.getProperty();
+		Progress progress = new Progress(progressPercentage, property);
+
+		notifyEventListenersProgress(progress);
 	}
 
-	private float calculateScrapingStepProgressPercentage(int scrapingStepIndex) {
-		return (float)(scrapingStepIndex + 1) / scrapingSteps.size() * 100.0f;
+	private float calculatePropertyProgressPercentage(int propertyIndex) {
+		return (float)(propertyIndex + 1) / propertyWriters.size() * 100.0f;
 	}
 
-	private void notifyEventListenersScrapingStepProgress(ScrapingStepProgress scrapingStepProgress) {
-		ScrapingStepProgressEvent event = new ScrapingStepProgressEvent(this, scrapingStepProgress);
+	private void notifyEventListenersProgress(Progress progress) {
+		ProgressEvent event = new ProgressEvent(this, progress);
 		notifyEventListeners(event);
 	}
 

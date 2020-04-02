@@ -11,7 +11,7 @@ public class Test {
 	}
 
 	/**
-	 * Gets overridden by the actual tests.
+	 * Gets overridden by the actual test classes.
 	 *
 	 * @throws Exception When an exception gets thrown by the test.
 	 */

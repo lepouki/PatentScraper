@@ -4,8 +4,8 @@ import scraper.core.*;
 import scraper.core.events.Event;
 import scraper.core.events.EventListener;
 import scraper.core.log.sinks.ConsoleSink;
-import scraper.loggers.ScrapingProgressLogger;
-import scraper.loggers.ScrapingStepProgressLogger;
+import scraper.loggers.ScraperProgressLogger;
+import scraper.loggers.DocumentScraperProgressLogger;
 import tests.Test;
 import tests.TestGroup;
 
@@ -24,31 +24,31 @@ public class ScraperTestGroup implements TestGroup {
 	@Override
 	public Test[] getTests() {
 		return new Test[] {
-			new ScrapingProgressEventCountTest(),
-			new ScrapingStepProgressEventCountTest(),
-			new ScrapingProgressLoggerTest(),
-			new ScrapingStepProgressLoggerTest()
+			new ScraperProgressEventCountTest(),
+			new DocumentScraperProgressEventCountTest(),
+			new ScraperProgressLoggerTest(),
+			new DocumentScraperProgressLoggerTest()
 		};
 	}
 
-	private class ScrapingProgressEventCountTest extends Test implements EventListener {
+	private class ScraperProgressEventCountTest extends Test implements EventListener {
 
-		private int scrapingProgressEventCount = 0;
+		private int scraperProgressEventCount = 0;
 
 		@Override
 		public void run() throws Exception {
 			givenOneSingleDocumentToScrape();
-			givenAnEventListenerCountingTheNumberOfScrapingProgressEvents();
+			givenAnEventListenerCountingTheNumberOfScraperProgressEvents();
 
 			whenScrapingTheDocument();
 
-			thenOnlyOneScrapingProgressEventMustOccur();
+			thenOnlyOneScraperProgressEventMustOccur();
 		}
 
 		@Override
 		public void eventReceived(Event event) {
-			if (event instanceof Scraper.ScrapingProgressEvent) {
-				++scrapingProgressEventCount;
+			if (event.getSource() instanceof Scraper) {
+				++scraperProgressEventCount;
 			}
 		}
 
@@ -61,7 +61,7 @@ public class ScraperTestGroup implements TestGroup {
 			scraper.setDocuments(documents);
 		}
 
-		private void givenAnEventListenerCountingTheNumberOfScrapingProgressEvents() {
+		private void givenAnEventListenerCountingTheNumberOfScraperProgressEvents() {
 			scraper.pushEventListener(this);
 		}
 
@@ -69,34 +69,34 @@ public class ScraperTestGroup implements TestGroup {
 			scraper.scrapeDocuments();
 		}
 
-		private void thenOnlyOneScrapingProgressEventMustOccur() throws AssertionException {
+		private void thenOnlyOneScraperProgressEventMustOccur() throws AssertionException {
 			assertCondition(
-				scrapingProgressEventCount == 1,
+				scraperProgressEventCount == 1,
 				"Scraper ScrapingProgressEventCountTest failed"
 			);
 		}
 
 	}
 
-	private class ScrapingStepProgressEventCountTest extends Test implements EventListener {
+	private class DocumentScraperProgressEventCountTest extends Test implements EventListener {
 
-		int scrapingStepProgressEventCount = 0;
+		int documentScraperProgressEventCount = 0;
 
 		@Override
 		public void run() throws Exception {
 			givenOneSingleDocumentToScrape();
 			givenOneSingleScrapingStep();
-			givenAnEventListenerCountingTheNumberOfScrapingStepProgressEvents();
+			givenAnEventListenerCountingTheNumberOfDocumentScraperProgressEvents();
 
 			whenScrapingTheDocument();
 
-			thenOnlyOneScrapingStepProgressEventMustOccur();
+			thenOnlyOneDocumentScraperProgressEventMustOccur();
 		}
 
 		@Override
 		public void eventReceived(Event event) {
-			if (event instanceof DocumentScraper.ScrapingStepProgressEvent) {
-				++scrapingStepProgressEventCount;
+			if (event.getSource() instanceof DocumentScraper) {
+				++documentScraperProgressEventCount;
 			}
 		}
 
@@ -110,15 +110,15 @@ public class ScraperTestGroup implements TestGroup {
 		}
 
 		private void givenOneSingleScrapingStep() {
-			List<ScrapingStep> scrapingSteps = new ArrayList<>(1);
+			List<PropertyWriter> propertyWriters = new ArrayList<>(1);
 
-			ScrapingStep dummyScrapingStep = new DummyScrapingStep();
-			scrapingSteps.add(dummyScrapingStep);
+			PropertyWriter dummyPropertyWriter = new DummyPropertyWriter();
+			propertyWriters.add(dummyPropertyWriter);
 
-			scraper.setScrapingSteps(scrapingSteps);
+			scraper.setPropertyWriters(propertyWriters);
 		}
 
-		private void givenAnEventListenerCountingTheNumberOfScrapingStepProgressEvents() {
+		private void givenAnEventListenerCountingTheNumberOfDocumentScraperProgressEvents() {
 			scraper.pushEventListener(this);
 		}
 
@@ -126,23 +126,23 @@ public class ScraperTestGroup implements TestGroup {
 			scraper.scrapeDocuments();
 		}
 
-		private void thenOnlyOneScrapingStepProgressEventMustOccur() throws AssertionException {
+		private void thenOnlyOneDocumentScraperProgressEventMustOccur() throws AssertionException {
 			assertCondition(
-				scrapingStepProgressEventCount == 1,
+				documentScraperProgressEventCount == 1,
 				"Scraper ScrapingStepProgressEventCountTest failed"
 			);
 		}
 
 	}
 
-	private class ScrapingProgressLoggerTest extends Test {
+	private class ScraperProgressLoggerTest extends Test {
 
 		@Override
 		public void run() {
 			givenOneSingleDocumentToScrape();
-			givenOneConsoleScrapingProgressLoggerListeningToTheScraper();
+			givenOneConsoleScraperProgressLoggerListeningToTheScraper();
 
-			seeConsoleForScrapingProgressOutput();
+			seeConsoleForScraperProgressOutput();
 		}
 
 		private void givenOneSingleDocumentToScrape() {
@@ -154,30 +154,30 @@ public class ScraperTestGroup implements TestGroup {
 			scraper.setDocuments(documents);
 		}
 
-		private void givenOneConsoleScrapingProgressLoggerListeningToTheScraper() {
-			ScrapingProgressLogger consoleScrapingProgressLogger = new ScrapingProgressLogger();
+		private void givenOneConsoleScraperProgressLoggerListeningToTheScraper() {
+			ScraperProgressLogger consoleScraperProgressLogger = new ScraperProgressLogger();
 
 			ConsoleSink consoleSink = new ConsoleSink();
-			consoleScrapingProgressLogger.pushSink(consoleSink);
+			consoleScraperProgressLogger.pushSink(consoleSink);
 
-			scraper.pushEventListener(consoleScrapingProgressLogger);
+			scraper.pushEventListener(consoleScraperProgressLogger);
 		}
 
-		private void seeConsoleForScrapingProgressOutput() {
+		private void seeConsoleForScraperProgressOutput() {
 			scraper.scrapeDocuments();
 		}
 
 	}
 
-	private class ScrapingStepProgressLoggerTest extends Test {
+	private class DocumentScraperProgressLoggerTest extends Test {
 
 		@Override
 		public void run() {
 			givenOneSingleDocumentToScrape();
 			givenOneSingleScrapingStep();
-			givenOneConsoleScrapingStepProgressLoggerListeningToTheScraper();
+			givenOneConsoleDocumentScraperProgressLoggerListeningToTheScraper();
 
-			seeConsoleForScrapingStepProgressOutput();
+			seeConsoleForDocumentScraperProgressOutput();
 		}
 
 		private void givenOneSingleDocumentToScrape() {
@@ -190,33 +190,44 @@ public class ScraperTestGroup implements TestGroup {
 		}
 
 		private void givenOneSingleScrapingStep() {
-			List<ScrapingStep> scrapingSteps = new ArrayList<>(1);
+			List<PropertyWriter> propertyWriters = new ArrayList<>(1);
 
-			ScrapingStep dummyScrapingStep = new DummyScrapingStep();
-			scrapingSteps.add(dummyScrapingStep);
+			PropertyWriter dummyPropertyWriter = new DummyPropertyWriter();
+			propertyWriters.add(dummyPropertyWriter);
 
-			scraper.setScrapingSteps(scrapingSteps);
+			scraper.setPropertyWriters(propertyWriters);
 		}
 
-		private void givenOneConsoleScrapingStepProgressLoggerListeningToTheScraper() {
-			ScrapingStepProgressLogger consoleScrapingStepProgressLogger = new ScrapingStepProgressLogger();
+		private void givenOneConsoleDocumentScraperProgressLoggerListeningToTheScraper() {
+			DocumentScraperProgressLogger consoleDocumentScraperProgressLogger = new DocumentScraperProgressLogger();
 
 			ConsoleSink consoleSink = new ConsoleSink();
-			consoleScrapingStepProgressLogger.pushSink(consoleSink);
+			consoleDocumentScraperProgressLogger.pushSink(consoleSink);
 
-			scraper.pushEventListener(consoleScrapingStepProgressLogger);
+			scraper.pushEventListener(consoleDocumentScraperProgressLogger);
 		}
 
-		private void seeConsoleForScrapingStepProgressOutput() {
+		private void seeConsoleForDocumentScraperProgressOutput() {
 			scraper.scrapeDocuments();
 		}
 
 	}
 
-	private static class DummyScrapingStep extends ScrapingStep {
+	private static class DummyPropertyWriter extends PropertyWriter {
 
-		public DummyScrapingStep() {
-			super(new DummyWriteTarget(), "Dummy scraping step");
+		public DummyPropertyWriter() {
+			super(
+				new DummyWriteTarget(),
+				new DummyPropertyRetriever()
+			);
+		}
+
+	}
+
+	private static class DummyPropertyRetriever extends PropertyRetriever {
+
+		public DummyPropertyRetriever() {
+			super("Dummy document property");
 		}
 
 	}
