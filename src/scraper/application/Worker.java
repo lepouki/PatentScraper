@@ -7,7 +7,7 @@ import scraper.core.Scraper;
 import scraper.core.events.Event;
 import scraper.core.events.EventListener;
 
-import javax.swing.*;
+import javax.swing.SwingWorker;
 import java.util.List;
 
 public class Worker extends SwingWorker<Void, ProgressEvent> implements EventListener {
