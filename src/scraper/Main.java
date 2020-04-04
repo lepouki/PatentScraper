@@ -1,5 +1,6 @@
 package scraper;
 
+import scraper.application.Application;
 import tests.TestGroup;
 import tests.TestGroupRunner;
 import tests.groups.EventSourceTestGroup;
@@ -13,6 +14,8 @@ public class Main {
 		if (DEBUGGING) {
 			runTestGroups();
 		}
+
+		new Application();
 	}
 
 	private static void runTestGroups() {

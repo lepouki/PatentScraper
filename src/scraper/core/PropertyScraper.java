@@ -10,8 +10,8 @@ public class PropertyScraper {
 		this.propertyRetriever = propertyRetriever;
 	}
 
-	public String getProperty() {
-		return propertyRetriever.getProperty();
+	public String getPropertyName() {
+		return propertyRetriever.getPropertyName();
 	}
 
 	public void scrapeProperty(Document document) {

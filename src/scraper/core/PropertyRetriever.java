@@ -2,14 +2,14 @@ package scraper.core;
 
 public class PropertyRetriever {
 
-	private String property;
+	private String propertyName;
 
-	public PropertyRetriever(String property) {
-		this.property = property;
+	public PropertyRetriever(String propertyName) {
+		this.propertyName = propertyName;
 	}
 
-	public String getProperty() {
-		return property;
+	public String getPropertyName() {
+		return propertyName;
 	}
 
 	public String retrievePropertyData(Document document) {

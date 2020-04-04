@@ -122,7 +122,7 @@ public class EventSourceTestGroup implements TestGroup {
 	private static class DummyEventListener implements EventListener {
 
 		@Override
-		public void eventReceived(Event event) {
+		public void onEventReceived(Event event) {
 		}
 
 	}

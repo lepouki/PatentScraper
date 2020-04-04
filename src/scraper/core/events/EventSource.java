@@ -31,7 +31,7 @@ public class EventSource {
 
 	protected void notifyEventListeners(Event event) {
 		for (EventListener eventListener : eventListeners) {
-			eventListener.eventReceived(event);
+			eventListener.onEventReceived(event);
 		}
 	}
 
