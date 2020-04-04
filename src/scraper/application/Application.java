@@ -1,24 +1,41 @@
 package scraper.application;
 
+import scraper.application.widgets.ScrapingControllerButtons;
 import scraper.core.ProgressEvent;
 
 import javax.swing.JFrame;
 
 public class Application extends JFrame {
 
+	private static final String APPLICATION_NAME = "Scraper";
+
 	public Application() {
-		super("Scraper");
+		super(APPLICATION_NAME);
 
-		setSize(500, 700);
+		createScrapingControllerButtons();
+
 		setResizable(false);
-
-		// Unsafe -> need to wait for the worker to complete
+		pack();
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		setVisible(true);
 	}
 
-	public void onProgressMade(ProgressEvent event) {
+	public void onStartButtonPressed() {
+		System.out.println("Start");
+	}
+
+	public void onAbortButtonPressed() {
+		System.out.println("Abort");
+	}
+
+	public void onWorkerProgressMade(ProgressEvent event) {
+		System.out.println("Progress");
+	}
+
+	private void createScrapingControllerButtons() {
+		ScrapingControllerButtons scrapingControllerButtons = new ScrapingControllerButtons(this);
+		add(scrapingControllerButtons);
 	}
 
 }

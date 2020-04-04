@@ -32,9 +32,17 @@ public class Worker extends SwingWorker<Void, ProgressEvent> implements EventLis
 	}
 
 	@Override
+	public void onEventReceived(Event event) {
+		if (event instanceof Scraper.PropertyProcessed) {
+			Scraper.PropertyProcessed propertyProcessed = (Scraper.PropertyProcessed)event;
+			publish(propertyProcessed);
+		}
+	}
+
+	@Override
 	protected void process(List<ProgressEvent> progressEvents) {
 		ProgressEvent lastProgressEvent = progressEvents.get(progressEvents.size() - 1);
-		application.onProgressMade(lastProgressEvent);
+		application.onWorkerProgressMade(lastProgressEvent);
 	}
 
 	@Override
@@ -58,14 +66,6 @@ public class Worker extends SwingWorker<Void, ProgressEvent> implements EventLis
 
 	private float calculateDocumentProgressPercentage(int documentIndex) {
 		return (float)(documentIndex + 1) / documents.size() * 100.0f;
-	}
-
-	@Override
-	public void onEventReceived(Event event) {
-		if (event instanceof Scraper.PropertyProcessed) {
-			Scraper.PropertyProcessed propertyProcessed = (Scraper.PropertyProcessed)event;
-			publish(propertyProcessed);
-		}
 	}
 
 }
