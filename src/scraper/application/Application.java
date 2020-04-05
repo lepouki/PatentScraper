@@ -1,9 +1,7 @@
 package scraper.application;
 
-import scraper.application.widgets.FileChooser;
-import scraper.application.widgets.InputOutputChooser;
-import scraper.application.widgets.RootPanel;
-import scraper.application.widgets.ScrapingControllerButtons;
+import scraper.application.widgets.ScraperControllerButtons;
+import scraper.application.widgets.ScraperProgressBars;
 import scraper.core.ProgressEvent;
 
 import javax.swing.*;
@@ -12,16 +10,15 @@ public class Application extends JFrame {
 
 	private static final String APPLICATION_NAME = "Scraper";
 
-	private RootPanel rootPanel;
+	int testCounter = 0;
+	ScraperProgressBars scraperProgressBars;
 
 	public Application() {
 		super(APPLICATION_NAME);
 
-		rootPanel = new RootPanel();
-		add(rootPanel);
-
-		createInputOutputChooser();
-		createScrapingControllerButtons();
+		createContentPane();
+		createScraperControllerButtons();
+		createScraperProgressBars();
 
 		setResizable(false);
 		pack();
@@ -30,28 +27,37 @@ public class Application extends JFrame {
 		setVisible(true);
 	}
 
+	private void createContentPane() {
+		JPanel contentPane = new JPanel();
+
+		BoxLayout layout = new BoxLayout(contentPane, BoxLayout.PAGE_AXIS);
+		contentPane.setLayout(layout);
+
+		setContentPane(contentPane);
+	}
+
+	private void createScraperControllerButtons() {
+		ScraperControllerButtons scraperControllerButtons = new ScraperControllerButtons(this);
+
+		add(scraperControllerButtons);
+	}
+
+	private void createScraperProgressBars() {
+		scraperProgressBars = new ScraperProgressBars();
+
+		add(scraperProgressBars);
+	}
+
 	public void onStartButtonPressed() {
-		System.out.println("Start");
+		testCounter = (testCounter + 1) % 100;
+		scraperProgressBars.setDocumentProgressBarValue(testCounter);
 	}
 
 	public void onAbortButtonPressed() {
-		System.out.println("Abort");
 	}
 
 	public void onWorkerProgressMade(ProgressEvent event) {
 		System.out.println("Progress");
-	}
-
-	private void createInputOutputChooser() {
-		InputOutputChooser inputOutputChooser = new InputOutputChooser(this);
-
-		rootPanel.add(inputOutputChooser);
-	}
-
-	private void createScrapingControllerButtons() {
-		ScrapingControllerButtons scrapingControllerButtons = new ScrapingControllerButtons(this);
-
-		rootPanel.add(scrapingControllerButtons);
 	}
 
 }

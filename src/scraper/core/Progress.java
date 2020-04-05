@@ -3,19 +3,19 @@ package scraper.core;
 public class Progress {
 
 	private float percentage;
-	private String lastItemProcessed;
+	private String nextItemToProcess;
 
-	public Progress(float percentage, String lastItemProcessed) {
+	public Progress(float percentage, String nextItemToProcess) {
 		this.percentage = percentage;
-		this.lastItemProcessed = lastItemProcessed;
+		this.nextItemToProcess = nextItemToProcess;
 	}
 
 	public float getPercentage() {
 		return percentage;
 	}
 
-	public String getLastItemProcessed() {
-		return lastItemProcessed;
+	public String getNextItemToProcess() {
+		return nextItemToProcess;
 	}
 
 }
