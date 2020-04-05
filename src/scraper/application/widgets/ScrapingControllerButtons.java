@@ -12,14 +12,17 @@ public class ScrapingControllerButtons extends JPanel implements ActionListener 
 	private static final String START_BUTTON_TEXT = "Start";
 	private static final String ABORT_BUTTON_TEXT = "Abort";
 
-	private JButton startButton;
-	private JButton abortButton;
+	private JButton startButton, abortButton;
 	private Application application;
 
 	public ScrapingControllerButtons(Application application) {
+		createButtons();
+		this.application = application;
+	}
+
+	private void createButtons() {
 		createStartButton();
 		createAbortButton();
-		this.application = application;
 	}
 
 	private void createStartButton() {
