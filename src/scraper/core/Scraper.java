@@ -14,17 +14,6 @@ public class Scraper extends EventSource {
 
 	}
 
-	public static class WorkDoneEvent extends ProgressEvent {
-
-		public WorkDoneEvent(Object source) {
-			super(
-				source,
-				new Progress(100.0f, "Done")
-			);
-		}
-
-	}
-
 	private List<PropertyScraper> propertyScrapers;
 
 	public Scraper(List<PropertyScraper> propertyScrapers) {
@@ -41,8 +30,6 @@ public class Scraper extends EventSource {
 			notifyEventListenersProcessingProperty(i, propertyScraper);
 			propertyScraper.scrapeProperty(document);
 		}
-
-		notifyEventListenersWorkDone();
 	}
 
 	private void notifyEventListenersProcessingProperty(int propertyIndex, PropertyScraper propertyScraper) {
@@ -56,12 +43,6 @@ public class Scraper extends EventSource {
 
 	private float calculatePropertyProgressPercentage(int propertyIndex) {
 		return (float)propertyIndex / propertyScrapers.size() * 100.0f;
-	}
-
-	private void notifyEventListenersWorkDone() {
-		notifyEventListeners(
-			new WorkDoneEvent(this)
-		);
 	}
 
 }
