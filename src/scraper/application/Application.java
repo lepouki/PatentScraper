@@ -1,5 +1,6 @@
 package scraper.application;
 
+import scraper.application.widgets.InputOutputChooser;
 import scraper.application.widgets.OptionsPicker;
 import scraper.application.widgets.ScraperControllerButtons;
 import scraper.application.widgets.ScraperProgressBars;
@@ -26,6 +27,7 @@ public class Application extends JFrame {
 
 		createContentPane();
 
+		createInputOutputChooser();
 		createOptionsPicker();
 		createScraperControllerButtons();
 		createScraperProgressBars();
@@ -46,6 +48,12 @@ public class Application extends JFrame {
 		contentPane.setLayout(layout);
 
 		setContentPane(contentPane);
+	}
+
+	private void createInputOutputChooser() {
+		InputOutputChooser inputOutputChooser = new InputOutputChooser();
+
+		add(inputOutputChooser);
 	}
 
 	private void createOptionsPicker() {

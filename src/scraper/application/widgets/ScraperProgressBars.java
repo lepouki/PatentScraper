@@ -19,6 +19,7 @@ public class ScraperProgressBars extends JPanel {
 
 		createProgressionLabel();
 		createProgressBars();
+
 		createPaddingBorder();
 	}
 

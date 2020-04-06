@@ -1,5 +1,7 @@
 package scraper.application.widgets;
 
+import scraper.application.ScraperOptions;
+
 import javax.swing.*;
 
 public class OptionsPicker extends JPanel {
@@ -13,6 +15,10 @@ public class OptionsPicker extends JPanel {
 		titleLabel.setAlignmentX(JLabel.CENTER_ALIGNMENT);
 
 		add(titleLabel);
+	}
+
+	public ScraperOptions getOptions() {
+		return new ScraperOptions();
 	}
 
 }
