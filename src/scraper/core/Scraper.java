@@ -62,7 +62,7 @@ public class Scraper extends EventSource {
 	}
 
 	private float calculatePropertyProgressPercentage(int propertyIndex) {
-		return (float)(propertyIndex) / propertyScrapers.size() * 100.0f;
+		return (float)propertyIndex / propertyScrapers.size() * 100.0f;
 	}
 
 	private void notifyEventListenersWorkDone() {
