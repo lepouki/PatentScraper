@@ -4,10 +4,10 @@ import scraper.application.ScraperOptions;
 
 public class OptionsPicker extends Group {
 
-	private static final String NAME = "Options";
+	private static final String TITLE = "Options";
 
 	public OptionsPicker() {
-		super(NAME);
+		super(TITLE);
 	}
 
 	public ScraperOptions getScraperOptions() {

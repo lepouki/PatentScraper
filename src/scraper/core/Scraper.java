@@ -2,7 +2,6 @@ package scraper.core;
 
 import scraper.core.events.EventSource;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class Scraper extends EventSource {
@@ -24,11 +23,6 @@ public class Scraper extends EventSource {
 			);
 		}
 
-	}
-
-	public static Scraper createEmptyScraper() {
-		List<PropertyScraper> propertyScrapers = new ArrayList<>(0);
-		return new Scraper(propertyScrapers);
 	}
 
 	private List<PropertyScraper> propertyScrapers;

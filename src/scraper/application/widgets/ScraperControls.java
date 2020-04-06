@@ -6,13 +6,13 @@ import javax.swing.*;
 
 public class ScraperControls extends Group {
 
-	private static final String NAME = "Scraper controls";
+	private static final String TITLE = "Scraper controls";
 
 	private ScraperControllerButtons scraperControllerButtons;
 	private ScraperProgressBars scraperProgressBars;
 
 	public ScraperControls(Application application) {
-		super(NAME);
+		super(TITLE);
 
 		BoxLayout layout = new BoxLayout(this, BoxLayout.PAGE_AXIS);
 		setLayout(layout);

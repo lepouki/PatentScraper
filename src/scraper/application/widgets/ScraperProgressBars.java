@@ -28,13 +28,15 @@ public class ScraperProgressBars extends JPanel {
 
 	private void createProgressionLabel() {
 		progressionLabel = new JLabel(IDLE_PROGRESSION_LABEL_TEXT);
-		progressionLabel.setAlignmentX(JLabel.CENTER_ALIGNMENT);
 		add(progressionLabel);
+		progressionLabel.setAlignmentX(JLabel.CENTER_ALIGNMENT);
 	}
 
 	private void createProgressBarEmptySeparator() {
-		Dimension emptySeparatorDimension = new Dimension(0, PROGRESS_BAR_SEPARATOR_SIZE);
-		Component emptySeparator = Box.createRigidArea(emptySeparatorDimension);
+		Component emptySeparator = Box.createRigidArea(
+			new Dimension(0, PROGRESS_BAR_SEPARATOR_SIZE)
+		);
+
 		add(emptySeparator);
 	}
 
