@@ -33,8 +33,8 @@ public class Worker extends SwingWorker<Void, ProgressEvent> implements EventLis
 
 	@Override
 	public void onEventReceived(Event event) {
-		ProgressEvent progressEvent = (ProgressEvent)event;
-		publish(progressEvent);
+		Scraper.ProcessingPropertyEvent processingPropertyEvent = (Scraper.ProcessingPropertyEvent)event;
+		publish(processingPropertyEvent);
 	}
 
 	@Override
