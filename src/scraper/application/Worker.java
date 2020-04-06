@@ -65,7 +65,7 @@ public class Worker extends SwingWorker<Void, ProgressEvent> implements EventLis
 	}
 
 	private float calculateDocumentProgressPercentage(int documentIndex) {
-		return (float)(documentIndex + 1) / documents.size() * 100.0f;
+		return (float)(documentIndex) / documents.size() * 100.0f;
 	}
 
 	@Override
