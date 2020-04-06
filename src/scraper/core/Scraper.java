@@ -1,6 +1,5 @@
 package scraper.core;
 
-import scraper.core.events.Event;
 import scraper.core.events.EventSource;
 
 import java.util.ArrayList;

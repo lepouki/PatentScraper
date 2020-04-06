@@ -4,12 +4,10 @@ import scraper.application.widgets.InputOutputChooser;
 import scraper.application.widgets.OptionsPicker;
 import scraper.application.widgets.ScraperControllerButtons;
 import scraper.application.widgets.ScraperProgressBars;
-import scraper.core.Progress;
 import scraper.core.ProgressEvent;
 import scraper.core.Scraper;
 
 import javax.swing.*;
-import java.util.ArrayList;
 
 public class Application extends JFrame {
 

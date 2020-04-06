@@ -11,14 +11,6 @@ public class Logger {
 		sinks = new HashSet<>();
 	}
 
-	public boolean hasSink(Sink sink) {
-		return sinks.contains(sink);
-	}
-
-	public int getSinkCount() {
-		return sinks.size();
-	}
-
 	public void pushSink(Sink sink) {
 		if (sink != null) {
 			sinks.add(sink);

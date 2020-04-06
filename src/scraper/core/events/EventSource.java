@@ -11,14 +11,6 @@ public class EventSource {
 		eventListeners = new HashSet<>();
 	}
 
-	public boolean hasEventListener(EventListener eventListener) {
-		return eventListeners.contains(eventListener);
-	}
-
-	public int getEventListenerCount() {
-		return eventListeners.size();
-	}
-
 	public void pushEventListener(EventListener eventListener) {
 		if (eventListener != null) {
 			eventListeners.add(eventListener);
