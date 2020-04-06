@@ -2,7 +2,6 @@ package scraper.application.widgets;
 
 import javax.swing.*;
 import javax.swing.border.Border;
-import javax.swing.border.EmptyBorder;
 
 public class Group extends JPanel {
 
@@ -14,7 +13,7 @@ public class Group extends JPanel {
 
 	public Group(String name, int padding) {
 		Border titleBorder = BorderFactory.createTitledBorder(name);
-		Border paddingBorder = new EmptyBorder(padding, padding, padding, padding);
+		Border paddingBorder = BorderFactory.createEmptyBorder(padding, padding, padding, padding);
 
 		Border border = BorderFactory.createCompoundBorder(titleBorder, paddingBorder);
 		setBorder(border);

@@ -8,6 +8,9 @@ import javax.swing.*;
 
 public class Application extends JFrame {
 
+	private static final String NAME = "Scraper";
+	private static final String WORK_DONE_MESSAGE = "Work done";
+
 	private InputOutputChooser inputOutputChooser;
 	private OptionsPicker optionsPicker;
 	private ScraperControls scraperControls;
@@ -15,19 +18,15 @@ public class Application extends JFrame {
 	private WorkerProgressStringMaker workerProgressStringMaker;
 
 	public Application() {
-		super("Scraper");
+		super(NAME);
 
-		createMainPane();
+		MainPane mainPane = new MainPane();
+		setContentPane(mainPane);
+
 		createGroups();
-		createUtilities();
+		workerProgressStringMaker = new WorkerProgressStringMaker();
 
 		configureFrame();
-	}
-
-	private void createMainPane() {
-		MainPane mainPane = new MainPane();
-
-		setContentPane(mainPane);
 	}
 
 	private void createGroups() {
@@ -39,10 +38,6 @@ public class Application extends JFrame {
 
 		scraperControls = new ScraperControls(this);
 		add(scraperControls);
-	}
-
-	private void createUtilities() {
-		workerProgressStringMaker = new WorkerProgressStringMaker();
 	}
 
 	private void configureFrame() {
@@ -70,7 +65,7 @@ public class Application extends JFrame {
 
 	public void onWorkerDone() {
 		scraperControls.resetButtons();
-		scraperControls.setProgressBarsProgressionText("Work done");
+		scraperControls.setProgressBarsProgressionText(WORK_DONE_MESSAGE);
 		scraperControls.setProgressBarsComplete();
 	}
 
