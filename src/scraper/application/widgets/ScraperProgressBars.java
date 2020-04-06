@@ -1,13 +1,11 @@
 package scraper.application.widgets;
 
 import javax.swing.*;
-import javax.swing.border.Border;
-import javax.swing.border.EmptyBorder;
 import java.awt.*;
 
 public class ScraperProgressBars extends JPanel {
 
-	private static final int PADDING_SIZE = 5;
+	private static final int PROGRESS_BAR_SEPARATOR_SIZE = 5;
 	private static final String IDLE_PROGRESSION_LABEL_TEXT = "Idle";
 
 	private JLabel progressionLabel;
@@ -18,15 +16,14 @@ public class ScraperProgressBars extends JPanel {
 		setLayout(layout);
 
 		createProgressionLabel();
-		createProgressBars();
 
-		createPaddingBorder();
-	}
+		documentProgressBar = new JProgressBar();
+		add(documentProgressBar);
 
-	private void createPaddingBorder() {
-		Border paddingBorder = new EmptyBorder(0, PADDING_SIZE, PADDING_SIZE, PADDING_SIZE);
+		createProgressBarEmptySeparator();
 
-		setBorder(paddingBorder);
+		propertyProgressBar = new JProgressBar();
+		add(propertyProgressBar);
 	}
 
 	private void createProgressionLabel() {
@@ -36,38 +33,15 @@ public class ScraperProgressBars extends JPanel {
 		add(progressionLabel);
 	}
 
-	private void createProgressBars() {
-		createDocumentProgressBar();
-		createProgressBarSeparator();
-		createPropertyProgressBar();
-	}
+	private void createProgressBarEmptySeparator() {
+		Dimension emptySeparatorDimension = new Dimension(0, PROGRESS_BAR_SEPARATOR_SIZE);
+		Component emptySeparator = Box.createRigidArea(emptySeparatorDimension);
 
-	private void createDocumentProgressBar() {
-		documentProgressBar = new JProgressBar();
-
-		add(documentProgressBar);
-	}
-
-	private void createProgressBarSeparator() {
-		Dimension separatorDimension = new Dimension(0, PADDING_SIZE);
-		Component progressBarSeparator = Box.createRigidArea(separatorDimension);
-
-		add(progressBarSeparator);
-	}
-
-	private void createPropertyProgressBar() {
-		propertyProgressBar = new JProgressBar();
-
-		add(propertyProgressBar);
+		add(emptySeparator);
 	}
 
 	public void setProgressionText(String text) {
 		progressionLabel.setText(text);
-	}
-
-	public void setProgressBarsComplete() {
-		setDocumentProgressBarValue(100);
-		setPropertyProgressBarValue(100);
 	}
 
 	public void setDocumentProgressBarValue(int value) {

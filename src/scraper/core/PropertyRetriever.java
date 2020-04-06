@@ -1,6 +1,6 @@
 package scraper.core;
 
-public class PropertyRetriever {
+public abstract class PropertyRetriever {
 
 	private String propertyName;
 
@@ -12,8 +12,6 @@ public class PropertyRetriever {
 		return propertyName;
 	}
 
-	public String retrievePropertyData(Document document) {
-		return "";
-	}
+	public abstract String retrievePropertyData(Document document);
 
 }

@@ -19,28 +19,16 @@ public class ScraperControllerButtons extends JPanel implements ActionListener {
 		FlowLayout layout = new FlowLayout();
 		setLayout(layout);
 
-		createButtons();
-		this.application = application;
-	}
-
-	private void createButtons() {
-		createStartButton();
-		createAbortButton();
-	}
-
-	private void createStartButton() {
 		startButton = new JButton(START_BUTTON_TEXT);
-
 		add(startButton);
 		startButton.addActionListener(this);
-	}
 
-	private void createAbortButton() {
 		abortButton = new JButton(ABORT_BUTTON_TEXT);
 		abortButton.setEnabled(false);
-
 		add(abortButton);
 		abortButton.addActionListener(this);
+
+		this.application = application;
 	}
 
 	@Override
