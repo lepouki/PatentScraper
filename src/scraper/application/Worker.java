@@ -20,12 +20,12 @@ public class Worker extends SwingWorker<Void, ProgressEvent> implements EventLis
 
 	}
 
-	private Application listenerApplication;
+	private Application application;
 	private Scraper scraper;
 	private List<Document> documents;
 
 	public Worker(Application application, Scraper scraper, List<Document> documents) {
-		this.listenerApplication = application;
+		this.application = application;
 		this.scraper = scraper;
 		this.documents = documents;
 		this.scraper.pushEventListener(this);
@@ -42,7 +42,7 @@ public class Worker extends SwingWorker<Void, ProgressEvent> implements EventLis
 	@Override
 	protected void process(List<ProgressEvent> progressEvents) {
 		ProgressEvent lastProgressEvent = progressEvents.get(progressEvents.size() - 1);
-		listenerApplication.onWorkerProgressMade(lastProgressEvent);
+		application.onWorkerProgressMade(lastProgressEvent);
 	}
 
 	@Override
@@ -70,7 +70,7 @@ public class Worker extends SwingWorker<Void, ProgressEvent> implements EventLis
 
 	@Override
 	protected void done() {
-		listenerApplication.onWorkerDone();
+		application.onWorkerDone();
 	}
 
 }
