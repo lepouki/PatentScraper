@@ -12,9 +12,9 @@ import java.util.List;
 
 public class Worker extends SwingWorker<Void, ProgressEvent> implements EventListener {
 
-	public static class DocumentProcessed extends ProgressEvent {
+	public static class ProcessingDocumentEvent extends ProgressEvent {
 
-		public DocumentProcessed(Object source, Progress progress) {
+		public ProcessingDocumentEvent(Object source, Progress progress) {
 			super(source, progress);
 		}
 
@@ -33,9 +33,9 @@ public class Worker extends SwingWorker<Void, ProgressEvent> implements EventLis
 
 	@Override
 	public void onEventReceived(Event event) {
-		if (event instanceof Scraper.PropertyProcessed) {
-			Scraper.PropertyProcessed propertyProcessed = (Scraper.PropertyProcessed)event;
-			publish(propertyProcessed);
+		if (event instanceof Scraper.ProcessingPropertyEvent) {
+			Scraper.ProcessingPropertyEvent processingPropertyEvent = (Scraper.ProcessingPropertyEvent)event;
+			publish(processingPropertyEvent);
 		}
 	}
 
@@ -49,23 +49,28 @@ public class Worker extends SwingWorker<Void, ProgressEvent> implements EventLis
 	protected Void doInBackground() {
 		for (int i = 0; i < documents.size() && !isCancelled(); ++i) {
 			Document document = documents.get(i);
+			notifyApplicationProcessingDocument(i, document.identifier);
 			scraper.scrapeDocument(document);
-			notifyApplicationDocumentProcessed(i, document.identifier);
 		}
 
 		return null;
 	}
 
-	private void notifyApplicationDocumentProcessed(int documentIndex, String documentIdentifier) {
+	private void notifyApplicationProcessingDocument(int documentIndex, String documentIdentifier) {
 		Progress progress = new Progress(calculateDocumentProgressPercentage(documentIndex), documentIdentifier);
 
 		publish(
-			new DocumentProcessed(this, progress)
+			new ProcessingDocumentEvent(this, progress)
 		);
 	}
 
 	private float calculateDocumentProgressPercentage(int documentIndex) {
 		return (float)(documentIndex + 1) / documents.size() * 100.0f;
+	}
+
+	@Override
+	protected void done() {
+		application.onWorkerDone();
 	}
 
 }

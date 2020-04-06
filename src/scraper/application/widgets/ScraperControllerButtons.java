@@ -78,4 +78,9 @@ public class ScraperControllerButtons extends JPanel implements ActionListener {
 		button.setEnabled(!isButtonEnabled);
 	}
 
+	public void resetButtons() {
+		startButton.setEnabled(true);
+		abortButton.setEnabled(false);
+	}
+
 }
