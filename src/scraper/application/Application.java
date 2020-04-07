@@ -13,9 +13,6 @@ import java.util.List;
 public class Application extends JFrame {
 
 	private static final String TITLE = "Scraper";
-
-	private static final int COMPONENTS_PADDING = 10;
-
 	private static final String INVALID_INPUT_OUTPUT_MESSAGE = "Invalid input file and/or output directory";
 	private static final String WORK_DONE_MESSAGE = "Work done";
 
@@ -29,7 +26,7 @@ public class Application extends JFrame {
 	public Application() {
 		super(TITLE);
 
-		MainPane mainPane = new MainPane(COMPONENTS_PADDING);
+		MainPane mainPane = new MainPane();
 		setContentPane(mainPane);
 
 		createGroups();
@@ -39,13 +36,13 @@ public class Application extends JFrame {
 	}
 
 	private void createGroups() {
-		inputOutputChooser = new InputOutputChooser(COMPONENTS_PADDING);
+		inputOutputChooser = new InputOutputChooser(ComponentConfiguration.PADDING);
 		add(inputOutputChooser);
 
-		optionsPicker = new OptionsPicker(COMPONENTS_PADDING);
+		optionsPicker = new OptionsPicker(ComponentConfiguration.PADDING);
 		add(optionsPicker);
 
-		scraperControls = new ScraperControls(this, COMPONENTS_PADDING);
+		scraperControls = new ScraperControls(this, ComponentConfiguration.PADDING);
 		add(scraperControls);
 	}
 

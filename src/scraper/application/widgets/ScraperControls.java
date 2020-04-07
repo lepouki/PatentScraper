@@ -8,7 +8,6 @@ import java.awt.*;
 public class ScraperControls extends Group {
 
 	private static final String TITLE = "Scraper controls";
-
 	private static final String STATUS_LABEL_IDLE_TEXT = "Idle";
 
 	private ScraperControllerButtons scraperControllerButtons;
