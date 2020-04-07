@@ -12,9 +12,10 @@ import java.util.List;
 
 public class Application extends JFrame {
 
+	private static final String TITLE = "Scraper";
+
 	private static final int COMPONENTS_PADDING = 10;
 
-	private static final String TITLE = "Scraper";
 	private static final String INVALID_INPUT_OUTPUT_MESSAGE = "Invalid input file and/or output directory";
 	private static final String WORK_DONE_MESSAGE = "Work done";
 

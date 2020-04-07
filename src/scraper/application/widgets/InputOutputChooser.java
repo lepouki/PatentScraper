@@ -5,9 +5,10 @@ import java.awt.*;
 
 public class InputOutputChooser extends Group {
 
+	private static final String TITLE = "Input and output";
+
 	private static final String INPUT_FILE_CHOOSER_TOOLTIP = "Input file path";
 	private static final String OUTPUT_DIRECTORY_CHOOSER_TOOLTIP = "Output directory path";
-	private static final String TITLE = "Input and output";
 
 	private FileChooser inputFileChooser, outputDirectoryChooser;
 
