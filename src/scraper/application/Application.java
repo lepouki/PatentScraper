@@ -14,10 +14,10 @@ public class Application extends JFrame {
 
 	private static final String TITLE = "Scraper";
 	private static final String INVALID_INPUT_OUTPUT_MESSAGE = "Invalid input file and/or output directory";
-	private static final String WORK_DONE_MESSAGE = "Work done";
+	private static final String WORK_DONE_MESSAGE = "Done";
 
 	private InputOutputChooser inputOutputChooser;
-	private OptionsPicker optionsPicker;
+	private ScraperOptionsPicker scraperOptionsPicker;
 	private ScraperControls scraperControls;
 
 	private Worker worker;
@@ -39,8 +39,8 @@ public class Application extends JFrame {
 		inputOutputChooser = new InputOutputChooser(ComponentConfiguration.PADDING);
 		add(inputOutputChooser);
 
-		optionsPicker = new OptionsPicker(ComponentConfiguration.PADDING);
-		add(optionsPicker);
+		scraperOptionsPicker = new ScraperOptionsPicker(ComponentConfiguration.PADDING);
+		add(scraperOptionsPicker);
 
 		scraperControls = new ScraperControls(this, ComponentConfiguration.PADDING);
 		add(scraperControls);
@@ -91,7 +91,7 @@ public class Application extends JFrame {
 	}
 
 	private List<PropertyScraper> createPropertyScrapers() {
-		ScraperOptions scraperOptions = optionsPicker.getScraperOptions();
+		ScraperOptions scraperOptions = scraperOptionsPicker.getScraperOptions();
 		return new ArrayList<>(0); // TODO
 	}
 

@@ -2,11 +2,11 @@ package scraper.application.widgets;
 
 import scraper.application.ScraperOptions;
 
-public class OptionsPicker extends Group {
+public class ScraperOptionsPicker extends Group {
 
 	private static final String TITLE = "Options";
 
-	public OptionsPicker(int padding) {
+	public ScraperOptionsPicker(int padding) {
 		super(TITLE, padding);
 	}
 
