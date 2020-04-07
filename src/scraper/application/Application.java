@@ -65,14 +65,10 @@ public class Application extends JFrame {
 			return;
 		}
 
-		scraperControls.toggleButtons();
-		scraperControls.setProgressBarsValue(0);
-
-		List<PropertyScraper> propertyScrapers = createPropertyScrapers();
-		Scraper scraper = new Scraper(propertyScrapers);
+		updateScraperControlsWorkerStarting();
 
 		List<Document> documents = createDocuments();
-		worker = new Worker(this, scraper, documents);
+		worker = new Worker(this, createScraper(), documents);
 		worker.execute();
 	}
 
@@ -85,6 +81,16 @@ public class Application extends JFrame {
 	private static boolean checkPath(String pathText) {
 		Path path = Paths.get(pathText);
 		return !pathText.isEmpty() && Files.exists(path);
+	}
+
+	private void updateScraperControlsWorkerStarting() {
+		scraperControls.toggleButtons();
+		scraperControls.setProgressBarsValue(0);
+	}
+
+	private Scraper createScraper() {
+		List<PropertyScraper> propertyScrapers = createPropertyScrapers();
+		return new Scraper(propertyScrapers);
 	}
 
 	private List<PropertyScraper> createPropertyScrapers() {
