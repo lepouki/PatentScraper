@@ -39,13 +39,16 @@ public class Worker extends SwingWorker<Void, ProgressEvent> implements EventLis
 
 	@Override
 	protected void process(List<ProgressEvent> progressEvents) {
+		boolean isCancelled = isCancelled();
+		if (isCancelled) return; // Sometimes process gets called after the worker has been cancelled
+
 		ProgressEvent lastProgressEvent = progressEvents.get(progressEvents.size() - 1);
 		application.onWorkerProgressMade(lastProgressEvent);
 	}
 
 	@Override
 	protected Void doInBackground() {
-		for (int i = 0; i < documents.size() && !isCancelled(); ++i) {
+		for (int i = 0; !isCancelled() && i < documents.size(); ++i) {
 			Document document = documents.get(i);
 			notifyApplicationProcessingDocument(i, document.identifier);
 			scraper.scrapeDocument(document);

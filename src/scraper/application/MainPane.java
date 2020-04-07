@@ -5,13 +5,11 @@ import javax.swing.border.Border;
 
 public class MainPane extends JPanel {
 
-	private static final int PADDING = 5;
-
-	public MainPane() {
+	public MainPane(int padding) {
 		BoxLayout layout = new BoxLayout(this, BoxLayout.PAGE_AXIS);
 		setLayout(layout);
 
-		Border border = BorderFactory.createEmptyBorder(PADDING, PADDING, PADDING, PADDING);
+		Border border = BorderFactory.createEmptyBorder(padding, padding, padding, padding);
 		setBorder(border);
 	}
 

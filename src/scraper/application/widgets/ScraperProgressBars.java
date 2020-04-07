@@ -5,43 +5,31 @@ import java.awt.*;
 
 public class ScraperProgressBars extends JPanel {
 
-	private static final int PROGRESS_BAR_SEPARATOR_SIZE = 5;
-	private static final String IDLE_PROGRESSION_LABEL_TEXT = "Idle";
-
-	private JLabel progressionLabel;
 	private JProgressBar documentProgressBar, propertyProgressBar;
 
-	public ScraperProgressBars() {
+	public ScraperProgressBars(int separatorSize) {
 		BoxLayout layout = new BoxLayout(this, BoxLayout.PAGE_AXIS);
 		setLayout(layout);
 
-		createProgressionLabel();
+		createProgressBars(separatorSize);
+	}
 
+	private void createProgressBars(int separatorSize) {
 		documentProgressBar = new JProgressBar();
 		add(documentProgressBar);
 
-		createProgressBarEmptySeparator();
+		createSeparator(separatorSize);
 
 		propertyProgressBar = new JProgressBar();
 		add(propertyProgressBar);
 	}
 
-	private void createProgressionLabel() {
-		progressionLabel = new JLabel(IDLE_PROGRESSION_LABEL_TEXT);
-		add(progressionLabel);
-		progressionLabel.setAlignmentX(JLabel.CENTER_ALIGNMENT);
-	}
-
-	private void createProgressBarEmptySeparator() {
-		Component emptySeparator = Box.createRigidArea(
-			new Dimension(0, PROGRESS_BAR_SEPARATOR_SIZE)
+	private void createSeparator(int separatorSize) {
+		Component separator = Box.createRigidArea(
+			new Dimension(0, separatorSize)
 		);
 
-		add(emptySeparator);
-	}
-
-	public void setProgressionText(String text) {
-		progressionLabel.setText(text);
+		add(separator);
 	}
 
 	public void setDocumentProgressBarValue(int value) {

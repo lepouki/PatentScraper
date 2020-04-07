@@ -3,7 +3,6 @@ package scraper.application.widgets;
 import scraper.application.Application;
 
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -16,22 +15,22 @@ public class ScraperControllerButtons extends JPanel implements ActionListener {
 	private Application application;
 
 	public ScraperControllerButtons(Application application) {
-		FlowLayout layout = new FlowLayout();
-		setLayout(layout);
-
 		createButtons();
 		this.application = application;
+
+		resetButtons();
 	}
 
 	private void createButtons() {
-		startButton = new JButton(START_BUTTON_TEXT);
-		add(startButton);
-		startButton.addActionListener(this);
+		startButton = createButton(START_BUTTON_TEXT);
+		abortButton = createButton(ABORT_BUTTON_TEXT);
+	}
 
-		abortButton = new JButton(ABORT_BUTTON_TEXT);
-		add(abortButton);
-		abortButton.setEnabled(false);
-		abortButton.addActionListener(this);
+	private JButton createButton(String text) {
+		JButton button = new JButton(text);
+		add(button);
+		button.addActionListener(this);
+		return button;
 	}
 
 	@Override
@@ -47,8 +46,6 @@ public class ScraperControllerButtons extends JPanel implements ActionListener {
 		else if (sourceButton == abortButton) {
 			notifyApplicationAbortButtonPressed();
 		}
-
-		toggleButtons();
 	}
 
 	private void notifyApplicationStartButtonPressed() {
@@ -59,7 +56,7 @@ public class ScraperControllerButtons extends JPanel implements ActionListener {
 		application.onAbortButtonPressed();
 	}
 
-	private void toggleButtons() {
+	public void toggleButtons() {
 		toggleButton(startButton);
 		toggleButton(abortButton);
 	}
