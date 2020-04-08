@@ -1,6 +1,9 @@
 package scraper.application;
 
-import scraper.application.widgets.*;
+import scraper.application.groups.InputOutputChooser;
+import scraper.application.groups.ScraperControls;
+import scraper.application.groups.ScraperOptionsPicker;
+import scraper.application.widgets.PropertyRetrieverOption;
 import scraper.core.*;
 
 import javax.swing.*;
@@ -15,6 +18,7 @@ public class Application extends JFrame {
 	private static final String TITLE = "Scraper";
 	private static final String INVALID_INPUT_OUTPUT_MESSAGE = "Invalid input file and/or output directory";
 	private static final String WORK_DONE_MESSAGE = "Done";
+	private static final String ABORTING_WORK_MESSAGE = "Processing final document and aborting";
 
 	private InputOutputChooser inputOutputChooser;
 	private ScraperOptionsPicker scraperOptionsPicker;
@@ -36,21 +40,36 @@ public class Application extends JFrame {
 	}
 
 	private void createGroups() {
-		inputOutputChooser = new InputOutputChooser(ComponentConfiguration.PADDING);
+		inputOutputChooser = new InputOutputChooser();
 		add(inputOutputChooser);
 
-		scraperOptionsPicker = new ScraperOptionsPicker(ComponentConfiguration.PADDING);
+		scraperOptionsPicker = new ScraperOptionsPicker();
 		add(scraperOptionsPicker);
 
-		scraperControls = new ScraperControls(this, ComponentConfiguration.PADDING);
+		scraperControls = new ScraperControls(this);
 		add(scraperControls);
+	}
+
+	private List<PropertyRetrieverOption> getPropertyRetrieverOptions() {
+		List<PropertyRetrieverOption> propertyRetrieverOptions = new ArrayList<>();
+		List<PropertyRetriever> propertyRetrievers = getPropertyRetrievers();
+
+		for (PropertyRetriever propertyRetriever : propertyRetrievers) {
+			PropertyRetrieverOption propertyRetrieverOption = new PropertyRetrieverOption(propertyRetriever);
+			propertyRetrieverOptions.add(propertyRetrieverOption);
+		}
+
+		return propertyRetrieverOptions;
+	}
+
+	private List<PropertyRetriever> getPropertyRetrievers() {
+		return new ArrayList<>(0);
 	}
 
 	private void configureFrame() {
 		setResizable(false);
 		pack();
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
 		setVisible(true);
 	}
 
@@ -64,7 +83,7 @@ public class Application extends JFrame {
 
 		updateScraperControlsWorkerStarting();
 
-		List<Document> documents = createDocuments();
+		List<Document> documents = getDocuments();
 		worker = new Worker(this, createScraper(), documents);
 		worker.execute();
 	}
@@ -91,15 +110,16 @@ public class Application extends JFrame {
 	}
 
 	private List<PropertyScraper> createPropertyScrapers() {
-		ScraperOptions scraperOptions = scraperOptionsPicker.getScraperOptions();
-		return new ArrayList<>(0); // TODO
+		List<PropertyRetriever> propertyRetrievers = scraperOptionsPicker.getPropertyRetrievers();
+		return new ArrayList<>(0);
 	}
 
-	private List<Document> createDocuments() {
-		return new ArrayList<>(0); // TODO
+	private List<Document> getDocuments() {
+		return new ArrayList<>(0);
 	}
 
 	public void onAbortButtonPressed() {
+		scraperControls.setStatusText(ABORTING_WORK_MESSAGE);
 		worker.cancel(true);
 	}
 

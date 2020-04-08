@@ -1,6 +1,6 @@
 package scraper.application;
 
-public class ComponentConfiguration {
+public class LayoutConfiguration {
 
 	public static final int PADDING = 10;
 

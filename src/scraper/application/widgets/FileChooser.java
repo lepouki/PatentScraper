@@ -1,5 +1,7 @@
 package scraper.application.widgets;
 
+import scraper.application.LayoutConfiguration;
+
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -24,38 +26,38 @@ public class FileChooser extends JPanel implements ActionListener {
 	}
 
 	private static final int FILE_PATH_TEXT_COLUMN_COUNT = 45;
+	private static final String BASE_DIRECTORY = "./";
 	private static final String OPEN_BUTTON_TEXT = "Open";
 
 	private JTextField filePathText;
 	private JButton openButton;
 	private JFileChooser fileChooser;
 
-	public FileChooser(FileMode fileMode, String tooltip, int buttonSeparatorSize) {
+	public FileChooser(FileMode fileMode) {
 		SpringLayout layout = new SpringLayout();
 		setLayout(layout);
 
-		createComponents(fileMode, tooltip);
-		applyLayoutConstraints(layout, buttonSeparatorSize);
+		createComponents(fileMode);
+		applyLayoutConstraints(layout);
 	}
 
-	private void createComponents(FileMode fileMode, String tooltip) {
+	private void createComponents(FileMode fileMode) {
 		filePathText = new JTextField();
 		add(filePathText);
 		filePathText.setColumns(FILE_PATH_TEXT_COLUMN_COUNT);
-		filePathText.setToolTipText(tooltip);
 
 		openButton = new JButton(OPEN_BUTTON_TEXT);
 		add(openButton);
 		openButton.addActionListener(this);
 
-		fileChooser = new JFileChooser();
+		fileChooser = new JFileChooser(BASE_DIRECTORY);
 		int fileSelectionMode = fileMode.getFileSelectionMode();
 		fileChooser.setFileSelectionMode(fileSelectionMode);
 	}
 
-	private void applyLayoutConstraints(SpringLayout layout, int buttonSeparatorSize) {
+	private void applyLayoutConstraints(SpringLayout layout) {
 		applyLayoutConstraintsForFilePathText(layout);
-		applyLayoutConstraintsForOpenButton(layout, buttonSeparatorSize);
+		applyLayoutConstraintsForOpenButton(layout);
 		applyLayoutConstraintsForThisContainer(layout);
 	}
 
@@ -79,7 +81,7 @@ public class FileChooser extends JPanel implements ActionListener {
 		);
 	}
 
-	private void applyLayoutConstraintsForOpenButton(SpringLayout layout, int separatorSize) {
+	private void applyLayoutConstraintsForOpenButton(SpringLayout layout) {
 		layout.putConstraint(
 			SpringLayout.NORTH, openButton,
 			0,
@@ -88,7 +90,7 @@ public class FileChooser extends JPanel implements ActionListener {
 
 		layout.putConstraint(
 			SpringLayout.WEST, openButton,
-			separatorSize,
+			LayoutConfiguration.PADDING,
 			SpringLayout.EAST, filePathText
 		);
 	}

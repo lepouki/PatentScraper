@@ -1,11 +1,15 @@
-package scraper.application.widgets;
+package scraper.application.groups;
 
 import scraper.application.Application;
+import scraper.application.LayoutConfiguration;
+import scraper.application.widgets.ScraperControllerButtons;
+import scraper.application.widgets.ScraperProgressBars;
+import scraper.application.WidgetGroup;
 
 import javax.swing.*;
 import java.awt.*;
 
-public class ScraperControls extends Group {
+public class ScraperControls extends WidgetGroup {
 
 	private static final String TITLE = "Scraper controls";
 	private static final String STATUS_LABEL_IDLE_TEXT = "Idle";
@@ -14,30 +18,30 @@ public class ScraperControls extends Group {
 	private JLabel statusLabel;
 	private ScraperProgressBars scraperProgressBars;
 
-	public ScraperControls(Application application, int padding) {
-		super(TITLE, padding);
+	public ScraperControls(Application application) {
+		super(TITLE, LayoutConfiguration.PADDING);
 
 		BoxLayout layout = new BoxLayout(this, BoxLayout.PAGE_AXIS);
 		setLayout(layout);
 
-		createComponents(application, padding);
+		createComponents(application);
 	}
 
-	private void createComponents(Application application, int componentSeparatorSize) {
+	private void createComponents(Application application) {
 		scraperControllerButtons = new ScraperControllerButtons(application);
 		add(scraperControllerButtons);
 
-		createComponentSeparator(componentSeparatorSize);
+		createComponentSeparator();
 		createStatusLabel();
 
-		createComponentSeparator(componentSeparatorSize);
-		scraperProgressBars = new ScraperProgressBars(componentSeparatorSize);
+		createComponentSeparator();
+		scraperProgressBars = new ScraperProgressBars(LayoutConfiguration.PADDING);
 		add(scraperProgressBars);
 	}
 
-	private void createComponentSeparator(int componentSeparatorSize) {
+	private void createComponentSeparator() {
 		Component separator = Box.createRigidArea(
-			new Dimension(0, componentSeparatorSize)
+			new Dimension(0, LayoutConfiguration.PADDING)
 		);
 
 		add(separator);
