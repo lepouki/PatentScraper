@@ -3,7 +3,6 @@ package scraper.application;
 import scraper.application.groups.InputOutputChooser;
 import scraper.application.groups.ScraperControls;
 import scraper.application.groups.ScraperOptionsPicker;
-import scraper.application.widgets.PropertyRetrieverOption;
 import scraper.core.*;
 
 import javax.swing.*;
@@ -50,22 +49,6 @@ public class Application extends JFrame {
 		add(scraperControls);
 	}
 
-	private List<PropertyRetrieverOption> getPropertyRetrieverOptions() {
-		List<PropertyRetrieverOption> propertyRetrieverOptions = new ArrayList<>();
-		List<PropertyRetriever> propertyRetrievers = getPropertyRetrievers();
-
-		for (PropertyRetriever propertyRetriever : propertyRetrievers) {
-			PropertyRetrieverOption propertyRetrieverOption = new PropertyRetrieverOption(propertyRetriever);
-			propertyRetrieverOptions.add(propertyRetrieverOption);
-		}
-
-		return propertyRetrieverOptions;
-	}
-
-	private List<PropertyRetriever> getPropertyRetrievers() {
-		return new ArrayList<>(0);
-	}
-
 	private void configureFrame() {
 		setResizable(false);
 		pack();
@@ -82,10 +65,7 @@ public class Application extends JFrame {
 		}
 
 		updateScraperControlsWorkerStarting();
-
-		List<Document> documents = getDocuments();
-		worker = new Worker(this, createScraper(), documents);
-		worker.execute();
+		runWorker();
 	}
 
 	private boolean isInputOutputValid() {
@@ -102,6 +82,12 @@ public class Application extends JFrame {
 	private void updateScraperControlsWorkerStarting() {
 		scraperControls.toggleButtons();
 		scraperControls.setProgressBarsValue(0);
+	}
+
+	private void runWorker() {
+		List<Document> documents = getDocuments();
+		worker = new Worker(this, createScraper(), documents);
+		worker.execute();
 	}
 
 	private Scraper createScraper() {

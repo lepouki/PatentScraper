@@ -2,21 +2,31 @@ package scraper.core;
 
 public class PropertyScraper {
 
-	private WriteTarget writeTarget;
+	private DataWriter dataWriter;
 	private PropertyRetriever propertyRetriever;
+	private int successCount;
 
-	public PropertyScraper(WriteTarget writeTarget, PropertyRetriever propertyRetriever) {
-		this.writeTarget = writeTarget;
+	public PropertyScraper(DataWriter dataWriter, PropertyRetriever propertyRetriever) {
+		this.dataWriter = dataWriter;
 		this.propertyRetriever = propertyRetriever;
+		successCount = 0;
 	}
 
 	public String getPropertyName() {
 		return propertyRetriever.getPropertyName();
 	}
 
+	public int getSuccessCount() {
+		return successCount;
+	}
+
 	public void scrapeProperty(Document document) {
-		String property = propertyRetriever.retrievePropertyData(document);
-		writeTarget.write(property);
+		try {
+			String property = propertyRetriever.retrievePropertyData(document);
+			++successCount;
+			dataWriter.write(property);
+		}
+		catch (PropertyRetriever.NoSuchPropertyException ignored) {}
 	}
 
 }

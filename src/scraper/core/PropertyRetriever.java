@@ -2,6 +2,8 @@ package scraper.core;
 
 public abstract class PropertyRetriever {
 
+	public static class NoSuchPropertyException extends Exception {}
+
 	private String propertyName;
 
 	public PropertyRetriever(String propertyName) {
@@ -12,6 +14,6 @@ public abstract class PropertyRetriever {
 		return propertyName;
 	}
 
-	public abstract String retrievePropertyData(Document document);
+	public abstract String retrievePropertyData(Document document) throws NoSuchPropertyException;
 
 }
