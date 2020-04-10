@@ -9,6 +9,7 @@ import scraper.core.events.EventListener;
 
 import javax.swing.SwingWorker;
 import java.util.List;
+import java.util.Set;
 
 public class Worker extends SwingWorker<Void, ProgressEvent> implements EventListener {
 
@@ -20,11 +21,11 @@ public class Worker extends SwingWorker<Void, ProgressEvent> implements EventLis
 
 	}
 
-	private Application application;
-	private Scraper scraper;
-	private List<Document> documents;
+	private final Application application;
+	private final Scraper scraper;
+	private final Set<Document> documents;
 
-	public Worker(Application application, Scraper scraper, List<Document> documents) {
+	public Worker(Application application, Scraper scraper, Set<Document> documents) {
 		this.application = application;
 		this.scraper = scraper;
 		this.documents = documents;
@@ -42,15 +43,17 @@ public class Worker extends SwingWorker<Void, ProgressEvent> implements EventLis
 		boolean isCancelled = isCancelled();
 		if (isCancelled) return; // Sometimes process gets called after the worker has been cancelled
 
-		ProgressEvent lastProgressEvent = progressEvents.get(progressEvents.size() - 1);
-		application.onWorkerProgressMade(lastProgressEvent);
+		for (ProgressEvent progressEvent : progressEvents) {
+			application.onWorkerProgressMade(progressEvent);
+		}
 	}
 
 	@Override
 	protected Void doInBackground() {
-		for (int i = 0; !isCancelled() && i < documents.size(); ++i) {
-			Document document = documents.get(i);
-			notifyApplicationProcessingDocument(i, document.identifier);
+		int currentDocument = 0;
+
+		for (Document document : documents) {
+			notifyApplicationProcessingDocument(currentDocument, document.identifier);
 			scraper.scrapeDocument(document);
 		}
 

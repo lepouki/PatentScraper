@@ -2,7 +2,7 @@ package scraper.core.events;
 
 public class Event {
 
-	private Object source;
+	private final Object source;
 
 	public Event(Object source) {
 		this.source = source;

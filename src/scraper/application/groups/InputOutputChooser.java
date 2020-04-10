@@ -11,7 +11,7 @@ public class InputOutputChooser extends WidgetGroup {
 
 	private static final String TITLE = "Input and output";
 
-	private FileChooser inputFileChooser, outputDirectoryChooser;
+	private final FileChooser inputFileChooser, outputDirectoryChooser;
 
 	public InputOutputChooser() {
 		super(TITLE, LayoutConfiguration.PADDING);

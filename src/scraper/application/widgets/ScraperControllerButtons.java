@@ -12,7 +12,7 @@ public class ScraperControllerButtons extends JPanel implements ActionListener {
 	private static final String ABORT_BUTTON_TEXT = "Abort";
 
 	private JButton startButton, abortButton;
-	private Application application;
+	private final Application application;
 
 	public ScraperControllerButtons(Application application) {
 		createButtons();

@@ -12,4 +12,9 @@ public class Document {
 	public String publicationDate;
 	public String grantDate;
 
+	@Override
+	public int hashCode() {
+		return identifier.hashCode();
+	}
+
 }

@@ -4,13 +4,16 @@ import scraper.application.groups.InputOutputChooser;
 import scraper.application.groups.ScraperControls;
 import scraper.application.groups.ScraperOptionsPicker;
 import scraper.core.*;
+import scraper.core.scrapers.OnlinePageScraper;
 
 import javax.swing.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class Application extends JFrame {
 
@@ -24,7 +27,7 @@ public class Application extends JFrame {
 	private ScraperControls scraperControls;
 
 	private Worker worker;
-	private WorkerProgressStringMaker workerProgressStringMaker;
+	private final WorkerProgressStringMaker workerProgressStringMaker;
 
 	public Application() {
 		super(TITLE);
@@ -85,23 +88,26 @@ public class Application extends JFrame {
 	}
 
 	private void runWorker() {
-		List<Document> documents = getDocuments();
+		Set<Document> documents = getDocuments();
 		worker = new Worker(this, createScraper(), documents);
 		worker.execute();
 	}
 
 	private Scraper createScraper() {
-		List<PropertyScraper> propertyScrapers = createPropertyScrapers();
+		List<PropertyScraper> propertyScrapers = scraperOptionsPicker.getPropertyScrapers();
 		return new Scraper(propertyScrapers);
 	}
 
-	private List<PropertyScraper> createPropertyScrapers() {
-		List<PropertyRetriever> propertyRetrievers = scraperOptionsPicker.getPropertyRetrievers();
-		return new ArrayList<>(0);
-	}
+	private Set<Document> getDocuments() {
+		Set<Document> documents = new HashSet<>();
 
-	private List<Document> getDocuments() {
-		return new ArrayList<>(0);
+		Document document = new Document();
+		document.pageLink = "https://patents.google.com/patent/EP2484415A1/en?q=wakfu&oq=wakfu";
+		document.identifier = "EP2484415A1";
+
+		documents.add(document);
+
+		return documents;
 	}
 
 	public void onAbortButtonPressed() {

@@ -1,4 +1,4 @@
-package scraper.core.targets;
+package scraper.core.writers;
 
 import java.io.FileNotFoundException;
 
@@ -7,7 +7,7 @@ public class CsvDataWriter extends FileDataWriter {
 	private static final char SEPARATOR = ',';
 	private static final char QUOTE = '"';
 
-	private int valuesPerLine;
+	private final int valuesPerLine;
 	private int valueIndex;
 
 	public CsvDataWriter(String filePath, int valuesPerLine) throws FileNotFoundException {

@@ -13,7 +13,7 @@ public class FileChooser extends JPanel implements ActionListener {
 		FILES(JFileChooser.FILES_ONLY),
 		DIRECTORIES(JFileChooser.DIRECTORIES_ONLY);
 
-		private int fileSelectionMode;
+		private final int fileSelectionMode;
 
 		FileMode(int fileSelectionMode) {
 			this.fileSelectionMode = fileSelectionMode;

@@ -2,8 +2,8 @@ package scraper.core;
 
 public class Progress {
 
-	private float percentage;
-	private String status;
+	private final float percentage;
+	private final String status;
 
 	public Progress(float percentage, String status) {
 		this.percentage = percentage;

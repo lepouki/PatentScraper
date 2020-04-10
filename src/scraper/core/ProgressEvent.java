@@ -4,7 +4,7 @@ import scraper.core.events.Event;
 
 public class ProgressEvent extends Event {
 
-	private Progress progress;
+	private final Progress progress;
 
 	public ProgressEvent(Object source, Progress progress) {
 		super(source);
