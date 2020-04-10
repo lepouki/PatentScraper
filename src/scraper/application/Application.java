@@ -20,7 +20,6 @@ public class Application extends JFrame {
 	private static final String TITLE = "Scraper";
 	private static final String INVALID_INPUT_OUTPUT_MESSAGE = "Invalid input file and/or output directory";
 	private static final String WORK_DONE_MESSAGE = "Done";
-	private static final String ABORTING_WORK_MESSAGE = "Processing final document and aborting";
 
 	private InputOutputChooser inputOutputChooser;
 	private ScraperOptionsPicker scraperOptionsPicker;
@@ -102,7 +101,7 @@ public class Application extends JFrame {
 		Set<Document> documents = new HashSet<>();
 
 		Document document = new Document();
-		document.pageLink = "https://patents.google.com/patent/EP2484415A1/en?q=wakfu&oq=wakfu";
+		document.pageLink = "https://patents.google.com/patent/EP2484415A1/en";
 		document.identifier = "EP2484415A1";
 
 		documents.add(document);
@@ -111,7 +110,6 @@ public class Application extends JFrame {
 	}
 
 	public void onAbortButtonPressed() {
-		scraperControls.setStatusText(ABORTING_WORK_MESSAGE);
 		worker.cancel(true);
 	}
 
