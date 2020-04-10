@@ -1,15 +1,12 @@
 package scraper.application.groups;
 
-import scraper.application.LayoutConfiguration;
-import scraper.application.WidgetGroup;
+import scraper.application.*;
 import scraper.application.widgets.PropertyScraperOptionGroup;
 import scraper.core.PropertyScraper;
 import scraper.core.scrapers.OnlinePageScraper;
 
+import java.util.*;
 import javax.swing.*;
-import java.awt.*;
-import java.util.ArrayList;
-import java.util.List;
 
 public class ScraperOptionsPicker extends WidgetGroup {
 

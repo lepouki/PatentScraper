@@ -1,24 +1,14 @@
 package scraper.application;
 
-import scraper.application.groups.InputOutputChooser;
-import scraper.application.groups.ScraperControls;
-import scraper.application.groups.ScraperOptionsPicker;
+import scraper.application.groups.*;
 import scraper.core.*;
-import scraper.core.scrapers.OnlinePageScraper;
 
+import java.util.*;
 import javax.swing.*;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 
 public class Application extends JFrame {
 
 	private static final String TITLE = "Scraper";
-	private static final String INVALID_INPUT_OUTPUT_MESSAGE = "Invalid input file and/or output directory";
 	private static final String WORK_DONE_MESSAGE = "Done";
 
 	private InputOutputChooser inputOutputChooser;
@@ -59,26 +49,8 @@ public class Application extends JFrame {
 	}
 
 	public void onStartButtonPressed() {
-		boolean isInputOutputValid = isInputOutputValid();
-
-		if (!isInputOutputValid) {
-			scraperControls.setStatusText(INVALID_INPUT_OUTPUT_MESSAGE);
-			return;
-		}
-
 		updateScraperControlsWorkerStarting();
 		runWorker();
-	}
-
-	private boolean isInputOutputValid() {
-		String inputFilePathText = inputOutputChooser.getInputFilePathText();
-		String outputDirectoryPathText = inputOutputChooser.getOutputDirectoryPathText();
-		return checkPath(inputFilePathText) && checkPath(outputDirectoryPathText);
-	}
-
-	private static boolean checkPath(String pathText) {
-		Path path = Paths.get(pathText);
-		return !pathText.isEmpty() && Files.exists(path);
 	}
 
 	private void updateScraperControlsWorkerStarting() {

@@ -3,7 +3,6 @@ package scraper.application.widgets;
 import scraper.core.PropertyScraper;
 
 import javax.swing.*;
-import java.awt.*;
 
 public class PropertyScraperOption extends JCheckBox {
 

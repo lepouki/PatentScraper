@@ -1,7 +1,6 @@
 package scraper.application;
 
-import scraper.core.ProgressEvent;
-import scraper.core.Scraper;
+import scraper.core.*;
 
 public class WorkerProgressStringMaker {
 

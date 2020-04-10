@@ -2,19 +2,18 @@ package scraper.core.processors;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Element;
-import scraper.core.Document;
-import scraper.core.PropertyProcessor;
+import scraper.core.*;
 
 import java.io.IOException;
 
 public class OnlinePageProcessor extends PropertyProcessor {
 
-	private static final String PROPERTY_NAME = "Document page";
+	private static final String PROPERTY_MESSAGE = "Downloading page";
 
 	private org.jsoup.nodes.Document document;
 
 	public OnlinePageProcessor() {
-		super(PROPERTY_NAME);
+		super(PROPERTY_MESSAGE);
 	}
 
 	@Override

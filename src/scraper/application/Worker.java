@@ -1,15 +1,11 @@
 package scraper.application;
 
-import scraper.core.Document;
-import scraper.core.Progress;
-import scraper.core.ProgressEvent;
-import scraper.core.Scraper;
-import scraper.core.events.Event;
-import scraper.core.events.EventListener;
+import scraper.core.*;
+import scraper.core.events.*;
 
-import javax.swing.SwingWorker;
 import java.util.List;
 import java.util.Set;
+import javax.swing.SwingWorker;
 
 public class Worker extends SwingWorker<Void, ProgressEvent> implements EventListener {
 

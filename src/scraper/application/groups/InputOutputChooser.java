@@ -1,11 +1,10 @@
 package scraper.application.groups;
 
-import scraper.application.LayoutConfiguration;
+import scraper.application.*;
 import scraper.application.widgets.FileChooser;
-import scraper.application.WidgetGroup;
 
-import javax.swing.*;
 import java.awt.*;
+import javax.swing.*;
 
 public class InputOutputChooser extends WidgetGroup {
 

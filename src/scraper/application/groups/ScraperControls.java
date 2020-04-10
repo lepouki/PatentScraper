@@ -1,13 +1,10 @@
 package scraper.application.groups;
 
-import scraper.application.Application;
-import scraper.application.LayoutConfiguration;
-import scraper.application.widgets.ScraperControllerButtons;
-import scraper.application.widgets.ScraperProgressBars;
-import scraper.application.WidgetGroup;
+import scraper.application.*;
+import scraper.application.widgets.*;
 
-import javax.swing.*;
 import java.awt.*;
+import javax.swing.*;
 
 public class ScraperControls extends WidgetGroup {
 

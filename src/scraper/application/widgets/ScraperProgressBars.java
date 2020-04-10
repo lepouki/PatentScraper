@@ -1,7 +1,7 @@
 package scraper.application.widgets;
 
-import javax.swing.*;
 import java.awt.*;
+import javax.swing.*;
 
 public class ScraperProgressBars extends JPanel {
 

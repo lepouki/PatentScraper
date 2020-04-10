@@ -2,10 +2,10 @@ package scraper.application.widgets;
 
 import scraper.core.PropertyScraper;
 
-import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.*;
 
 public class PropertyScraperOptionGroup extends JPanel {
 
