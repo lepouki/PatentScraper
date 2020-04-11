@@ -36,9 +36,9 @@ public class WorkerManager {
 		}
 	}
 
-	public void closePropertyScraperFileWriters() {
+	public void cleanupPropertyScrapers() {
 		for (PropertyScraper propertyScraper : propertyScrapers) {
-			propertyScraper.closeFileWriter();
+			propertyScraper.cleanup();
 		}
 	}
 

@@ -27,7 +27,7 @@ public class CustomCsvParser extends CsvParser {
 		try {
 			scanner = new Scanner(file);
 		}
-		// The input file path is checked before constructing the parser so this should never happen
+		// The input file path gets checked before constructing the parser so this should never happen
 		catch (FileNotFoundException ignored) {}
 	}
 

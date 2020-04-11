@@ -4,7 +4,6 @@ import scraper.core.*;
 import scraper.core.events.Event;
 import scraper.core.events.EventListener;
 
-import java.io.IOException;
 import java.util.*;
 import javax.swing.SwingWorker;
 

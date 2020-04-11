@@ -107,8 +107,12 @@ public class Application extends JFrame {
 	}
 
 	public void onWorkerDone() {
+		workerManager.cleanupPropertyScrapers();
+		updateInterfaceWorkerDone();
+	}
+
+	private void updateInterfaceWorkerDone() {
 		scraperControls.resetButtons();
-		workerManager.closePropertyScraperFileWriters();
 		statusMessageUpdater.setMessage(WORK_DONE_MESSAGE);
 		scraperControls.setProgressBarValue(100);
 	}

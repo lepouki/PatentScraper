@@ -1,15 +1,15 @@
 package scraper.core.writers;
 
-import scraper.core.FileWriter;
+import scraper.core.FileDataWriter;
 
-public class DummyFileWriter implements FileWriter {
+public class DummyFileDataWriter implements FileDataWriter {
 
 	@Override
 	public void write(String data) {
 	}
 
 	@Override
-	public void openFile(String filePath) {
+	public void setFile(String filePath) {
 	}
 
 	@Override

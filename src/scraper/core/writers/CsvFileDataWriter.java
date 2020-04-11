@@ -2,12 +2,12 @@ package scraper.core.writers;
 
 import scraper.core.CsvCharacters;
 
-public class CsvFileWriter extends BasicFileWriter {
+public class CsvFileDataWriter extends BasicFileDataWriter {
 
 	private final int valuesPerLine;
 	private int valueIndex;
 
-	public CsvFileWriter(String filePath, int valuesPerLine) {
+	public CsvFileDataWriter(String filePath, int valuesPerLine) {
 		this.valuesPerLine = valuesPerLine;
 		valueIndex = 0;
 	}

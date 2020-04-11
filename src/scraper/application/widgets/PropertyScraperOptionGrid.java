@@ -31,7 +31,7 @@ public class PropertyScraperOptionGrid extends JPanel {
 		}
 	}
 
-	public List<PropertyScraper> getPropertyScrapers(String outputDirectory) {
+	public List<PropertyScraper> getPropertyScrapers() {
 		List<PropertyScraper> propertyScrapers = new ArrayList<>();
 
 		for (PropertyScraperOption propertyScraperOption : propertyScraperOptions) {
@@ -40,7 +40,6 @@ public class PropertyScraperOptionGrid extends JPanel {
 			if (selected) {
 				PropertyScraper propertyScraper = propertyScraperOption.getPropertyScraper();
 				propertyScrapers.add(propertyScraper);
-				propertyScraper.setRootDirectory(outputDirectory);
 			}
 		}
 

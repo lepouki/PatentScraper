@@ -90,11 +90,18 @@ public class ScraperOptionsPicker extends WidgetGroup {
 		List<PropertyScraper> propertyScrapers = new ArrayList<>();
 
 		for (PropertyScraperOptionGroup propertyScraperOptionGroup : propertyScraperOptionGroups) {
-			List<PropertyScraper> optionGroupPropertyScrapers = propertyScraperOptionGroup.getPropertyScrapers(outputDirectory);
+			List<PropertyScraper> optionGroupPropertyScrapers = propertyScraperOptionGroup.getPropertyScrapers();
 			propertyScrapers.addAll(optionGroupPropertyScrapers);
+			initializePropertyScrapers(optionGroupPropertyScrapers, outputDirectory);
 		}
 
 		return propertyScrapers;
+	}
+
+	private static void initializePropertyScrapers(List<PropertyScraper> propertyScrapers, String outputDirectory) {
+		for (PropertyScraper propertyScraper : propertyScrapers) {
+			propertyScraper.initialize(outputDirectory);
+		}
 	}
 
 }

@@ -1,15 +1,13 @@
 package scraper.core;
 
-import java.io.File;
-
 public abstract class PropertyScraper {
 
-	private final FileWriter fileWriter;
+	private final FileDataWriter fileDataWriter;
 	private final PropertyProcessor propertyProcessor;
 	private int successCount;
 
-	public PropertyScraper(FileWriter fileWriter, PropertyProcessor propertyProcessor) {
-		this.fileWriter = fileWriter;
+	public PropertyScraper(FileDataWriter fileDataWriter, PropertyProcessor propertyProcessor) {
+		this.fileDataWriter = fileDataWriter;
 		this.propertyProcessor = propertyProcessor;
 		successCount = 0;
 	}
@@ -22,26 +20,29 @@ public abstract class PropertyScraper {
 		return successCount;
 	}
 
-	public void setRootDirectory(String rootDirectory) {
-		String outputFilePath = rootDirectory + File.separator + getRelativeFileWriterPath();
-		fileWriter.openFile(outputFilePath);
-	}
-
-	public void closeFileWriter() {
-		fileWriter.close();
-	}
-
 	public void scrapeProperty(Document document) {
 		try {
 			propertyProcessor.processDocument(document);
 			String property = propertyProcessor.retrievePropertyData();
 
 			++successCount;
-			fileWriter.write(property);
+			fileDataWriter.write(property);
 		}
 		catch (PropertyProcessor.NoSuchPropertyException ignored) {}
 	}
 
+	public abstract void initialize(String rootDirectory);
+
+	public abstract void cleanup();
+
 	public abstract String getRelativeFileWriterPath();
+
+	protected void setFileDataWriterFile(String filePath) {
+		fileDataWriter.setFile(filePath);
+	}
+
+	protected void closeFileDataWriter() {
+		fileDataWriter.close();
+	}
 
 }
