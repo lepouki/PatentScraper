@@ -3,7 +3,7 @@ package scraper.application.groups;
 import scraper.application.*;
 import scraper.application.widgets.PropertyScraperOptionGroup;
 import scraper.core.PropertyScraper;
-import scraper.core.scrapers.OnlinePageScraper;
+import scraper.core.scrapers.PageScraper;
 
 import java.util.*;
 import javax.swing.*;
@@ -34,6 +34,12 @@ public class ScraperOptionsPicker extends WidgetGroup {
 		createOnlinePropertiesOptionGroup();
 	}
 
+	private void createDataFrameAdditionsOptionGroup() {
+		createOptionGroup(
+			DATA_FRAME_ADDITIONS_OPTION_GROUP_TITLE, getDataFrameAdditionsPropertyScrapers()
+		);
+	}
+
 	private void createOptionGroup(String title, List<PropertyScraper> propertyScrapers) {
 		PropertyScraperOptionGroup optionGroup = new PropertyScraperOptionGroup(title, propertyScrapers);
 		pushOptionGroup(optionGroup);
@@ -44,12 +50,6 @@ public class ScraperOptionsPicker extends WidgetGroup {
 		propertyScraperOptionGroups.add(optionGroup);
 	}
 
-	private void createDataFrameAdditionsOptionGroup() {
-		createOptionGroup(
-			DATA_FRAME_ADDITIONS_OPTION_GROUP_TITLE, getDataFrameAdditionsPropertyScrapers()
-		);
-	}
-
 	private void createCitationsOptionGroup() {
 		createOptionGroup(
 			CITATIONS_OPTION_GROUP_TITLE, getCitationsPropertyScrapers()
@@ -58,11 +58,14 @@ public class ScraperOptionsPicker extends WidgetGroup {
 
 	private void createOnlinePropertiesOptionGroup() {
 		PropertyScraperOptionGroup optionGroup = new PropertyScraperOptionGroup(
-			ONLINE_PROPERTIES_OPTION_GROUP_TITLE, getOnlinePropertiesPropertyScrapers()
+			ONLINE_PROPERTIES_OPTION_GROUP_TITLE
 		);
 
-		optionGroup.pushPreparationPropertyScraper(
-			new OnlinePageScraper()
+		PageScraper pageScraper = new PageScraper();
+		optionGroup.pushPreparationPropertyScraper(pageScraper);
+
+		optionGroup.setPropertyScrapers(
+			getOnlinePropertiesPropertyScrapers(pageScraper)
 		);
 
 		pushOptionGroup(optionGroup);
@@ -76,7 +79,7 @@ public class ScraperOptionsPicker extends WidgetGroup {
 		return new ArrayList<>(0);
 	}
 
-	private static List<PropertyScraper> getOnlinePropertiesPropertyScrapers() {
+	private static List<PropertyScraper> getOnlinePropertiesPropertyScrapers(PageScraper pageScraper) {
 		return new ArrayList<>(0);
 	}
 

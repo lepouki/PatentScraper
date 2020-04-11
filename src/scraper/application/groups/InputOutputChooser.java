@@ -12,8 +12,8 @@ public class InputOutputChooser extends WidgetGroup {
 	private static final String TITLE = "Input and output";
 	private static final String CUSTOM_INPUT_CSV_OPTION_TEXT = "Custom input CSV";
 
-	private JCheckBox customCsvOption;
 	private FileChooser inputFileChooser, outputDirectoryChooser;
+	private JCheckBox customInputCsvOption;
 
 	public InputOutputChooser() {
 		super(TITLE, LayoutConfiguration.PADDING);
@@ -46,9 +46,9 @@ public class InputOutputChooser extends WidgetGroup {
 	private void createCustomCsvOption() {
 		createSeparator();
 
-		customCsvOption = new JCheckBox(CUSTOM_INPUT_CSV_OPTION_TEXT);
-		add(customCsvOption);
-		customCsvOption.setAlignmentX(Component.CENTER_ALIGNMENT);
+		customInputCsvOption = new JCheckBox(CUSTOM_INPUT_CSV_OPTION_TEXT);
+		add(customInputCsvOption);
+		customInputCsvOption.setAlignmentX(Component.CENTER_ALIGNMENT);
 	}
 
 	public String getInputFilePathText() {
@@ -60,7 +60,7 @@ public class InputOutputChooser extends WidgetGroup {
 	}
 
 	public CsvParser getCsvParser() {
-		boolean customCsv = customCsvOption.isSelected();
+		boolean customCsv = customInputCsvOption.isSelected();
 
 		if (customCsv) {
 			return new CustomCsvParser();

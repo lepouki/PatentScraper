@@ -9,18 +9,29 @@ import javax.swing.*;
 
 public class PropertyScraperOptionGroup extends JPanel {
 
+	private PropertyScraperOptionGrid propertyScraperOptionGrid;
+
+	// Preparation property scrapers are not visible in the option grid
+	// They get run before the other property scrapers do
 	private final List<PropertyScraper> preparationPropertyScrapers;
-	private final PropertyScraperOptionGrid propertyScraperOptionGrid;
 
 	public PropertyScraperOptionGroup(String title, List<PropertyScraper> propertyScrapers) {
+		this(title);
+		setPropertyScrapers(propertyScrapers);
+	}
+
+	public void setPropertyScrapers(List<PropertyScraper> propertyScrapers) {
+		if (propertyScraperOptionGrid != null) return; // Ignore if the option grid has already been created
+		propertyScraperOptionGrid = new PropertyScraperOptionGrid(propertyScrapers);
+		add(propertyScraperOptionGrid);
+	}
+
+	public PropertyScraperOptionGroup(String title) {
 		BoxLayout layout = new BoxLayout(this, BoxLayout.PAGE_AXIS);
 		setLayout(layout);
 
 		preparationPropertyScrapers = new ArrayList<>();
-
 		createTitleLabel(title);
-		propertyScraperOptionGrid = new PropertyScraperOptionGrid(propertyScrapers);
-		add(propertyScraperOptionGrid);
 	}
 
 	private void createTitleLabel(String title) {
