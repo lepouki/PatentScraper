@@ -1,11 +1,10 @@
 package scraper.core.writers;
 
+import scraper.core.CsvCharacters;
+
 import java.io.FileNotFoundException;
 
 public class CsvDataWriter extends FileDataWriter {
-
-	private static final char SEPARATOR = ',';
-	private static final char QUOTE = '"';
 
 	private final int valuesPerLine;
 	private int valueIndex;
@@ -32,14 +31,14 @@ public class CsvDataWriter extends FileDataWriter {
 		boolean quotesNeeded = containsSeparator(data);
 
 		if (quotesNeeded) {
-			return QUOTE + data + QUOTE;
+			return CsvCharacters.QUOTE + data + CsvCharacters.QUOTE;
 		}
 
 		return data;
 	}
 
 	private boolean containsSeparator(String data) {
-		String separator = Character.toString(SEPARATOR);
+		String separator = Character.toString(CsvCharacters.SEPARATOR);
 		return data.contains(separator);
 	}
 
@@ -50,7 +49,7 @@ public class CsvDataWriter extends FileDataWriter {
 	private String withSeparatorOrNewLine(String data) {
 		return isLastValueInLine()
 			? data + '\n'
-			: data + SEPARATOR;
+			: data + CsvCharacters.SEPARATOR;
 	}
 
 	private boolean isLastValueInLine() {

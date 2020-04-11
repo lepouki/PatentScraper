@@ -13,7 +13,7 @@ public class ScraperControls extends WidgetGroup {
 
 	private ScraperControllerButtons scraperControllerButtons;
 	private JLabel statusLabel;
-	private ScraperProgressBars scraperProgressBars;
+	private JProgressBar scraperProgressBar;
 
 	public ScraperControls(Application application) {
 		super(TITLE, LayoutConfiguration.PADDING);
@@ -32,8 +32,8 @@ public class ScraperControls extends WidgetGroup {
 		createStatusLabel();
 
 		createComponentSeparator();
-		scraperProgressBars = new ScraperProgressBars(LayoutConfiguration.PADDING);
-		add(scraperProgressBars);
+		scraperProgressBar = new JProgressBar();
+		add(scraperProgressBar);
 	}
 
 	private void createComponentSeparator() {
@@ -58,17 +58,8 @@ public class ScraperControls extends WidgetGroup {
 		scraperControllerButtons.resetButtons();
 	}
 
-	public void setProgressBarsValue(int value) {
-		setDocumentProgressBarValue(value);
-		setPropertyProgressBarValue(value);
-	}
-
-	public void setDocumentProgressBarValue(int value) {
-		scraperProgressBars.setDocumentProgressBarValue(value);
-	}
-
-	public void setPropertyProgressBarValue(int value) {
-		scraperProgressBars.setPropertyProgressBarValue(value);
+	public void setProgressBarValue(int value) {
+		scraperProgressBar.setValue(value);
 	}
 
 	public void setStatusText(String statusText) {

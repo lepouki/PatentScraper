@@ -8,17 +8,19 @@ import java.io.IOException;
 
 public class OnlinePageProcessor extends PropertyProcessor {
 
-	private static final String PROPERTY_MESSAGE = "Downloading page";
+	private static final String PROPERTY_NAME = "Online page";
+	private static final String PATENT_LINK_PREFIX = "https://patents.google.com/patent/";
 
 	private org.jsoup.nodes.Document document;
 
 	public OnlinePageProcessor() {
-		super(PROPERTY_MESSAGE);
+		super(PROPERTY_NAME);
 	}
 
 	@Override
 	public void processDocument(Document document) {
-		tryRetrievePage(document.pageLink);
+		String pageLink = PATENT_LINK_PREFIX + document.identifier;
+		tryRetrievePage(pageLink);
 	}
 
 	private void tryRetrievePage(String link) {

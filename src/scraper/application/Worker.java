@@ -1,18 +1,30 @@
 package scraper.application;
 
 import scraper.core.*;
-import scraper.core.events.*;
+import scraper.core.events.Event;
 
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import javax.swing.SwingWorker;
 
-public class Worker extends SwingWorker<Void, ProgressEvent> implements EventListener {
+public class Worker extends SwingWorker<Void, Worker.ProgressEvent> {
 
-	public static class ProcessingDocumentEvent extends ProgressEvent {
+	public static class ProgressEvent extends Event {
 
-		public ProcessingDocumentEvent(Object source, Progress progress) {
-			super(source, progress);
+		private final float percentage;
+		private final String documentIdentifier;
+
+		public ProgressEvent(Object source, float percentage, String documentIdentifier) {
+			super(source);
+			this.percentage = percentage;
+			this.documentIdentifier = documentIdentifier;
+		}
+
+		public float getPercentage() {
+			return percentage;
+		}
+
+		public String getDocumentIdentifier() {
+			return documentIdentifier;
 		}
 
 	}
@@ -25,13 +37,6 @@ public class Worker extends SwingWorker<Void, ProgressEvent> implements EventLis
 		this.application = application;
 		this.scraper = scraper;
 		this.documents = documents;
-		this.scraper.pushEventListener(this);
-	}
-
-	@Override
-	public void onEventReceived(Event event) {
-		Scraper.ProcessingPropertyEvent processingPropertyEvent = (Scraper.ProcessingPropertyEvent)event;
-		publish(processingPropertyEvent);
 	}
 
 	@Override
@@ -39,9 +44,8 @@ public class Worker extends SwingWorker<Void, ProgressEvent> implements EventLis
 		boolean isCancelled = isCancelled();
 		if (isCancelled) return; // Sometimes process gets called after the worker has been cancelled
 
-		for (ProgressEvent progressEvent : progressEvents) {
-			application.onWorkerProgressMade(progressEvent);
-		}
+		ProgressEvent lastProgressEvent = progressEvents.get(progressEvents.size() - 1);
+		application.onWorkerProgressMade(lastProgressEvent);
 	}
 
 	@Override
@@ -49,7 +53,7 @@ public class Worker extends SwingWorker<Void, ProgressEvent> implements EventLis
 		int currentDocument = 0;
 
 		for (Document document : documents) {
-			notifyApplicationProcessingDocument(currentDocument, document.identifier);
+			notifyApplicationProcessingDocument(currentDocument++, document.identifier);
 			scraper.scrapeDocument(document);
 		}
 
@@ -57,10 +61,8 @@ public class Worker extends SwingWorker<Void, ProgressEvent> implements EventLis
 	}
 
 	private void notifyApplicationProcessingDocument(int documentIndex, String documentIdentifier) {
-		Progress progress = new Progress(calculateDocumentProgressPercentage(documentIndex), documentIdentifier);
-
 		publish(
-			new ProcessingDocumentEvent(this, progress)
+			new ProgressEvent(this, calculateDocumentProgressPercentage(documentIndex), documentIdentifier)
 		);
 	}
 
