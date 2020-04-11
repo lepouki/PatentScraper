@@ -22,7 +22,7 @@ public class InputOutputChooser extends WidgetGroup {
 		setLayout(layout);
 
 		createFileChoosers();
-		createCustomCsvOption();
+		createCustomInputCsvOption();
 	}
 
 	private void createFileChoosers() {
@@ -43,7 +43,7 @@ public class InputOutputChooser extends WidgetGroup {
 		add(separator);
 	}
 
-	private void createCustomCsvOption() {
+	private void createCustomInputCsvOption() {
 		createSeparator();
 
 		customInputCsvOption = new JCheckBox(CUSTOM_INPUT_CSV_OPTION_TEXT);
