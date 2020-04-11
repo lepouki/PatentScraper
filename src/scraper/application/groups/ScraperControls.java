@@ -11,7 +11,7 @@ public class ScraperControls extends WidgetGroup {
 	private static final String TITLE = "Scraper controls";
 	private static final String STATUS_LABEL_IDLE_TEXT = "Idle";
 
-	private ScraperControllerButtons scraperControllerButtons;
+	private ScraperButtons scraperButtons;
 	private JLabel statusLabel;
 	private JProgressBar scraperProgressBar;
 
@@ -25,8 +25,8 @@ public class ScraperControls extends WidgetGroup {
 	}
 
 	private void createComponents(Application application) {
-		scraperControllerButtons = new ScraperControllerButtons(application);
-		add(scraperControllerButtons);
+		scraperButtons = new ScraperButtons(application);
+		add(scraperButtons);
 
 		createComponentSeparator();
 		createStatusLabel();
@@ -51,19 +51,19 @@ public class ScraperControls extends WidgetGroup {
 	}
 
 	public void toggleButtons() {
-		scraperControllerButtons.toggleButtons();
+		scraperButtons.toggleButtons();
 	}
 
 	public void resetButtons() {
-		scraperControllerButtons.resetButtons();
+		scraperButtons.resetButtons();
 	}
 
 	public void setProgressBarValue(int value) {
 		scraperProgressBar.setValue(value);
 	}
 
-	public void setStatusText(String statusText) {
-		statusLabel.setText(statusText);
+	public void setStatus(String status) {
+		statusLabel.setText(status);
 	}
 
 }

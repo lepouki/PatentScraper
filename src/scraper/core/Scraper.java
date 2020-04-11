@@ -1,19 +1,40 @@
 package scraper.core;
 
-import java.util.List;
+import scraper.core.events.EventSource;
 
-public class Scraper {
+import java.util.*;
 
-	private final List<PropertyScraper> propertyScrapers;
+public class Scraper extends EventSource {
 
-	public Scraper(List<PropertyScraper> propertyScrapers) {
-		this.propertyScrapers = propertyScrapers;
+	private Set<Document> documents;
+	private final DocumentScraper documentScraper;
+
+	public Scraper(Set<Document> documents, List<PropertyScraper> propertyScrapers) {
+		setDocument(documents);
+		documentScraper = new DocumentScraper(propertyScrapers);
 	}
 
-	public void scrapeDocument(Document document) {
-		for (PropertyScraper propertyScraper : propertyScrapers) {
-			propertyScraper.scrapeProperty(document);
+	public void setDocument(Set<Document> documents) {
+		this.documents = documents;
+	}
+
+	public void scrape() {
+		int currentDocument = 0;
+
+		for (Document document : documents) {
+			notifyEventListenersProcessingDocument(currentDocument++, document.identifier);
+			documentScraper.scrape(document);
 		}
+	}
+
+	private void notifyEventListenersProcessingDocument(int documentIndex, String documentIdentifier) {
+		notifyEventListeners(
+			new ProgressEvent(this, calculateDocumentProgressPercentage(documentIndex), documentIdentifier)
+		);
+	}
+
+	private float calculateDocumentProgressPercentage(int documentIndex) {
+		return (float)documentIndex / documents.size() * 100.0f;
 	}
 
 }

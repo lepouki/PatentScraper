@@ -4,6 +4,7 @@ import scraper.application.LayoutConfiguration;
 import scraper.core.PropertyScraper;
 
 import java.awt.*;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.*;
@@ -30,7 +31,7 @@ public class PropertyScraperOptionGrid extends JPanel {
 		}
 	}
 
-	public List<PropertyScraper> getPropertyScrapers() {
+	public List<PropertyScraper> getPropertyScrapers(String outputDirectory) {
 		List<PropertyScraper> propertyScrapers = new ArrayList<>();
 
 		for (PropertyScraperOption propertyScraperOption : propertyScraperOptions) {
@@ -39,6 +40,7 @@ public class PropertyScraperOptionGrid extends JPanel {
 			if (selected) {
 				PropertyScraper propertyScraper = propertyScraperOption.getPropertyScraper();
 				propertyScrapers.add(propertyScraper);
+				propertyScraper.setRootDirectory(outputDirectory);
 			}
 		}
 
