@@ -2,15 +2,12 @@ package scraper.core.writers;
 
 import scraper.core.CsvCharacters;
 
-import java.io.FileNotFoundException;
-
-public class CsvDataWriter extends FileDataWriter {
+public class CsvFileWriter extends BasicFileWriter {
 
 	private final int valuesPerLine;
 	private int valueIndex;
 
-	public CsvDataWriter(String filePath, int valuesPerLine) throws FileNotFoundException {
-		super(filePath);
+	public CsvFileWriter(String filePath, int valuesPerLine) {
 		this.valuesPerLine = valuesPerLine;
 		valueIndex = 0;
 	}

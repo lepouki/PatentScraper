@@ -4,6 +4,7 @@ import scraper.application.groups.*;
 import scraper.core.*;
 
 import java.io.IOException;
+import java.nio.file.Path;
 import java.util.*;
 import javax.swing.*;
 
@@ -12,12 +13,12 @@ public class Application extends JFrame {
 	private static final String TITLE = "Scraper";
 	private static final String WORK_DONE_MESSAGE = "Done";
 
+	private final WorkerManager workerManager;
+	private final StatusMessageUpdater statusMessageUpdater;
+
 	private InputOutputChooser inputOutputChooser;
 	private ScraperOptionsPicker scraperOptionsPicker;
 	private ScraperControls scraperControls;
-
-	private Worker worker;
-	private final ExceptionHandler exceptionHandler;
 
 	public Application() {
 		super(TITLE);
@@ -25,8 +26,9 @@ public class Application extends JFrame {
 		MainPane mainPane = new MainPane();
 		setContentPane(mainPane);
 
+		workerManager = new WorkerManager(this);
 		createGroups();
-		exceptionHandler = new ExceptionHandler(scraperControls);
+		statusMessageUpdater = new StatusMessageUpdater(scraperControls);
 
 		configureFrame();
 	}
@@ -35,7 +37,7 @@ public class Application extends JFrame {
 		inputOutputChooser = new InputOutputChooser();
 		add(inputOutputChooser);
 
-		scraperOptionsPicker = new ScraperOptionsPicker();
+		scraperOptionsPicker = new ScraperOptionsPicker(workerManager);
 		add(scraperOptionsPicker);
 
 		scraperControls = new ScraperControls(this);
@@ -54,39 +56,30 @@ public class Application extends JFrame {
 
 	public void onStartButtonPressed() {
 		try {
-			initializeWorker();
-			updateScraperControlsWorkerStarting();
-			worker.execute();
+			Set<Document> documents = getInputDocuments();
+			List<PropertyScraper> propertyScrapers = getPropertyScrapers();
+			workerManager.runWorker(documents, propertyScrapers);
 		}
 		catch (IOException exception) {
-			exceptionHandler.handle(exception);
+			statusMessageUpdater.handleException(exception);
 		}
 	}
 
-	private void updateScraperControlsWorkerStarting() {
+	public void onWorkerInitialized() {
 		scraperControls.toggleButtons();
 		scraperControls.setProgressBarValue(0);
 	}
 
-	private void initializeWorker() throws IOException {
-		Set<Document> documents = getDocuments();
-		checkOutputDirectory();
-		worker = new Worker(this, createScraper(), documents);
-	}
-
-	private Set<Document> getDocuments() throws IOException {
+	private Set<Document> getInputDocuments() throws IOException {
 		String inputFilePath = inputOutputChooser.getInputFilePathText();
+		PathChecker.checkExists(inputFilePath);
 		return inputOutputChooser.getCsvParser().parseFile(inputFilePath);
 	}
 
-	private void checkOutputDirectory() throws IOException {
+	private List<PropertyScraper> getPropertyScrapers() throws IOException {
 		String outputDirectoryPath = inputOutputChooser.getOutputDirectoryPathText();
 		PathChecker.checkExists(outputDirectoryPath);
-	}
-
-	private Scraper createScraper() {
-		List<PropertyScraper> propertyScrapers = scraperOptionsPicker.getPropertyScrapers();
-		return new Scraper(propertyScrapers);
+		return scraperOptionsPicker.getPropertyScrapers(outputDirectoryPath);
 	}
 
 	public void onAbortButtonPressed() {
@@ -94,31 +87,29 @@ public class Application extends JFrame {
 	}
 
 	public void abort() {
-		boolean canCancel = (worker != null) && !worker.isCancelled() && !worker.isDone();
-
-		if (canCancel) {
-			worker.cancel(false);
-		}
+		workerManager.abortWorker();
 	}
 
-	public void onWorkerProgressMade(Worker.ProgressEvent event) {
+	public void onWorkerProgressMade(ProgressEvent event) {
 		updateProgressBarsText(event);
 		updateProgressBarsValues(event);
 	}
 
-	private void updateProgressBarsText(Worker.ProgressEvent event) {
-		String workerProgressString = event.getDocumentIdentifier();
-		scraperControls.setStatusText(workerProgressString);
+	private void updateProgressBarsText(ProgressEvent event) {
+		scraperControls.setStatus(
+			event.getStatus()
+		);
 	}
 
-	private void updateProgressBarsValues(Worker.ProgressEvent event) {
+	private void updateProgressBarsValues(ProgressEvent event) {
 		int progressValue = (int)event.getPercentage();
 		scraperControls.setProgressBarValue(progressValue);
 	}
 
 	public void onWorkerDone() {
 		scraperControls.resetButtons();
-		scraperControls.setStatusText(WORK_DONE_MESSAGE);
+		workerManager.closePropertyScraperFileWriters();
+		statusMessageUpdater.setMessage(WORK_DONE_MESSAGE);
 		scraperControls.setProgressBarValue(100);
 	}
 

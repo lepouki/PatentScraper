@@ -15,8 +15,7 @@ public abstract class CsvParser {
 
 	}
 
-	public Set<Document> parseFile(String filePath) throws IOException {
-		PathChecker.checkExists(filePath);
+	public Set<Document> parseFile(String filePath) throws FormatException {
 		return parse(filePath);
 	}
 

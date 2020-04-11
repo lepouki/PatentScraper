@@ -2,41 +2,21 @@ package scraper.application;
 
 import scraper.core.*;
 import scraper.core.events.Event;
+import scraper.core.events.EventListener;
 
+import java.io.IOException;
 import java.util.*;
 import javax.swing.SwingWorker;
 
-public class Worker extends SwingWorker<Void, Worker.ProgressEvent> {
-
-	public static class ProgressEvent extends Event {
-
-		private final float percentage;
-		private final String documentIdentifier;
-
-		public ProgressEvent(Object source, float percentage, String documentIdentifier) {
-			super(source);
-			this.percentage = percentage;
-			this.documentIdentifier = documentIdentifier;
-		}
-
-		public float getPercentage() {
-			return percentage;
-		}
-
-		public String getDocumentIdentifier() {
-			return documentIdentifier;
-		}
-
-	}
+public class Worker extends SwingWorker<Void, ProgressEvent> implements EventListener {
 
 	private final Application application;
 	private final Scraper scraper;
-	private final Set<Document> documents;
 
-	public Worker(Application application, Scraper scraper, Set<Document> documents) {
+	public Worker(Application application, Scraper scraper) {
 		this.application = application;
 		this.scraper = scraper;
-		this.documents = documents;
+		this.scraper.pushEventListener(this);
 	}
 
 	@Override
@@ -50,29 +30,19 @@ public class Worker extends SwingWorker<Void, Worker.ProgressEvent> {
 
 	@Override
 	protected Void doInBackground() {
-		int currentDocument = 0;
-
-		for (Document document : documents) {
-			notifyApplicationProcessingDocument(currentDocument++, document.identifier);
-			scraper.scrapeDocument(document);
-		}
-
+		scraper.scrape();
 		return null;
-	}
-
-	private void notifyApplicationProcessingDocument(int documentIndex, String documentIdentifier) {
-		publish(
-			new ProgressEvent(this, calculateDocumentProgressPercentage(documentIndex), documentIdentifier)
-		);
-	}
-
-	private float calculateDocumentProgressPercentage(int documentIndex) {
-		return (float)documentIndex / documents.size() * 100.0f;
 	}
 
 	@Override
 	protected void done() {
 		application.onWorkerDone();
+	}
+
+	@Override
+	public void onEventReceived(Event event) {
+		ProgressEvent progressEvent = (ProgressEvent)event;
+		publish(progressEvent);
 	}
 
 }

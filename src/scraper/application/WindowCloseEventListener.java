@@ -13,6 +13,7 @@ public class WindowCloseEventListener extends WindowAdapter {
 	@Override
 	public void windowClosing(WindowEvent event) {
 		application.abort();
+		application.setVisible(false);
 		System.exit(0);
 	}
 

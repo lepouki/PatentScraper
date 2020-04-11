@@ -5,7 +5,7 @@ import scraper.application.Application;
 import java.awt.event.*;
 import javax.swing.*;
 
-public class ScraperControllerButtons extends JPanel implements ActionListener {
+public class ScraperButtons extends JPanel implements ActionListener {
 
 	private static final String START_BUTTON_TEXT = "Start";
 	private static final String ABORT_BUTTON_TEXT = "Abort";
@@ -13,7 +13,7 @@ public class ScraperControllerButtons extends JPanel implements ActionListener {
 	private JButton startButton, abortButton;
 	private final Application application;
 
-	public ScraperControllerButtons(Application application) {
+	public ScraperButtons(Application application) {
 		createButtons();
 		this.application = application;
 

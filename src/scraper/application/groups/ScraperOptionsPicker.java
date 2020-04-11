@@ -15,10 +15,13 @@ public class ScraperOptionsPicker extends WidgetGroup {
 	private static final String CITATIONS_OPTION_GROUP_TITLE = "Citations";
 	private static final String ONLINE_PROPERTIES_OPTION_GROUP_TITLE = "Online properties";
 
+	private WorkerManager workerManager;
 	private List<PropertyScraperOptionGroup> propertyScraperOptionGroups;
 
-	public ScraperOptionsPicker() {
+	public ScraperOptionsPicker(WorkerManager workerManager) {
 		super(TITLE, LayoutConfiguration.PADDING);
+
+		this.workerManager = workerManager;
 
 		BoxLayout layout = new BoxLayout(this, BoxLayout.PAGE_AXIS);
 		setLayout(layout);
@@ -36,7 +39,7 @@ public class ScraperOptionsPicker extends WidgetGroup {
 
 	private void createDataFrameAdditionsOptionGroup() {
 		createOptionGroup(
-			DATA_FRAME_ADDITIONS_OPTION_GROUP_TITLE, getDataFrameAdditionsPropertyScrapers()
+			DATA_FRAME_ADDITIONS_OPTION_GROUP_TITLE, createDataFrameAdditionsPropertyScrapers()
 		);
 	}
 
@@ -52,7 +55,7 @@ public class ScraperOptionsPicker extends WidgetGroup {
 
 	private void createCitationsOptionGroup() {
 		createOptionGroup(
-			CITATIONS_OPTION_GROUP_TITLE, getCitationsPropertyScrapers()
+			CITATIONS_OPTION_GROUP_TITLE, createCitationsPropertyScrapers()
 		);
 	}
 
@@ -65,29 +68,29 @@ public class ScraperOptionsPicker extends WidgetGroup {
 		optionGroup.pushPreparationPropertyScraper(pageScraper);
 
 		optionGroup.setPropertyScrapers(
-			getOnlinePropertiesPropertyScrapers(pageScraper)
+			createOnlinePropertiesPropertyScrapers(pageScraper)
 		);
 
 		pushOptionGroup(optionGroup);
 	}
 
-	private static List<PropertyScraper> getDataFrameAdditionsPropertyScrapers() {
+	private List<PropertyScraper> createDataFrameAdditionsPropertyScrapers() {
 		return new ArrayList<>(0);
 	}
 
-	private static List<PropertyScraper> getCitationsPropertyScrapers() {
+	private List<PropertyScraper> createCitationsPropertyScrapers() {
 		return new ArrayList<>(0);
 	}
 
-	private static List<PropertyScraper> getOnlinePropertiesPropertyScrapers(PageScraper pageScraper) {
+	private List<PropertyScraper> createOnlinePropertiesPropertyScrapers(PageScraper pageScraper) {
 		return new ArrayList<>(0);
 	}
 
-	public List<PropertyScraper> getPropertyScrapers() {
+	public List<PropertyScraper> getPropertyScrapers(String outputDirectory) {
 		List<PropertyScraper> propertyScrapers = new ArrayList<>();
 
 		for (PropertyScraperOptionGroup propertyScraperOptionGroup : propertyScraperOptionGroups) {
-			List<PropertyScraper> optionGroupPropertyScrapers = propertyScraperOptionGroup.getPropertyScrapers();
+			List<PropertyScraper> optionGroupPropertyScrapers = propertyScraperOptionGroup.getPropertyScrapers(outputDirectory);
 			propertyScrapers.addAll(optionGroupPropertyScrapers);
 		}
 

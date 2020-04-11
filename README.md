@@ -1,2 +1,2 @@
 # PatentScraper
-A web scraper targeting the Google Patents database.
+A web documentScraper targeting the Google Patents database.

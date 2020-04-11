@@ -13,7 +13,13 @@ public class PathChecker {
 
 	}
 
-	private static final String NO_SUCH_FILE_ERROR_MESSAGE = "File not found: ";
+	public static class NoSuchPathException extends IOException {
+
+		public NoSuchPathException(String filePath) {
+			super("No such path: " + '"' + filePath + '"');
+		}
+
+	}
 
 	public static void checkExists(String filePath) throws IOException {
 		checkIsEmpty(filePath);
@@ -22,7 +28,7 @@ public class PathChecker {
 		boolean fileExists = Files.exists(path);
 
 		if (!fileExists) {
-			throw new NoSuchFileException(NO_SUCH_FILE_ERROR_MESSAGE + filePath);
+			throw new NoSuchPathException(filePath);
 		}
 	}
 
