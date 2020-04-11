@@ -1,10 +1,10 @@
 package scraper.core;
 
-public interface FileWriter {
+public interface FileDataWriter {
 
 	void write(String data);
 
-	void openFile(String filePath);
+	void setFile(String filePath);
 
 	void close();
 

@@ -1,14 +1,13 @@
 package scraper.core.writers;
 
-import scraper.core.FileWriter;
+import scraper.core.FileDataWriter;
 
 import java.io.*;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
+import java.nio.file.*;
 
-public class BasicFileWriter implements FileWriter {
+public class BasicFileDataWriter implements FileDataWriter {
 
+	private String currentFilePath = "";
 	private FileOutputStream fileOutputStream;
 
 	@Override
@@ -17,23 +16,21 @@ public class BasicFileWriter implements FileWriter {
 		tryWriteToOutputFile(dataBytes);
 	}
 
-	@Override
-	public void openFile(String filePath) {
-		checkFile(filePath);
-
+	private void tryWriteToOutputFile(byte[] bytes) {
 		try {
-			fileOutputStream = new FileOutputStream(filePath);
+			fileOutputStream.write(bytes);
 		}
-		// The file path gets checked before so this should never happen
-		catch (FileNotFoundException ignored) {}
+		catch (IOException ignored) {}
 	}
 
 	@Override
-	public void close() {
-		try {
-			fileOutputStream.close();
-		}
-		catch (IOException ignored) {}
+	public void setFile(String filePath) {
+		boolean sameAsCurrentFile = filePath.equals(currentFilePath);
+		if (sameAsCurrentFile) return;
+
+		checkFile(filePath);
+		tryCreateFileOutputStream(filePath);
+		currentFilePath = filePath;
 	}
 
 	private void checkFile(String filePath) {
@@ -78,9 +75,18 @@ public class BasicFileWriter implements FileWriter {
 		catch (IOException ignored) {}
 	}
 
-	private void tryWriteToOutputFile(byte[] bytes) {
+	private void tryCreateFileOutputStream(String filePath) {
 		try {
-			fileOutputStream.write(bytes);
+			fileOutputStream = new FileOutputStream(filePath);
+		}
+		// The file path gets checked before so this should never happen
+		catch (FileNotFoundException ignored) {}
+	}
+
+	@Override
+	public void close() {
+		try {
+			fileOutputStream.close();
 		}
 		catch (IOException ignored) {}
 	}

@@ -44,24 +44,14 @@ public class PropertyScraperOptionGroup extends JPanel {
 		preparationPropertyScrapers.add(propertyScraper);
 	}
 
-	public List<PropertyScraper> getPropertyScrapers(String outputDirectory) {
-		List<PropertyScraper> propertyScrapers = new ArrayList<>(
-			getPreparationPropertyScrapers(outputDirectory)
-		);
+	public List<PropertyScraper> getPropertyScrapers() {
+		List<PropertyScraper> propertyScrapers = new ArrayList<>(preparationPropertyScrapers);
 
 		propertyScrapers.addAll(
-			propertyScraperOptionGrid.getPropertyScrapers(outputDirectory)
+			propertyScraperOptionGrid.getPropertyScrapers()
 		);
 
 		return propertyScrapers;
-	}
-
-	private List<PropertyScraper> getPreparationPropertyScrapers(String outputDirectory) {
-		for (PropertyScraper propertyScraper : preparationPropertyScrapers) {
-			propertyScraper.setRootDirectory(outputDirectory);
-		}
-
-		return preparationPropertyScrapers;
 	}
 
 }
