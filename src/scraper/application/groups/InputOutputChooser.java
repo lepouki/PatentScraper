@@ -29,13 +29,13 @@ public class InputOutputChooser extends WidgetGroup {
 		inputFileChooser = new FileChooser(FileChooser.FileMode.FILES);
 		add(inputFileChooser);
 
-		createSeparator();
+		createComponentSeparator();
 
 		outputDirectoryChooser = new FileChooser(FileChooser.FileMode.DIRECTORIES);
 		add(outputDirectoryChooser);
 	}
 
-	private void createSeparator() {
+	private void createComponentSeparator() {
 		Component separator = Box.createRigidArea(
 			new Dimension(0, LayoutConfiguration.PADDING)
 		);
@@ -44,7 +44,7 @@ public class InputOutputChooser extends WidgetGroup {
 	}
 
 	private void createCustomInputCsvOption() {
-		createSeparator();
+		createComponentSeparator();
 
 		customInputCsvOption = new JCheckBox(CUSTOM_INPUT_CSV_OPTION_TEXT);
 		add(customInputCsvOption);

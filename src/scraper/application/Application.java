@@ -76,8 +76,7 @@ public class Application extends JFrame {
 
 	private Set<Document> getDocuments() throws IOException {
 		String inputFilePath = inputOutputChooser.getInputFilePathText();
-		CsvParser inputCsvParser = inputOutputChooser.getCsvParser();
-		return inputCsvParser.parseFile(inputFilePath);
+		return inputOutputChooser.getCsvParser().parseFile(inputFilePath);
 	}
 
 	private void checkOutputDirectory() throws IOException {
