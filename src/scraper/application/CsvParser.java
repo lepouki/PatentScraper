@@ -15,10 +15,6 @@ public abstract class CsvParser {
 
 	}
 
-	public Set<Document> parseFile(String filePath) throws FormatException {
-		return parse(filePath);
-	}
-
-	protected abstract Set<Document> parse(String filePath) throws FormatException;
+	public abstract Set<Document> parseFile(String filePath) throws FormatException;
 
 }
