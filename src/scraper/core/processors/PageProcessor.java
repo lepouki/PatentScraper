@@ -18,6 +18,11 @@ public class PageProcessor extends PropertyProcessor {
 	}
 
 	@Override
+	public void initializeForNextLayer() {
+
+	}
+
+	@Override
 	public void processDocument(Document document) {
 		String pageLink = PATENT_LINK_PREFIX + document.identifier;
 		tryRetrievePage(pageLink);

@@ -20,6 +20,14 @@ public abstract class PropertyScraper {
 		return successCount;
 	}
 
+	public void setScraper(Scraper scraper) {
+		propertyProcessor.setScraper(scraper);
+	}
+
+	public void initializeForNextLayer() {
+		propertyProcessor.initializeForNextLayer();
+	}
+
 	public void scrapeProperty(Document document) {
 		try {
 			propertyProcessor.processDocument(document);

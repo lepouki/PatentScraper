@@ -4,6 +4,7 @@ public abstract class PropertyProcessor {
 
 	public static class NoSuchPropertyException extends Exception {}
 
+	private Scraper scraper;
 	private final String propertyName;
 
 	public PropertyProcessor(String propertyName) {
@@ -14,8 +15,18 @@ public abstract class PropertyProcessor {
 		return propertyName;
 	}
 
+	public void setScraper(Scraper scraper) {
+		this.scraper = scraper;
+	}
+
+	public abstract void initializeForNextLayer();
+
 	public abstract void processDocument(Document document) throws NoSuchPropertyException;
 
 	public abstract String retrievePropertyData();
+
+	protected void pushNextLayerDocument(Document document) {
+		scraper.pushNextLayerDocument(document);
+	}
 
 }

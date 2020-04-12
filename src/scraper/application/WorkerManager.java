@@ -8,24 +8,18 @@ public class WorkerManager {
 
 	private final Application application;
 	private Worker worker;
-	private List<PropertyScraper> propertyScrapers;
 
 	public WorkerManager(Application application) {
 		this.application = application;
 	}
 
-	public void runWorker(Set<Document> documents, List<PropertyScraper> propertyScrapers) {
-		this.propertyScrapers = propertyScrapers;
-		createWorker(documents);
-		worker.execute();
-	}
-
-	private void createWorker(Set<Document> documents) {
+	public void runWorker(Set<Document> documents, List<PropertyScraper> propertyScrapers, int layerCount) {
 		worker = new Worker(
-			application, new Scraper(documents, propertyScrapers)
+			application, new Scraper(documents, propertyScrapers, layerCount)
 		);
 
 		application.onWorkerInitialized();
+		worker.execute();
 	}
 
 	public void abortWorker() {
@@ -33,12 +27,6 @@ public class WorkerManager {
 
 		if (canAbort) {
 			worker.cancel(false);
-		}
-	}
-
-	public void cleanupPropertyScrapers() {
-		for (PropertyScraper propertyScraper : propertyScrapers) {
-			propertyScraper.cleanup();
 		}
 	}
 
