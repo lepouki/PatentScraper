@@ -13,7 +13,7 @@ public class CustomCsvParser extends CsvParser {
 	private Scanner scanner;
 
 	@Override
-	protected Set<Document> parse(String filePath) throws FormatException {
+	public Set<Document> parseFile(String filePath) throws FormatException {
 		createScanner(filePath);
 		return parseLines();
 	}

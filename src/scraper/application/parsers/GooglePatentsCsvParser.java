@@ -8,7 +8,7 @@ import java.util.*;
 public class GooglePatentsCsvParser extends CsvParser {
 
 	@Override
-	protected Set<Document> parse(String filePath) {
+	public Set<Document> parseFile(String filePath) {
 		return new HashSet<>(0);
 	}
 
