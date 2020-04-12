@@ -4,7 +4,6 @@ import scraper.application.groups.*;
 import scraper.core.*;
 
 import java.io.IOException;
-import java.nio.file.Path;
 import java.util.*;
 import javax.swing.*;
 
@@ -27,17 +26,17 @@ public class Application extends JFrame {
 		setContentPane(mainPane);
 
 		workerManager = new WorkerManager(this);
-		createGroups();
+		createWidgetGroups();
 		statusMessageUpdater = new StatusMessageUpdater(scraperControls);
 
 		configureFrame();
 	}
 
-	private void createGroups() {
+	private void createWidgetGroups() {
 		inputOutputChooser = new InputOutputChooser();
 		add(inputOutputChooser);
 
-		scraperOptionsPicker = new ScraperOptionsPicker(workerManager);
+		scraperOptionsPicker = new ScraperOptionsPicker();
 		add(scraperOptionsPicker);
 
 		scraperControls = new ScraperControls(this);
@@ -58,7 +57,8 @@ public class Application extends JFrame {
 		try {
 			Set<Document> documents = getInputDocuments();
 			List<PropertyScraper> propertyScrapers = getPropertyScrapers();
-			workerManager.runWorker(documents, propertyScrapers);
+			int layerCount = scraperOptionsPicker.getLayerCount();
+			workerManager.runWorker(documents, propertyScrapers, layerCount);
 		}
 		catch (IOException exception) {
 			statusMessageUpdater.handleException(exception);
@@ -67,7 +67,7 @@ public class Application extends JFrame {
 
 	public void onWorkerInitialized() {
 		scraperControls.toggleButtons();
-		scraperControls.setProgressBarValue(0);
+		scraperControls.setProgressBarsValue(0);
 	}
 
 	private Set<Document> getInputDocuments() throws IOException {
@@ -90,31 +90,30 @@ public class Application extends JFrame {
 		workerManager.abortWorker();
 	}
 
-	public void onWorkerProgressMade(ProgressEvent event) {
+	public void onWorkerProgress(ProgressEvent event) {
 		updateProgressBarsText(event);
 		updateProgressBarsValues(event);
 	}
 
 	private void updateProgressBarsText(ProgressEvent event) {
-		scraperControls.setStatus(
-			event.getStatus()
-		);
+		statusMessageUpdater.handleProgressEvent(event);
 	}
 
 	private void updateProgressBarsValues(ProgressEvent event) {
 		int progressValue = (int)event.getPercentage();
-		scraperControls.setProgressBarValue(progressValue);
+
+		if (event instanceof Scraper.LayerProgressEvent) {
+			scraperControls.setLayerProgressBarValue(progressValue);
+		}
+		else if (event instanceof Scraper.DocumentProgressEvent) {
+			scraperControls.setDocumentProgressBarValue(progressValue);
+		}
 	}
 
 	public void onWorkerDone() {
-		workerManager.cleanupPropertyScrapers();
-		updateInterfaceWorkerDone();
-	}
-
-	private void updateInterfaceWorkerDone() {
 		scraperControls.resetButtons();
-		statusMessageUpdater.setMessage(WORK_DONE_MESSAGE);
-		scraperControls.setProgressBarValue(100);
+		statusMessageUpdater.setStatusMessage(WORK_DONE_MESSAGE);
+		scraperControls.setProgressBarsValue(100);
 	}
 
 }

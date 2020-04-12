@@ -6,35 +6,113 @@ import java.util.*;
 
 public class Scraper extends EventSource {
 
-	private Set<Document> documents;
-	private final DocumentScraper documentScraper;
+	public static class LayerProgressEvent extends ProgressEvent {
 
-	public Scraper(Set<Document> documents, List<PropertyScraper> propertyScrapers) {
-		setDocument(documents);
-		documentScraper = new DocumentScraper(propertyScrapers);
+		public LayerProgressEvent(Object source, float percentage, String status) {
+			super(source, percentage, status);
+		}
+
 	}
 
-	public void setDocument(Set<Document> documents) {
-		this.documents = documents;
+	public static class DocumentProgressEvent extends ProgressEvent {
+
+		public DocumentProgressEvent(Object source, float percentage, String status) {
+			super(source, percentage, status);
+		}
+
+	}
+
+	private final List<PropertyScraper> propertyScrapers;
+	private final int layerCount;
+	private final DocumentScraper documentScraper;
+	private Set<Document> documents;
+	private Set<Document> nextLayerDocuments;
+
+	public Scraper(Set<Document> documents, List<PropertyScraper> propertyScrapers, int layerCount) {
+		this.propertyScrapers = new ArrayList<>(propertyScrapers);
+		updatePropertyScrapers();
+		this.layerCount = layerCount;
+
+		documentScraper = new DocumentScraper(propertyScrapers);
+		copyDocuments(documents);
+		nextLayerDocuments = new HashSet<>();
+	}
+
+	private void updatePropertyScrapers() {
+		for (PropertyScraper propertyScraper : propertyScrapers) {
+			propertyScraper.setScraper(this);
+		}
+	}
+
+	public void copyDocuments(Set<Document> documents) {
+		this.documents = new HashSet<>(documents);
 	}
 
 	public void scrape() {
+		for (int i = 0; i < layerCount; ++i) {
+			notifyEventListenersLayerProgress(i);
+			scrapeLayer();
+			prepareNextLayerDocuments();
+		}
+
+		cleanupPropertyScrapers();
+	}
+
+	private void notifyEventListenersLayerProgress(int layerIndex) {
+		String layerStatus = "(layer " + (layerIndex + 1) + ")";
+
+		notifyEventListeners(
+			new LayerProgressEvent(
+				this, calculateLayerProgressPercentage(layerIndex), layerStatus
+			)
+		);
+	}
+
+	private float calculateLayerProgressPercentage(int layerIndex) {
+		return (float)layerIndex / layerCount * 100.0f;
+	}
+
+	private void scrapeLayer() {
 		int currentDocument = 0;
+		initializePropertyScrapersForNextLayer();
 
 		for (Document document : documents) {
-			notifyEventListenersProcessingDocument(currentDocument++, document.identifier);
+			notifyEventListenersDocumentProgress(++currentDocument, document.identifier);
 			documentScraper.scrape(document);
 		}
 	}
 
-	private void notifyEventListenersProcessingDocument(int documentIndex, String documentIdentifier) {
+	private void initializePropertyScrapersForNextLayer() {
+		for (PropertyScraper propertyScraper : propertyScrapers) {
+			propertyScraper.initializeForNextLayer();
+		}
+	}
+
+	private void notifyEventListenersDocumentProgress(int documentIndex, String documentStatus) {
 		notifyEventListeners(
-			new ProgressEvent(this, calculateDocumentProgressPercentage(documentIndex), documentIdentifier)
+			new DocumentProgressEvent(
+				this, calculateDocumentProgressPercentage(documentIndex), documentStatus
+			)
 		);
 	}
 
 	private float calculateDocumentProgressPercentage(int documentIndex) {
 		return (float)documentIndex / documents.size() * 100.0f;
+	}
+
+	private void prepareNextLayerDocuments() {
+		documents = nextLayerDocuments;
+		nextLayerDocuments = new HashSet<>();
+	}
+
+	private void cleanupPropertyScrapers() {
+		for (PropertyScraper propertyScraper : propertyScrapers) {
+			propertyScraper.cleanup();
+		}
+	}
+
+	public void pushNextLayerDocument(Document document) {
+		nextLayerDocuments.add(document);
 	}
 
 }

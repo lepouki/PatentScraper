@@ -23,8 +23,9 @@ public class Worker extends SwingWorker<Void, ProgressEvent> implements EventLis
 		boolean isCancelled = isCancelled();
 		if (isCancelled) return; // Sometimes process gets called after the worker has been cancelled
 
-		ProgressEvent lastProgressEvent = progressEvents.get(progressEvents.size() - 1);
-		application.onWorkerProgressMade(lastProgressEvent);
+		for (ProgressEvent progressEvent : progressEvents) {
+			application.onWorkerProgress(progressEvent);
+		}
 	}
 
 	@Override
