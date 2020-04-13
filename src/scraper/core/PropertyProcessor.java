@@ -23,7 +23,7 @@ public abstract class PropertyProcessor {
 
 	public abstract void processDocument(Document document) throws NoSuchPropertyException;
 
-	public abstract String retrievePropertyData();
+	public abstract String getPropertyData();
 
 	protected void pushNextLayerDocument(Document document) {
 		scraper.pushNextLayerDocument(document);

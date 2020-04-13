@@ -7,7 +7,7 @@ import scraper.core.events.EventListener;
 import java.util.*;
 import javax.swing.SwingWorker;
 
-public class Worker extends SwingWorker<Void, ProgressEvent> implements EventListener {
+public class Worker extends SwingWorker<Long, ProgressEvent> implements EventListener {
 
 	private final Application application;
 	private final Scraper scraper;
@@ -29,13 +29,14 @@ public class Worker extends SwingWorker<Void, ProgressEvent> implements EventLis
 	}
 
 	@Override
-	protected Void doInBackground() {
+	protected Long doInBackground() {
 		scraper.scrape();
-		return null;
+		return scraper.getNanosecondsElapsed();
 	}
 
 	@Override
 	protected void done() {
+		scraper.cleanupPropertyScrapers();
 		application.onWorkerDone();
 	}
 

@@ -10,7 +10,7 @@ import javax.swing.*;
 public class InputOutputChooser extends WidgetGroup {
 
 	private static final String TITLE = "Input and output";
-	private static final String CUSTOM_INPUT_CSV_OPTION_TEXT = "Custom input CSV";
+	private static final String CUSTOM_INPUT_CSV_OPTION_TEXT = "Ad hoc CSV";
 
 	private FileChooser inputFileChooser, outputDirectoryChooser;
 	private JCheckBox customInputCsvOption;
@@ -52,11 +52,11 @@ public class InputOutputChooser extends WidgetGroup {
 	}
 
 	public String getInputFilePathText() {
-		return inputFileChooser.getFilePathText().trim();
+		return inputFileChooser.getFilePathText().strip();
 	}
 
 	public String getOutputDirectoryPathText() {
-		return outputDirectoryChooser.getFilePathText().trim();
+		return outputDirectoryChooser.getFilePathText().strip();
 	}
 
 	public CsvParser getCsvParser() {

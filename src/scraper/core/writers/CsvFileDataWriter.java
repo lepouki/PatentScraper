@@ -2,14 +2,26 @@ package scraper.core.writers;
 
 import scraper.core.CsvCharacters;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class CsvFileDataWriter extends BasicFileDataWriter {
 
-	private final int valuesPerLine;
 	private int valueIndex;
+	private List<String> columnNames;
 
-	public CsvFileDataWriter(String filePath, int valuesPerLine) {
-		this.valuesPerLine = valuesPerLine;
+	public CsvFileDataWriter() {
 		valueIndex = 0;
+		columnNames = new ArrayList<>();
+	}
+
+	public void setColumnNames(List<String> columnNames) {
+		this.columnNames = columnNames;
+		wrapValueIndex();
+	}
+
+	private void wrapValueIndex() {
+		valueIndex = valueIndex	% columnNames.size();
 	}
 
 	@Override
@@ -40,7 +52,8 @@ public class CsvFileDataWriter extends BasicFileDataWriter {
 	}
 
 	private void updateValueIndex() {
-		valueIndex = (valueIndex + 1) % valuesPerLine;
+		++valueIndex;
+		wrapValueIndex();
 	}
 
 	private String withSeparatorOrNewLine(String data) {
@@ -51,6 +64,19 @@ public class CsvFileDataWriter extends BasicFileDataWriter {
 
 	private boolean isLastValueInLine() {
 		return valueIndex == 0;
+	}
+
+	@Override
+	public void setFile(String filePath) {
+		super.setFile(filePath);
+		valueIndex = 0;
+		writeColumnNames();
+	}
+
+	private void writeColumnNames() {
+		for (String columnName : columnNames) {
+			write(columnName);
+		}
 	}
 
 }
