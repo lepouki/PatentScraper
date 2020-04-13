@@ -41,9 +41,14 @@ public class GooglePatentsCsvParser extends DocumentIdentifierCsvParser {
 	}
 
 	@Override
+<<<<<<< HEAD
 	protected String getNextDocumentIdentifier() {
 		String separator = Character.toString(CsvCharacters.SEPARATOR);
 		return getNextDocumentLine().split(separator)[0];
+=======
+	public Set<Document> parseFile(String filePath) {
+		return new HashSet<>(0);
+>>>>>>> master
 	}
 
 }
