@@ -40,6 +40,12 @@ public class PropertyScraperOptionGroup extends JPanel {
 		titleLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
 	}
 
+	public void pushPreparationPropertyScrapers(List<PropertyScraper> propertyScrapers) {
+		for (PropertyScraper propertyScraper : propertyScrapers) {
+			pushPreparationPropertyScraper(propertyScraper);
+		}
+	}
+
 	public void pushPreparationPropertyScraper(PropertyScraper propertyScraper) {
 		preparationPropertyScrapers.add(propertyScraper);
 	}

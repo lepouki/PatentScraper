@@ -20,6 +20,10 @@ public abstract class PropertyScraper {
 		return successCount;
 	}
 
+	public PropertyProcessor getPropertyProcessor() {
+		return propertyProcessor;
+	}
+
 	public void setScraper(Scraper scraper) {
 		propertyProcessor.setScraper(scraper);
 	}
@@ -29,27 +33,27 @@ public abstract class PropertyScraper {
 	}
 
 	public void scrapeProperty(Document document) {
+		String propertyData = "";
+
 		try {
 			propertyProcessor.processDocument(document);
-			String property = propertyProcessor.retrievePropertyData();
-
+			propertyData = propertyProcessor.getPropertyData();
 			++successCount;
-			fileDataWriter.write(property);
 		}
 		catch (PropertyProcessor.NoSuchPropertyException ignored) {}
+
+		fileDataWriter.write(propertyData);
 	}
 
 	public abstract void initialize(String rootDirectory);
 
 	public abstract void cleanup();
 
-	public abstract String getRelativeFileWriterPath();
-
-	protected void setFileDataWriterFile(String filePath) {
+	protected void setDataWriterFile(String filePath) {
 		fileDataWriter.setFile(filePath);
 	}
 
-	protected void closeFileDataWriter() {
+	protected void closeDataWriter() {
 		fileDataWriter.close();
 	}
 

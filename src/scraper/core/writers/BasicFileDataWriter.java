@@ -7,7 +7,6 @@ import java.nio.file.*;
 
 public class BasicFileDataWriter implements FileDataWriter {
 
-	private String currentFilePath = "";
 	private FileOutputStream fileOutputStream;
 
 	@Override
@@ -25,12 +24,8 @@ public class BasicFileDataWriter implements FileDataWriter {
 
 	@Override
 	public void setFile(String filePath) {
-		boolean sameAsCurrentFile = filePath.equals(currentFilePath);
-		if (sameAsCurrentFile) return;
-
 		checkFile(filePath);
 		tryCreateFileOutputStream(filePath);
-		currentFilePath = filePath;
 	}
 
 	private void checkFile(String filePath) {

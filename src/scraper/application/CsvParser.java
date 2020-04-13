@@ -9,8 +9,8 @@ public abstract class CsvParser {
 
 	public static class FormatException extends IOException {
 
-		public FormatException(String message, String problematicLine) {
-			super(message + problematicLine);
+		public FormatException(String message) {
+			super(message);
 		}
 
 	}

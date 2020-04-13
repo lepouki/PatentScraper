@@ -2,30 +2,30 @@ package scraper.application.widgets;
 
 import javax.swing.*;
 
-public class IntegerPicker extends JPanel {
+public class LayerCountPicker extends JPanel {
 
+	private static final String TITLE = "Layer count";
 	private static final int TEXT_FIELD_COLUMN_COUNT = 2;
+	private static final int MINIMUM_VALUE = 1;
+	private static final int MAXIMUM_VALUE = 50;
 
 	private JSpinner integerSpinner;
 
-	public IntegerPicker(String title, int minimumValue, int maximumValue) {
-		createTitleLabel(title, maximumValue);
-		createIntegerSpinner(minimumValue, maximumValue);
+	public LayerCountPicker() {
+		JLabel titleLabel = new JLabel(TITLE);
+		add(titleLabel);
+
+		createIntegerSpinner();
 		setSpinnerColumnCount();
 	}
 
-	private void createTitleLabel(String title, int maximumValue) {
-		JLabel titleLabel = new JLabel(title + " (" + maximumValue + " maximum)");
-		add(titleLabel);
-	}
-
-	private void createIntegerSpinner(int minimumValue, int maximumValue) {
+	private void createIntegerSpinner() {
 		integerSpinner = new JSpinner();
 		add(integerSpinner);
 		final int stepSize = 1;
 
 		integerSpinner.setModel(
-			new SpinnerNumberModel(minimumValue, minimumValue, maximumValue, stepSize)
+			new SpinnerNumberModel(MINIMUM_VALUE, MINIMUM_VALUE, MAXIMUM_VALUE, stepSize)
 		);
 	}
 

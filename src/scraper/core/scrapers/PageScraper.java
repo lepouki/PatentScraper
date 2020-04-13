@@ -21,9 +21,4 @@ public class PageScraper extends PropertyScraper {
 	public void cleanup() {
 	}
 
-	@Override
-	public String getRelativeFileWriterPath() {
-		return "";
-	}
-
 }
