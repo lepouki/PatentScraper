@@ -11,4 +11,12 @@ public class PageScraper extends PropertyScraper {
 		);
 	}
 
+	@Override
+	public void initialize(String rootDirectory) {
+	}
+
+	@Override
+	public void cleanup() {
+	}
+
 }

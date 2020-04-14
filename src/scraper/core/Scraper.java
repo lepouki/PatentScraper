@@ -29,7 +29,6 @@ public class Scraper extends EventSource {
 
 	private Set<Document> documents;
 	private Set<Document> nextLayerDocuments;
-	private long startTime;
 
 	public Scraper(Set<Document> documents, List<PropertyScraper> propertyScrapers, int layerCount) {
 		this.propertyScrapers = new ArrayList<>(propertyScrapers);
@@ -52,8 +51,6 @@ public class Scraper extends EventSource {
 	}
 
 	public void scrape() {
-		startTime = System.nanoTime();
-
 		for (int i = 1; i <= layerCount; ++i) {
 			notifyEventListenersLayerProgress(i);
 			scrapeLayer();
@@ -116,10 +113,6 @@ public class Scraper extends EventSource {
 
 	public void pushNextLayerDocument(Document document) {
 		nextLayerDocuments.add(document);
-	}
-
-	public long getNanosecondsElapsed() {
-		return System.nanoTime() - startTime;
 	}
 
 }

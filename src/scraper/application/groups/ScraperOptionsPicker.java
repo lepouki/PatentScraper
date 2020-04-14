@@ -21,6 +21,7 @@ public class ScraperOptionsPicker extends WidgetGroup {
 		BoxLayout layout = new BoxLayout(this, BoxLayout.PAGE_AXIS);
 		setLayout(layout);
 
+
 		createOptionGroups();
 		createLayerCountPicker();
 	}
