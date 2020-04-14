@@ -2,6 +2,8 @@ package scraper.core;
 
 import scraper.core.writers.DummyFileDataWriter;
 
+import java.io.IOException;
+
 public class PropertyScraper {
 
 	private FileDataWriter fileDataWriter;
@@ -51,20 +53,27 @@ public class PropertyScraper {
 		}
 		catch (PropertyProcessor.NoSuchPropertyException ignored) {}
 
-		fileDataWriter.write(propertyData);
+		tryWriteToFileDataWriter(propertyData);
 	}
 
-	public void initialize(String rootDirectory) {
+	private void tryWriteToFileDataWriter(String propertyData) {
+		try {
+			fileDataWriter.write(propertyData);
+		}
+		catch (IOException ignored) {}
 	}
 
-	public void cleanup() {
+	public void initialize(String rootDirectory) throws IOException {
 	}
 
-	protected void setDataWriterFile(String filePath) {
+	public void cleanup() throws IOException {
+	}
+
+	protected void setDataWriterFile(String filePath) throws IOException {
 		fileDataWriter.setFile(filePath);
 	}
 
-	protected void closeDataWriter() {
+	protected void closeDataWriter() throws IOException {
 		fileDataWriter.close();
 	}
 

@@ -4,6 +4,7 @@ import scraper.application.*;
 import scraper.application.widgets.*;
 import scraper.core.*;
 
+import java.io.IOException;
 import java.util.*;
 import javax.swing.*;
 
@@ -57,7 +58,7 @@ public class ScraperOptionsPicker extends WidgetGroup {
 		add(layerCountPicker);
 	}
 
-	public List<PropertyScraper> getPropertyScrapers(String outputDirectory) {
+	public List<PropertyScraper> getPropertyScrapers(String outputDirectory) throws IOException {
 		List<PropertyScraper> propertyScrapers = new ArrayList<>();
 
 		for (PropertyScraperOptionGroup optionGroup : optionGroups) {
@@ -70,7 +71,7 @@ public class ScraperOptionsPicker extends WidgetGroup {
 		return propertyScrapers;
 	}
 
-	private static void initializePropertyScrapers(List<PropertyScraper> propertyScrapers, String outputDirectory) {
+	private static void initializePropertyScrapers(List<PropertyScraper> propertyScrapers, String outputDirectory) throws IOException {
 		for (PropertyScraper propertyScraper : propertyScrapers) {
 			propertyScraper.initialize(outputDirectory);
 		}

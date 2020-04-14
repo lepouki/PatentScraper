@@ -32,7 +32,7 @@ public class DataFrameAdditionsOptionGroup extends PropertyScraperOptionGroup {
 		PageProcessor pageProcessor = (PageProcessor)pageScraper.getPropertyProcessor();
 
 		preparationScrapers.add(
-			new IdentifierScraper()
+			new IdentifierScraper(pageProcessor)
 		);
 
 		preparationScrapers.add(

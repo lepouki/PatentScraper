@@ -4,6 +4,8 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Element;
 import scraper.core.*;
 
+import java.io.IOException;
+
 public class PageProcessor extends PropertyProcessor {
 
 	private static final String PROPERTY_NAME = "Online page";
@@ -18,19 +20,21 @@ public class PageProcessor extends PropertyProcessor {
 
 	@Override
 	public void processDocument(Document document) throws NoSuchPropertyException {
+		this.document = null;
 		pageLink = makePageLink(document);
 		tryRetrievePage();
 	}
 
 	private String makePageLink(Document document) {
-		return PATENT_LINK_PREFIX + document.identifier;
+		return PATENT_LINK_PREFIX + document.identifier + "/en";
 	}
 
 	private void tryRetrievePage() throws NoSuchPropertyException {
 		try {
 			document = Jsoup.connect(pageLink).get();
 		}
-		catch (Throwable ignored) {
+		catch (Throwable exception) {
+			document = new org.jsoup.nodes.Document("");
 			throw new NoSuchPropertyException();
 		}
 	}

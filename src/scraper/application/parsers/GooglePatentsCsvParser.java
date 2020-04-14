@@ -7,7 +7,7 @@ public class GooglePatentsCsvParser extends DocumentIdentifierCsvParser {
 	public static class LineSkipException extends FormatException {
 
 		public LineSkipException(String actual, String expected) {
-			super("When skipping line: Got \"" + actual + "\" instead of \"" + expected + "\"");
+			super("When skipping line, got \"" + actual + "\" instead of \"" + expected + "\"");
 		}
 
 	}

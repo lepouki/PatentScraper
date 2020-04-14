@@ -14,12 +14,17 @@ public class TypeProcessor extends PagePropertyProcessor {
 
 	@Override
 	public void processDocument(Document document) throws NoSuchPropertyException {
-		type = selectFirst("meta[itemprop=type]").attr("content");
+		String selector = getSelector();
+		type = selectFirst(selector).attr("content");
 	}
 
 	@Override
 	public String getPropertyData() {
 		return type;
+	}
+
+	public static String getSelector() {
+		return "meta[itemprop=type]";
 	}
 
 }

@@ -24,8 +24,8 @@ public class GenderProbabilityProcessor extends PropertyProcessor {
 
 	@Override
 	public String getPropertyData() {
-		float genderProbability = genderProcessor.getGenderProbability();
-		return Float.toString(genderProbability);
+		double genderProbability = genderProcessor.getGenderProbability();
+		return Double.toString(genderProbability);
 	}
 
 }

@@ -11,7 +11,7 @@ public abstract class DocumentIdentifierCsvParser extends CsvParser {
 	public static class IdentifierFormatException extends FormatException {
 
 		public IdentifierFormatException(String identifier) {
-			super("Invalid identifier: \"" + identifier + "\"");
+			super("Invalid identifier \"" + identifier + "\"");
 		}
 
 	}

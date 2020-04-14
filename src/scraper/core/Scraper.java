@@ -2,6 +2,7 @@ package scraper.core;
 
 import scraper.core.events.EventSource;
 
+import java.io.IOException;
 import java.util.*;
 
 public class Scraper extends EventSource {
@@ -107,7 +108,7 @@ public class Scraper extends EventSource {
 		nextLayerDocuments = new HashSet<>();
 	}
 
-	public void cleanupPropertyScrapers() {
+	public void cleanupPropertyScrapers() throws IOException {
 		for (PropertyScraper propertyScraper : propertyScrapers) {
 			propertyScraper.cleanup();
 		}
