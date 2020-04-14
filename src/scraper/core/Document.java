@@ -5,7 +5,11 @@ public class Document {
 	public String identifier;
 
 	public Document(String identifier) {
-		this.identifier = identifier;
+		this.identifier = removeDashes(identifier);
+	}
+
+	private String removeDashes(String identifier) {
+		return identifier.replace("-", "");
 	}
 
 }

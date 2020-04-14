@@ -1,6 +1,5 @@
 package scraper.core.processors;
 
-import org.jsoup.nodes.Element;
 import scraper.core.Document;
 
 public class InventorOrAuthorProcessor extends PagePropertyProcessor {
@@ -15,13 +14,17 @@ public class InventorOrAuthorProcessor extends PagePropertyProcessor {
 
 	@Override
 	public void processDocument(Document document) throws NoSuchPropertyException {
-		Element inventorOrAuthorElement = selectFirst("dd[itemprop=inventor]");
-		inventorOrAuthor = inventorOrAuthorElement.ownText();
+		String selector = getSelector();
+		inventorOrAuthor = selectFirst(selector).ownText();
 	}
 
 	@Override
 	public String getPropertyData() {
 		return inventorOrAuthor;
+	}
+
+	public static String getSelector() {
+		return "dd[itemprop=inventor]";
 	}
 
 }

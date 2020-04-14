@@ -1,15 +1,20 @@
 package scraper.core;
 
-public abstract class PropertyScraper {
+import scraper.core.writers.DummyFileDataWriter;
 
-	private final FileDataWriter fileDataWriter;
-	private final PropertyProcessor propertyProcessor;
+public class PropertyScraper {
+
+	private FileDataWriter fileDataWriter;
 	private int successCount;
+	private final PropertyProcessor propertyProcessor;
 
-	public PropertyScraper(FileDataWriter fileDataWriter, PropertyProcessor propertyProcessor) {
-		this.fileDataWriter = fileDataWriter;
-		this.propertyProcessor = propertyProcessor;
+	public PropertyScraper(PropertyProcessor propertyProcessor) {
 		successCount = 0;
+		this.propertyProcessor = propertyProcessor;
+
+		setFileDataWriter(
+			new DummyFileDataWriter()
+		);
 	}
 
 	public String getPropertyName() {
@@ -22,6 +27,10 @@ public abstract class PropertyScraper {
 
 	public PropertyProcessor getPropertyProcessor() {
 		return propertyProcessor;
+	}
+
+	public void setFileDataWriter(FileDataWriter fileDataWriter) {
+		this.fileDataWriter = fileDataWriter;
 	}
 
 	public void setScraper(Scraper scraper) {
@@ -45,9 +54,11 @@ public abstract class PropertyScraper {
 		fileDataWriter.write(propertyData);
 	}
 
-	public abstract void initialize(String rootDirectory);
+	public void initialize(String rootDirectory) {
+	}
 
-	public abstract void cleanup();
+	public void cleanup() {
+	}
 
 	protected void setDataWriterFile(String filePath) {
 		fileDataWriter.setFile(filePath);

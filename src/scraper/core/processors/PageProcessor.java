@@ -1,11 +1,8 @@
 package scraper.core.processors;
 
-import org.jsoup.HttpStatusException;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Element;
 import scraper.core.*;
-
-import java.io.IOException;
 
 public class PageProcessor extends PropertyProcessor {
 
@@ -20,33 +17,22 @@ public class PageProcessor extends PropertyProcessor {
 	}
 
 	@Override
-	public void initializeForNextLayer() {
-	}
-
-	@Override
-	public void processDocument(Document document) {
+	public void processDocument(Document document) throws NoSuchPropertyException {
 		pageLink = makePageLink(document);
 		tryRetrievePage();
 	}
 
 	private String makePageLink(Document document) {
-		return PATENT_LINK_PREFIX + removeIdentifierDashes(document.identifier);
+		return PATENT_LINK_PREFIX + document.identifier;
 	}
 
-	private String removeIdentifierDashes(String identifier) {
-		return identifier.replace("-", "");
-	}
-
-	private void tryRetrievePage() {
+	private void tryRetrievePage() throws NoSuchPropertyException {
 		try {
 			document = Jsoup.connect(pageLink).get();
 		}
-		catch (IOException ignored) {}
-	}
-
-	@Override
-	public String getPropertyData() {
-		return "";
+		catch (Throwable ignored) {
+			throw new NoSuchPropertyException();
+		}
 	}
 
 	public Element getPage() {

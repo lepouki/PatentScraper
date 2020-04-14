@@ -3,7 +3,6 @@ package scraper.application;
 import scraper.core.*;
 
 import java.util.*;
-import java.util.concurrent.ExecutionException;
 
 public class WorkerManager {
 
@@ -29,16 +28,6 @@ public class WorkerManager {
 		if (canAbort) {
 			worker.cancel(false);
 		}
-	}
-
-	public long getNanosecondsElapsed() {
-		try {
-			return worker.get();
-		}
-		// This function only gets called when the worker is not running so this should never happen
-		catch (Exception ignored) {}
-
-		return 0;
 	}
 
 }

@@ -11,7 +11,7 @@ public abstract class DocumentIdentifierCsvParser extends CsvParser {
 	public static class IdentifierFormatException extends FormatException {
 
 		public IdentifierFormatException(String identifier) {
-			super("Invalid identifier: " + identifier);
+			super("Invalid identifier: \"" + identifier + "\"");
 		}
 
 	}
@@ -42,13 +42,13 @@ public abstract class DocumentIdentifierCsvParser extends CsvParser {
 		Set<Document> documents = new HashSet<>();
 
 		while (scanner.hasNextLine()) {
-			String documentIdentifier = getNextDocumentIdentifier();
+			String identifier = getNextDocumentIdentifier();
 
-			boolean emptyIdentifier = documentIdentifier.isEmpty();
+			boolean emptyIdentifier = identifier.isEmpty();
 			if (emptyIdentifier) continue;
 
-			checkIdentifierFormat(documentIdentifier);
-			Document document = new Document(documentIdentifier);
+			checkIdentifierFormat(identifier);
+			Document document = new Document(identifier);
 			documents.add(document);
 		}
 

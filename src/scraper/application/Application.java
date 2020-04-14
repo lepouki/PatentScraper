@@ -10,6 +10,7 @@ import javax.swing.*;
 public class Application extends JFrame {
 
 	private static final String TITLE = "Scraper";
+	private static final String WORKER_DONE_MESSAGE = "Done";
 
 	private final WorkerManager workerManager;
 	private final StatusMessageUpdater statusMessageUpdater;
@@ -110,18 +111,8 @@ public class Application extends JFrame {
 
 	public void onWorkerDone() {
 		scraperControls.resetButtons();
+		statusMessageUpdater.setStatusMessage(WORKER_DONE_MESSAGE);
 		scraperControls.setProgressBarsValue(100);
-
-		double secondsElapsed = toSeconds(
-			workerManager.getNanosecondsElapsed()
-		);
-
-		String statusMessage = String.format("Done in %.2f seconds", secondsElapsed);
-		statusMessageUpdater.setStatusMessage(statusMessage);
-	}
-
-	private double toSeconds(long nanoseconds) {
-		return nanoseconds / 1e9;
 	}
 
 }

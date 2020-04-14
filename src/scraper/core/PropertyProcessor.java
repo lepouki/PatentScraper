@@ -1,6 +1,6 @@
 package scraper.core;
 
-public abstract class PropertyProcessor {
+public class PropertyProcessor {
 
 	public static class NoSuchPropertyException extends Exception {}
 
@@ -19,11 +19,15 @@ public abstract class PropertyProcessor {
 		this.scraper = scraper;
 	}
 
-	public abstract void initializeForNextLayer();
+	public void initializeForNextLayer() {
+	}
 
-	public abstract void processDocument(Document document) throws NoSuchPropertyException;
+	public void processDocument(Document document) throws NoSuchPropertyException {
+	}
 
-	public abstract String getPropertyData();
+	public String getPropertyData() {
+		return "";
+	}
 
 	protected void pushNextLayerDocument(Document document) {
 		scraper.pushNextLayerDocument(document);

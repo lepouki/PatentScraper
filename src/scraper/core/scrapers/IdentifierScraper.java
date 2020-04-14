@@ -1,15 +1,14 @@
 package scraper.core.scrapers;
 
-import scraper.core.*;
+import scraper.core.PropertyScraper;
 import scraper.core.processors.IdentifierProcessor;
 
 import java.io.File;
 
 public class IdentifierScraper extends PropertyScraper {
 
-	public IdentifierScraper(FileDataWriter fileDataWriter) {
+	public IdentifierScraper() {
 		super(
-			fileDataWriter,
 			new IdentifierProcessor()
 		);
 	}

@@ -1,6 +1,7 @@
 package scraper.application.widgets;
 
 import scraper.application.LayoutConfiguration;
+import scraper.core.FileDataWriter;
 import scraper.core.PropertyScraper;
 
 import java.awt.*;
@@ -44,6 +45,12 @@ public class PropertyScraperOptionGrid extends JPanel {
 		}
 
 		return propertyScrapers;
+	}
+
+	public void setPropertyScrapersFileDataWriter(FileDataWriter fileDataWriter) {
+		for (PropertyScraperOption propertyScraperOption : propertyScraperOptions) {
+			propertyScraperOption.getPropertyScraper().setFileDataWriter(fileDataWriter);
+		}
 	}
 
 }

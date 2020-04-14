@@ -13,10 +13,6 @@ public class IdentifierProcessor extends PropertyProcessor {
 	}
 
 	@Override
-	public void initializeForNextLayer() {
-	}
-
-	@Override
 	public void processDocument(Document document) {
 		identifier = document.identifier;
 	}

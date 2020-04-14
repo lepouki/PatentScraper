@@ -1,6 +1,5 @@
 package scraper.core.processors;
 
-import org.jsoup.nodes.Element;
 import scraper.core.Document;
 
 public class TitleProcessor extends PagePropertyProcessor {
@@ -15,8 +14,7 @@ public class TitleProcessor extends PagePropertyProcessor {
 
 	@Override
 	public void processDocument(Document document) throws NoSuchPropertyException {
-		Element titleElement = selectFirst("span[itemprop=title]");
-		title = titleElement.ownText();
+		title = selectFirst("span[itemprop=title]").ownText();
 	}
 
 	@Override

@@ -1,5 +1,6 @@
 package scraper.application.widgets;
 
+import scraper.core.FileDataWriter;
 import scraper.core.PropertyScraper;
 
 import java.awt.*;
@@ -15,17 +16,6 @@ public class PropertyScraperOptionGroup extends JPanel {
 	// They get run before the other property scrapers do
 	private final List<PropertyScraper> preparationPropertyScrapers;
 
-	public PropertyScraperOptionGroup(String title, List<PropertyScraper> propertyScrapers) {
-		this(title);
-		setPropertyScrapers(propertyScrapers);
-	}
-
-	public void setPropertyScrapers(List<PropertyScraper> propertyScrapers) {
-		if (propertyScraperOptionGrid != null) return; // Ignore if the option grid has already been created
-		propertyScraperOptionGrid = new PropertyScraperOptionGrid(propertyScrapers);
-		add(propertyScraperOptionGrid);
-	}
-
 	public PropertyScraperOptionGroup(String title) {
 		BoxLayout layout = new BoxLayout(this, BoxLayout.PAGE_AXIS);
 		setLayout(layout);
@@ -38,6 +28,12 @@ public class PropertyScraperOptionGroup extends JPanel {
 		JLabel titleLabel = new JLabel(title);
 		add(titleLabel);
 		titleLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+	}
+
+	public void setPropertyScrapers(List<PropertyScraper> propertyScrapers) {
+		if (propertyScraperOptionGrid != null) return; // Ignore if the option grid has already been created
+		propertyScraperOptionGrid = new PropertyScraperOptionGrid(propertyScrapers);
+		add(propertyScraperOptionGrid);
 	}
 
 	public void pushPreparationPropertyScrapers(List<PropertyScraper> propertyScrapers) {
@@ -58,6 +54,14 @@ public class PropertyScraperOptionGroup extends JPanel {
 		);
 
 		return propertyScrapers;
+	}
+
+	public void setPropertyScrapersFileDataWriter(FileDataWriter fileDataWriter) {
+		for (PropertyScraper propertyScraper : preparationPropertyScrapers) {
+			propertyScraper.setFileDataWriter(fileDataWriter);
+		}
+
+		propertyScraperOptionGrid.setPropertyScrapersFileDataWriter(fileDataWriter);
 	}
 
 }
