@@ -36,14 +36,6 @@ public class ScraperControls extends WidgetGroup {
 		add(scraperProgressBars);
 	}
 
-	private void createComponentSeparator() {
-		Component separator = Box.createRigidArea(
-			new Dimension(0, LayoutConfiguration.PADDING)
-		);
-
-		add(separator);
-	}
-
 	private void createStatusLabel() {
 		statusLabel = new JLabel(STATUS_LABEL_IDLE_TEXT);
 		add(statusLabel);

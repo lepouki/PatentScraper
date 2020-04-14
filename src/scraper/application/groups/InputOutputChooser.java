@@ -35,14 +35,6 @@ public class InputOutputChooser extends WidgetGroup {
 		add(outputDirectoryChooser);
 	}
 
-	private void createComponentSeparator() {
-		Component separator = Box.createRigidArea(
-			new Dimension(0, LayoutConfiguration.PADDING)
-		);
-
-		add(separator);
-	}
-
 	private void createCustomInputCsvOption() {
 		createComponentSeparator();
 

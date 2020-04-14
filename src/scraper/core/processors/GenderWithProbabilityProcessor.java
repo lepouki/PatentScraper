@@ -78,13 +78,14 @@ public class GenderWithProbabilityProcessor extends PagePropertyProcessor {
 		}
 	}
 
-	private void tryProcessRequestResultJson(JSONObject requestResultJson) {
+	private void tryProcessRequestResultJson(JSONObject requestResultJson) throws NoSuchPropertyException {
 		try {
 			gender = requestResultJson.getString("gender");
 			genderProbability = requestResultJson.getDouble("probability");
 		}
-		// The retrieved JSON always has the same format so this should never happen
-		catch (JSONException ignored) {}
+		catch (JSONException ignored) {
+			throw new NoSuchPropertyException();
+		}
 	}
 
 	@Override

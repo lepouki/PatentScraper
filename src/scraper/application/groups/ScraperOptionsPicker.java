@@ -6,6 +6,7 @@ import scraper.core.*;
 
 import java.io.IOException;
 import java.util.*;
+import java.util.List;
 import javax.swing.*;
 
 public class ScraperOptionsPicker extends WidgetGroup {
@@ -13,7 +14,7 @@ public class ScraperOptionsPicker extends WidgetGroup {
 	private static final String TITLE = "Options";
 
 	private List<PropertyScraperOptionGroup> optionGroups;
-	private LayerCountPicker layerCountPicker;
+	private CitationLayerCountPicker citationLayerCountPicker;
 
 	public ScraperOptionsPicker() {
 		super(TITLE, LayoutConfiguration.PADDING);
@@ -22,7 +23,7 @@ public class ScraperOptionsPicker extends WidgetGroup {
 		setLayout(layout);
 
 		createOptionGroups();
-		createLayerCountPicker();
+		createCitationLayerCountPicker();
 	}
 
 	private void createOptionGroups() {
@@ -41,6 +42,7 @@ public class ScraperOptionsPicker extends WidgetGroup {
 	private void pushOptionGroup(PropertyScraperOptionGroup optionGroup) {
 		add(optionGroup);
 		optionGroups.add(optionGroup);
+		createComponentSeparator();
 	}
 
 	private void createCitationsOptionGroup() {
@@ -53,9 +55,9 @@ public class ScraperOptionsPicker extends WidgetGroup {
 		pushOptionGroup(optionGroup);
 	}
 
-	private void createLayerCountPicker() {
-		layerCountPicker = new LayerCountPicker();
-		add(layerCountPicker);
+	private void createCitationLayerCountPicker() {
+		citationLayerCountPicker = new CitationLayerCountPicker();
+		add(citationLayerCountPicker);
 	}
 
 	public List<PropertyScraper> getPropertyScrapers(String outputDirectory) throws IOException {
@@ -71,14 +73,16 @@ public class ScraperOptionsPicker extends WidgetGroup {
 		return propertyScrapers;
 	}
 
-	private static void initializePropertyScrapers(List<PropertyScraper> propertyScrapers, String outputDirectory) throws IOException {
+	private static void initializePropertyScrapers(
+		List<PropertyScraper> propertyScrapers, String outputDirectory) throws IOException
+	{
 		for (PropertyScraper propertyScraper : propertyScrapers) {
 			propertyScraper.initialize(outputDirectory);
 		}
 	}
 
 	public int getLayerCount() {
-		return layerCountPicker.getValue();
+		return citationLayerCountPicker.getValue();
 	}
 
 }

@@ -10,9 +10,6 @@ public abstract class PropertyProcessor {
 		this.scraper = scraper;
 	}
 
-	public void initializeForNextLayer() {
-	}
-
 	public abstract String[] getPropertyNames();
 
 	public abstract void processDocument(Document document) throws NoSuchPropertyException;

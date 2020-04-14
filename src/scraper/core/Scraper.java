@@ -23,7 +23,6 @@ public class Scraper extends EventSource {
 
 	}
 
-	private final List<PropertyScraper> propertyScrapers;
 	private final int layerCount;
 	private final DocumentScraper documentScraper;
 
@@ -31,8 +30,7 @@ public class Scraper extends EventSource {
 	private Set<Document> nextLayerDocuments;
 
 	public Scraper(Set<Document> documents, List<PropertyScraper> propertyScrapers, int layerCount) {
-		this.propertyScrapers = new ArrayList<>(propertyScrapers);
-		updatePropertyScrapers();
+		updatePropertyScrapers(propertyScrapers);
 		this.layerCount = layerCount;
 
 		documentScraper = new DocumentScraper(propertyScrapers);
@@ -40,7 +38,7 @@ public class Scraper extends EventSource {
 		nextLayerDocuments = new HashSet<>();
 	}
 
-	private void updatePropertyScrapers() {
+	private void updatePropertyScrapers(List<PropertyScraper> propertyScrapers) {
 		for (PropertyScraper propertyScraper : propertyScrapers) {
 			propertyScraper.setScraper(this);
 		}
@@ -74,17 +72,10 @@ public class Scraper extends EventSource {
 
 	private void scrapeLayer() {
 		int currentDocument = 0;
-		initializePropertyScrapersForNextLayer();
 
 		for (Document document : documents) {
 			notifyEventListenersDocumentProgress(++currentDocument, document.identifier);
 			documentScraper.scrape(document);
-		}
-	}
-
-	private void initializePropertyScrapersForNextLayer() {
-		for (PropertyScraper propertyScraper : propertyScrapers) {
-			propertyScraper.initializeForNextLayer();
 		}
 	}
 
@@ -106,9 +97,7 @@ public class Scraper extends EventSource {
 	}
 
 	public void cleanupPropertyScrapers() throws IOException {
-		for (PropertyScraper propertyScraper : propertyScrapers) {
-			propertyScraper.cleanup();
-		}
+		documentScraper.cleanupPropertyScrapers();
 	}
 
 	public void pushNextLayerDocument(Document document) {

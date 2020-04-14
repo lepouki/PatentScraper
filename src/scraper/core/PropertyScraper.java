@@ -40,10 +40,6 @@ public class PropertyScraper {
 		propertyProcessor.setScraper(scraper);
 	}
 
-	public void initializeForNextLayer() {
-		propertyProcessor.initializeForNextLayer();
-	}
-
 	public void scrapeProperty(Document document) {
 		try {
 			propertyProcessor.processDocument(document);
@@ -51,7 +47,7 @@ public class PropertyScraper {
 			writePropertyDataToFileDataWriter(propertyData);
 		}
 		catch (PropertyProcessor.NoSuchPropertyException exception) {
-			tryWriteEmptyEntriesToFileDataWriter(); // If we fail, write empty entries instead
+			writeEmptyEntriesToFileDataWriter(); // If we fail, write empty entries instead
 		}
 	}
 
@@ -67,7 +63,7 @@ public class PropertyScraper {
 		catch (IOException ignored) {}
 	}
 
-	private void tryWriteEmptyEntriesToFileDataWriter() {
+	private void writeEmptyEntriesToFileDataWriter() {
 		String[] emptyEntry = new String[] {""};
 		int entryCount = propertyProcessor.getPropertyNames().length;
 

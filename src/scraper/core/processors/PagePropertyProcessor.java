@@ -13,10 +13,6 @@ public abstract class PagePropertyProcessor extends PropertyProcessor {
 	}
 
 	@Override
-	public void initializeForNextLayer() {
-	}
-
-	@Override
 	public void processDocument(Document document) throws NoSuchPropertyException {
 	}
 

@@ -1,7 +1,6 @@
 package scraper.application.widgets;
 
-import scraper.core.OptionPropertyScraper;
-import scraper.core.PropertyScraper;
+import scraper.core.*;
 
 import javax.swing.*;
 

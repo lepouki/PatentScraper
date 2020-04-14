@@ -3,9 +3,8 @@ package scraper.application.widgets;
 import scraper.application.*;
 
 import javax.swing.*;
-import java.awt.*;
 
-public class ScraperProgressBars extends RecursivelyToggleableWidget {
+public class ScraperProgressBars extends Widget {
 
 	private JProgressBar layerProgressBar, documentProgressBar;
 
@@ -24,14 +23,6 @@ public class ScraperProgressBars extends RecursivelyToggleableWidget {
 
 		documentProgressBar = new JProgressBar();
 		add(documentProgressBar);
-	}
-
-	private void createComponentSeparator() {
-		Component separator = Box.createRigidArea(
-			new Dimension(0, LayoutConfiguration.PADDING)
-		);
-
-		add(separator);
 	}
 
 	public void setLayerProgressBarValue(int value) {

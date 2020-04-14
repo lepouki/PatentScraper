@@ -1,16 +1,13 @@
 package scraper.application.widgets;
 
-import scraper.application.LayoutConfiguration;
-import scraper.application.RecursivelyToggleableWidget;
-import scraper.core.FileDataWriter;
-import scraper.core.OptionPropertyScraper;
-import scraper.core.PropertyScraper;
+import scraper.application.*;
+import scraper.core.*;
 
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PropertyScraperOptionGrid extends RecursivelyToggleableWidget {
+public class PropertyScraperOptionGrid extends Widget {
 
 	private List<PropertyScraperOption> propertyScraperOptions;
 

@@ -3,7 +3,7 @@ package scraper.application;
 import javax.swing.*;
 import javax.swing.border.Border;
 
-public class WidgetGroup extends RecursivelyToggleableWidget {
+public class WidgetGroup extends Widget {
 
 	public WidgetGroup(String title, int padding) {
 		Border titleBorder = BorderFactory.createTitledBorder(title);

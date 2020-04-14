@@ -1,9 +1,7 @@
 package scraper.application.groups;
 
 import scraper.application.widgets.PropertyScraperOptionGroup;
-import scraper.core.OptionPropertyScraper;
-import scraper.core.PropertyScraper;
-import scraper.core.processors.GenderWithProbabilityProcessor;
+import scraper.core.*;
 import scraper.core.processors.PageProcessor;
 import scraper.core.scrapers.*;
 import scraper.core.writers.CsvFileDataWriter;

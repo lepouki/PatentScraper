@@ -9,6 +9,8 @@ import java.io.IOException;
 
 public class IdentifierScraper extends PropertyScraper {
 
+	private static final String RELATIVE_DATA_FRAME_PATH = "csv/DataFrame.csv";
+
 	public IdentifierScraper(PageProcessor pageProcessor) {
 		super(
 			new IdentifierProcessor(pageProcessor)
@@ -17,7 +19,7 @@ public class IdentifierScraper extends PropertyScraper {
 
 	@Override
 	public void initialize(String rootDirectory) throws IOException {
-		setDataWriterFile(rootDirectory + File.separator + "DataFrame.csv");
+		setDataWriterFile(rootDirectory + File.separator + RELATIVE_DATA_FRAME_PATH);
 	}
 
 	@Override
