@@ -41,9 +41,8 @@ public class FileChooser extends Widget implements ActionListener {
 	}
 
 	private void createComponents(FileMode fileMode) {
-		filePathText = new JTextField();
+		filePathText = new JTextField(FILE_PATH_TEXT_COLUMN_COUNT);
 		add(filePathText);
-		filePathText.setColumns(FILE_PATH_TEXT_COLUMN_COUNT);
 
 		openButton = new JButton(OPEN_BUTTON_TEXT);
 		add(openButton);
