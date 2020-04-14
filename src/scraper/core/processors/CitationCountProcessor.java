@@ -8,10 +8,10 @@ public abstract class CitationCountProcessor extends IntegerPagePropertyProcesso
 
 	@Override
 	protected int getValue() throws NoSuchPropertyException {
-		String selector = getSelector();
+		String selector = getCitationSelector();
 		return select(selector).size();
 	}
 
-	protected abstract String getSelector();
+	protected abstract String getCitationSelector();
 
 }

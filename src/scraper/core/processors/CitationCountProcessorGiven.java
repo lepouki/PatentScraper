@@ -9,7 +9,7 @@ public class CitationCountProcessorGiven extends CitationCountProcessor {
 	}
 
 	@Override
-	protected String getSelector() {
+	protected String getCitationSelector() {
 		return "tr[itemprop=backwardReferencesOrig]";
 	}
 
