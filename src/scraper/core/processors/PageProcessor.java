@@ -33,7 +33,7 @@ public class PageProcessor extends PropertyProcessor {
 		try {
 			document = Jsoup.connect(pageLink).get();
 		}
-		catch (Throwable exception) {
+		catch (IOException exception) {
 			document = new org.jsoup.nodes.Document("");
 			throw new NoSuchPropertyException();
 		}
