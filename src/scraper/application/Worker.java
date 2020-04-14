@@ -4,10 +4,11 @@ import scraper.core.*;
 import scraper.core.events.Event;
 import scraper.core.events.EventListener;
 
+import java.io.IOException;
 import java.util.*;
 import javax.swing.SwingWorker;
 
-public class Worker extends SwingWorker<Long, ProgressEvent> implements EventListener {
+public class Worker extends SwingWorker<Void, ProgressEvent> implements EventListener {
 
 	private final Application application;
 	private final Scraper scraper;
@@ -29,15 +30,21 @@ public class Worker extends SwingWorker<Long, ProgressEvent> implements EventLis
 	}
 
 	@Override
-	protected Long doInBackground() {
-		scraper.scrape();
-		return scraper.getNanosecondsElapsed();
+	protected Void doInBackground() {
+		scraper.scrape(); return null;
 	}
 
 	@Override
 	protected void done() {
-		scraper.cleanupPropertyScrapers();
+		tryCleanupPropertyScrapers();
 		application.onWorkerDone();
+	}
+
+	private void tryCleanupPropertyScrapers() {
+		try {
+			scraper.cleanupPropertyScrapers();
+		}
+		catch (IOException ignored) {}
 	}
 
 	@Override

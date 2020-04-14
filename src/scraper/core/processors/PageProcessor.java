@@ -1,6 +1,5 @@
 package scraper.core.processors;
 
-import org.jsoup.HttpStatusException;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Element;
 import scraper.core.*;
@@ -9,44 +8,40 @@ import java.io.IOException;
 
 public class PageProcessor extends PropertyProcessor {
 
-	private static final String PROPERTY_NAME = "Online page";
 	private static final String PATENT_LINK_PREFIX = "https://patents.google.com/patent/";
 
 	private String pageLink = "";
 	private org.jsoup.nodes.Document document;
 
-	public PageProcessor() {
-		super(PROPERTY_NAME);
+	@Override
+	public String[] getPropertyNames() {
+		return new String[0];
 	}
 
 	@Override
-	public void initializeForNextLayer() {
-	}
-
-	@Override
-	public void processDocument(Document document) {
+	public void processDocument(Document document) throws NoSuchPropertyException {
+		this.document = null;
 		pageLink = makePageLink(document);
 		tryRetrievePage();
 	}
 
 	private String makePageLink(Document document) {
-		return PATENT_LINK_PREFIX + removeIdentifierDashes(document.identifier);
+		return PATENT_LINK_PREFIX + document.identifier + "/en";
 	}
 
-	private String removeIdentifierDashes(String identifier) {
-		return identifier.replace("-", "");
-	}
-
-	private void tryRetrievePage() {
+	private void tryRetrievePage() throws NoSuchPropertyException {
 		try {
 			document = Jsoup.connect(pageLink).get();
 		}
-		catch (IOException ignored) {}
+		catch (IOException exception) {
+			document = new org.jsoup.nodes.Document("");
+			throw new NoSuchPropertyException();
+		}
 	}
 
 	@Override
-	public String getPropertyData() {
-		return "";
+	public String[] getPropertyData() {
+		return new String[0];
 	}
 
 	public Element getPage() {

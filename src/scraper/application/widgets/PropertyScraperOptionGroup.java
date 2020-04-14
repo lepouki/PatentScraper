@@ -1,30 +1,20 @@
 package scraper.application.widgets;
 
-import scraper.core.PropertyScraper;
+import scraper.application.RecursivelyToggleableWidget;
+import scraper.core.*;
 
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.*;
 
-public class PropertyScraperOptionGroup extends JPanel {
+public class PropertyScraperOptionGroup extends RecursivelyToggleableWidget {
 
 	private PropertyScraperOptionGrid propertyScraperOptionGrid;
 
 	// Preparation property scrapers are not visible in the option grid
 	// They get run before the other property scrapers do
 	private final List<PropertyScraper> preparationPropertyScrapers;
-
-	public PropertyScraperOptionGroup(String title, List<PropertyScraper> propertyScrapers) {
-		this(title);
-		setPropertyScrapers(propertyScrapers);
-	}
-
-	public void setPropertyScrapers(List<PropertyScraper> propertyScrapers) {
-		if (propertyScraperOptionGrid != null) return; // Ignore if the option grid has already been created
-		propertyScraperOptionGrid = new PropertyScraperOptionGrid(propertyScrapers);
-		add(propertyScraperOptionGrid);
-	}
 
 	public PropertyScraperOptionGroup(String title) {
 		BoxLayout layout = new BoxLayout(this, BoxLayout.PAGE_AXIS);
@@ -38,6 +28,12 @@ public class PropertyScraperOptionGroup extends JPanel {
 		JLabel titleLabel = new JLabel(title);
 		add(titleLabel);
 		titleLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+	}
+
+	public void setOptionPropertyScrapers(List<OptionPropertyScraper> optionPropertyScraper) {
+		if (propertyScraperOptionGrid != null) return; // Ignore if the option grid has already been created
+		propertyScraperOptionGrid = new PropertyScraperOptionGrid(optionPropertyScraper);
+		add(propertyScraperOptionGrid);
 	}
 
 	public void pushPreparationPropertyScrapers(List<PropertyScraper> propertyScrapers) {
@@ -58,6 +54,14 @@ public class PropertyScraperOptionGroup extends JPanel {
 		);
 
 		return propertyScrapers;
+	}
+
+	public void setPropertyScrapersFileDataWriter(FileDataWriter fileDataWriter) {
+		for (PropertyScraper propertyScraper : preparationPropertyScrapers) {
+			propertyScraper.setFileDataWriter(fileDataWriter);
+		}
+
+		propertyScraperOptionGrid.setPropertyScrapersFileDataWriter(fileDataWriter);
 	}
 
 }

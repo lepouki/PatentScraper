@@ -7,28 +7,73 @@ import java.nio.file.*;
 
 public class BasicFileDataWriter implements FileDataWriter {
 
+	private static class FileWritingException extends IOException {
+
+		public FileWritingException(String filePath) {
+			super("Failed to write to file \"" + filePath + "\"");
+		}
+
+	}
+
+	private static class FileOpeningException extends IOException {
+
+		public FileOpeningException(String filePath) {
+			super("Failed to open file \"" + filePath + "\"");
+		}
+
+	}
+
+	private static class FileClosingException extends IOException {
+
+		public FileClosingException(String filePath) {
+			super("Failed to close file \"" + filePath + "\"");
+		}
+
+	}
+
+	private String filePath;
 	private FileOutputStream fileOutputStream;
 
 	@Override
-	public void write(String data) {
-		byte[] dataBytes = data.getBytes();
-		tryWriteToOutputFile(dataBytes);
-	}
-
-	private void tryWriteToOutputFile(byte[] bytes) {
-		try {
-			fileOutputStream.write(bytes);
+	public void write(String[] entries) throws IOException {
+		for (String entry : entries) {
+			write(entry);
 		}
-		catch (IOException ignored) {}
 	}
 
 	@Override
-	public void setFile(String filePath) {
-		checkFile(filePath);
-		tryCreateFileOutputStream(filePath);
+	public void write(String entry) throws IOException {
+		byte[] bytes = entry.getBytes();
+		tryWriteToFile(bytes);
 	}
 
-	private void checkFile(String filePath) {
+	private void tryWriteToFile(byte[] bytes) throws FileWritingException {
+		try {
+			fileOutputStream.write(bytes);
+		}
+		catch (IOException exception) {
+			throw new FileWritingException(filePath);
+		}
+	}
+
+	@Override
+	public void setFile(String filePath) throws IOException {
+		createFileIfDoesNotExists(filePath);
+		tryOpenFile(filePath);
+	}
+
+	private void tryOpenFile(String filePath) throws FileOpeningException {
+		try {
+			fileOutputStream = new FileOutputStream(filePath);
+		}
+		catch (IOException exception) {
+			throw new FileOpeningException(filePath);
+		}
+
+		this.filePath = filePath;
+	}
+
+	private void createFileIfDoesNotExists(String filePath) {
 		Path path = Paths.get(filePath);
 		boolean exists = Files.exists(path);
 
@@ -70,20 +115,14 @@ public class BasicFileDataWriter implements FileDataWriter {
 		catch (IOException ignored) {}
 	}
 
-	private void tryCreateFileOutputStream(String filePath) {
-		try {
-			fileOutputStream = new FileOutputStream(filePath);
-		}
-		// The file path gets checked before so this should never happen
-		catch (FileNotFoundException ignored) {}
-	}
-
 	@Override
-	public void close() {
+	public void close() throws IOException {
 		try {
 			fileOutputStream.close();
 		}
-		catch (IOException ignored) {}
+		catch (IOException exception) {
+			throw new FileClosingException(filePath);
+		}
 	}
 
 }

@@ -5,7 +5,11 @@ import scraper.core.FileDataWriter;
 public class DummyFileDataWriter implements FileDataWriter {
 
 	@Override
-	public void write(String data) {
+	public void write(String[] entries) {
+	}
+
+	@Override
+	public void write(String entry) {
 	}
 
 	@Override

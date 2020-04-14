@@ -1,11 +1,15 @@
 package scraper.core;
 
+import java.io.IOException;
+
 public interface FileDataWriter {
 
-	void write(String data);
+	void write(String[] entries) throws IOException;
 
-	void setFile(String filePath);
+	void write(String entry) throws IOException;
 
-	void close();
+	void setFile(String filePath) throws IOException;
+
+	void close() throws IOException;
 
 }

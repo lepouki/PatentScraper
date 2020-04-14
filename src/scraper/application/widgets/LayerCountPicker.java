@@ -1,8 +1,10 @@
 package scraper.application.widgets;
 
+import scraper.application.RecursivelyToggleableWidget;
+
 import javax.swing.*;
 
-public class LayerCountPicker extends JPanel {
+public class LayerCountPicker extends RecursivelyToggleableWidget {
 
 	private static final String TITLE = "Layer count";
 	private static final int TEXT_FIELD_COLUMN_COUNT = 2;

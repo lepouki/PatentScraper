@@ -2,6 +2,7 @@ package scraper.core;
 
 import scraper.core.events.EventSource;
 
+import java.io.IOException;
 import java.util.*;
 
 public class Scraper extends EventSource {
@@ -28,7 +29,6 @@ public class Scraper extends EventSource {
 
 	private Set<Document> documents;
 	private Set<Document> nextLayerDocuments;
-	private long startTime;
 
 	public Scraper(Set<Document> documents, List<PropertyScraper> propertyScrapers, int layerCount) {
 		this.propertyScrapers = new ArrayList<>(propertyScrapers);
@@ -51,8 +51,6 @@ public class Scraper extends EventSource {
 	}
 
 	public void scrape() {
-		startTime = System.nanoTime();
-
 		for (int i = 1; i <= layerCount; ++i) {
 			notifyEventListenersLayerProgress(i);
 			scrapeLayer();
@@ -107,7 +105,7 @@ public class Scraper extends EventSource {
 		nextLayerDocuments = new HashSet<>();
 	}
 
-	public void cleanupPropertyScrapers() {
+	public void cleanupPropertyScrapers() throws IOException {
 		for (PropertyScraper propertyScraper : propertyScrapers) {
 			propertyScraper.cleanup();
 		}
@@ -115,10 +113,6 @@ public class Scraper extends EventSource {
 
 	public void pushNextLayerDocument(Document document) {
 		nextLayerDocuments.add(document);
-	}
-
-	public long getNanosecondsElapsed() {
-		return System.nanoTime() - startTime;
 	}
 
 }

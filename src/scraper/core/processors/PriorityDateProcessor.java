@@ -1,11 +1,10 @@
 package scraper.core.processors;
 
-import org.jsoup.nodes.Element;
 import scraper.core.Document;
 
-public class PriorityDateProcessor extends PagePropertyProcessor {
+public class PriorityDateProcessor extends SinglePropertyPageProcessor {
 
-	private static final String PROPERTY_NAME = "Priority date";
+	private static final String PROPERTY_NAME = "priority date";
 
 	private String priorityDate;
 
@@ -15,12 +14,11 @@ public class PriorityDateProcessor extends PagePropertyProcessor {
 
 	@Override
 	public void processDocument(Document document) throws NoSuchPropertyException {
-		Element priorityDateElement = selectFirst("time[itemprop=priorityDate]");
-		priorityDate = priorityDateElement.ownText();
+		priorityDate = selectFirst("time[itemprop=priorityDate]").ownText();
 	}
 
 	@Override
-	public String getPropertyData() {
+	protected String getPropertyValue() {
 		return priorityDate;
 	}
 

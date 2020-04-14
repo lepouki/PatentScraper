@@ -1,15 +1,15 @@
 package scraper.core.processors;
 
-public class PageLinkProcessor extends PagePropertyProcessor {
+public class PageLinkProcessor extends SinglePropertyPageProcessor {
 
-	private static final String PROPERTY_NAME = "Page link";
+	private static final String PROPERTY_NAME = "page link";
 
 	public PageLinkProcessor(PageProcessor pageProcessor) {
 		super(PROPERTY_NAME, pageProcessor);
 	}
 
 	@Override
-	public String getPropertyData() {
+	protected String getPropertyValue() {
 		return getPageLink();
 	}
 

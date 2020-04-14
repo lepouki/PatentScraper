@@ -1,11 +1,10 @@
 package scraper.core.processors;
 
-import org.jsoup.nodes.Element;
 import scraper.core.Document;
 
-public class TitleProcessor extends PagePropertyProcessor {
+public class TitleProcessor extends SinglePropertyPageProcessor {
 
-	private static final String PROPERTY_NAME = "Title";
+	private static final String PROPERTY_NAME = "title";
 
 	private String title;
 
@@ -15,12 +14,11 @@ public class TitleProcessor extends PagePropertyProcessor {
 
 	@Override
 	public void processDocument(Document document) throws NoSuchPropertyException {
-		Element titleElement = selectFirst("span[itemprop=title]");
-		title = titleElement.ownText();
+		title = selectFirst("span[itemprop=title]").ownText();
 	}
 
 	@Override
-	public String getPropertyData() {
+	protected String getPropertyValue() {
 		return title;
 	}
 

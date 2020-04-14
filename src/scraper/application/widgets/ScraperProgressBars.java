@@ -1,11 +1,11 @@
 package scraper.application.widgets;
 
-import scraper.application.LayoutConfiguration;
+import scraper.application.*;
 
 import javax.swing.*;
 import java.awt.*;
 
-public class ScraperProgressBars extends JPanel {
+public class ScraperProgressBars extends RecursivelyToggleableWidget {
 
 	private JProgressBar layerProgressBar, documentProgressBar;
 

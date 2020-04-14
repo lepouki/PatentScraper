@@ -1,11 +1,12 @@
 package scraper.application.widgets;
 
 import scraper.application.LayoutConfiguration;
+import scraper.application.RecursivelyToggleableWidget;
 
 import java.awt.event.*;
 import javax.swing.*;
 
-public class FileChooser extends JPanel implements ActionListener {
+public class FileChooser extends RecursivelyToggleableWidget implements ActionListener {
 
 	public enum FileMode {
 

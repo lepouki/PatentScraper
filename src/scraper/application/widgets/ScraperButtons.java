@@ -1,11 +1,11 @@
 package scraper.application.widgets;
 
-import scraper.application.Application;
+import scraper.application.*;
 
 import java.awt.event.*;
 import javax.swing.*;
 
-public class ScraperButtons extends JPanel implements ActionListener {
+public class ScraperButtons extends RecursivelyToggleableWidget implements ActionListener {
 
 	private static final String START_BUTTON_TEXT = "Start";
 	private static final String ABORT_BUTTON_TEXT = "Abort";

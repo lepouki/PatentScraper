@@ -2,12 +2,14 @@ package scraper.application.parsers;
 
 import scraper.core.CsvCharacters;
 
+import java.util.Arrays;
+
 public class GooglePatentsCsvParser extends DocumentIdentifierCsvParser {
 
 	public static class LineSkipException extends FormatException {
 
 		public LineSkipException(String actual, String expected) {
-			super("When skipping line: Got \"" + actual + "\" instead of \"" + expected + "\"");
+			super("When skipping line, got \"" + actual + "\" instead of \"" + expected + "\"");
 		}
 
 	}
@@ -41,14 +43,31 @@ public class GooglePatentsCsvParser extends DocumentIdentifierCsvParser {
 	}
 
 	@Override
-<<<<<<< HEAD
 	protected String getNextDocumentIdentifier() {
+		String documentLink = getDocumentLinkInLine();
+		return getIdentifierInDocumentLink(documentLink);
+	}
+
+	private String getDocumentLinkInLine() {
+		String[] splitDocumentLine = getSplitDocumentLine();
+		System.out.println(Arrays.toString(splitDocumentLine));
+		final int documentLinkIndex = splitDocumentLine.length - 2;
+		return splitDocumentLine[documentLinkIndex];
+	}
+
+	private String[] getSplitDocumentLine() {
 		String separator = Character.toString(CsvCharacters.SEPARATOR);
-		return getNextDocumentLine().split(separator)[0];
-=======
-	public Set<Document> parseFile(String filePath) {
-		return new HashSet<>(0);
->>>>>>> master
+
+		// If we don't add the extra character, the representative figure link gets ignored when empty
+		return (getNextDocumentLine() + ' ').split(separator);
+	}
+
+	private String getIdentifierInDocumentLink(String documentLink) {
+		String linkSeparator = Character.toString('/');
+		String[] splitDocumentLink = documentLink.split(linkSeparator);
+
+		final int documentIdentifierIndex = splitDocumentLink.length - 2;
+		return splitDocumentLink[documentIdentifierIndex];
 	}
 
 }

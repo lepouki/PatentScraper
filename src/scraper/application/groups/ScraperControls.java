@@ -58,6 +58,10 @@ public class ScraperControls extends WidgetGroup {
 		scraperButtons.resetButtons();
 	}
 
+	public void setStatus(String status) {
+		statusLabel.setText(status);
+	}
+
 	public void setLayerProgressBarValue(int value) {
 		scraperProgressBars.setLayerProgressBarValue(value);
 	}
@@ -68,10 +72,6 @@ public class ScraperControls extends WidgetGroup {
 
 	public void setProgressBarsValue(int value) {
 		scraperProgressBars.setProgressBarsValue(value);
-	}
-
-	public void setStatus(String status) {
-		statusLabel.setText(status);
 	}
 
 }

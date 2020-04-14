@@ -10,13 +10,14 @@ import javax.swing.*;
 public class Application extends JFrame {
 
 	private static final String TITLE = "Scraper";
-
-	private final WorkerManager workerManager;
-	private final StatusMessageUpdater statusMessageUpdater;
+	private static final String WORKER_DONE_MESSAGE = "Done";
 
 	private InputOutputChooser inputOutputChooser;
 	private ScraperOptionsPicker scraperOptionsPicker;
 	private ScraperControls scraperControls;
+
+	private final WorkerManager workerManager;
+	private final StatusMessageUpdater statusMessageUpdater;
 
 	public Application() {
 		super(TITLE);
@@ -65,7 +66,13 @@ public class Application extends JFrame {
 	}
 
 	public void onWorkerInitialized() {
+		setSettingsEnabled(false);
 		scraperControls.toggleButtons();
+	}
+
+	private void setSettingsEnabled(boolean enabled) {
+		inputOutputChooser.setEnabled(enabled);
+		scraperOptionsPicker.setEnabled(enabled);
 	}
 
 	private Set<Document> getInputDocuments() throws IOException {
@@ -110,18 +117,9 @@ public class Application extends JFrame {
 
 	public void onWorkerDone() {
 		scraperControls.resetButtons();
+		setSettingsEnabled(true);
+		statusMessageUpdater.setStatusMessage(WORKER_DONE_MESSAGE);
 		scraperControls.setProgressBarsValue(100);
-
-		double secondsElapsed = toSeconds(
-			workerManager.getNanosecondsElapsed()
-		);
-
-		String statusMessage = String.format("Done in %.2f seconds", secondsElapsed);
-		statusMessageUpdater.setStatusMessage(statusMessage);
-	}
-
-	private double toSeconds(long nanoseconds) {
-		return nanoseconds / 1e9;
 	}
 
 }

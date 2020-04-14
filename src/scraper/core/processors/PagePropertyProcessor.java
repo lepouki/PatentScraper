@@ -4,12 +4,11 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import scraper.core.*;
 
-public class PagePropertyProcessor extends PropertyProcessor {
+public abstract class PagePropertyProcessor extends PropertyProcessor {
 
 	private final PageProcessor pageProcessor;
 
-	public PagePropertyProcessor(String propertyName, PageProcessor pageProcessor) {
-		super(propertyName);
+	public PagePropertyProcessor(PageProcessor pageProcessor) {
 		this.pageProcessor = pageProcessor;
 	}
 
@@ -22,8 +21,8 @@ public class PagePropertyProcessor extends PropertyProcessor {
 	}
 
 	@Override
-	public String getPropertyData() {
-		return "";
+	public String[] getPropertyData() {
+		return new String[0];
 	}
 
 	protected String getPageLink() {
