@@ -11,13 +11,13 @@ public class Application extends JFrame {
 
 	private static final String TITLE = "Scraper";
 	private static final String WORKER_DONE_MESSAGE = "Done";
-
-	private final WorkerManager workerManager;
-	private final StatusMessageUpdater statusMessageUpdater;
-
+	
 	private InputOutputChooser inputOutputChooser;
 	private ScraperOptionsPicker scraperOptionsPicker;
 	private ScraperControls scraperControls;
+
+	private final WorkerManager workerManager;
+	private final StatusMessageUpdater statusMessageUpdater;
 
 	public Application() {
 		super(TITLE);
