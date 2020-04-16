@@ -32,15 +32,15 @@ public class FileChooser extends Widget implements ActionListener {
 	private JButton openButton;
 	private JFileChooser fileChooser;
 
-	public FileChooser(FileMode fileMode) {
+	public FileChooser(FileMode fileMode, String dialogTitle) {
 		SpringLayout layout = new SpringLayout();
 		setLayout(layout);
 
-		createComponents(fileMode);
+		createComponents(fileMode, dialogTitle);
 		applyLayoutConstraints(layout);
 	}
 
-	private void createComponents(FileMode fileMode) {
+	private void createComponents(FileMode fileMode, String dialogTitle) {
 		filePathText = new JTextField(FILE_PATH_TEXT_COLUMN_COUNT);
 		add(filePathText);
 
@@ -49,6 +49,7 @@ public class FileChooser extends Widget implements ActionListener {
 		openButton.addActionListener(this);
 
 		fileChooser = new JFileChooser(BASE_DIRECTORY);
+		fileChooser.setDialogTitle(dialogTitle);
 		int fileSelectionMode = fileMode.getFileSelectionMode();
 		fileChooser.setFileSelectionMode(fileSelectionMode);
 	}

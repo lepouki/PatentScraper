@@ -11,6 +11,8 @@ public class InputOutputChooser extends WidgetGroup {
 
 	private static final String TITLE = "Input and output";
 	private static final String CUSTOM_INPUT_CSV_OPTION_TEXT = "Ad hoc CSV";
+	private static final String INPUT_FILE_DIALOG_TEXT = "Input file";
+	private static final String OUTPUT_DIRECTORY_DIALOG_TEXT = "Output directory";
 
 	private FileChooser inputFileChooser, outputDirectoryChooser;
 	private JCheckBox customInputCsvOption;
@@ -26,12 +28,12 @@ public class InputOutputChooser extends WidgetGroup {
 	}
 
 	private void createFileChoosers() {
-		inputFileChooser = new FileChooser(FileChooser.FileMode.FILES);
+		inputFileChooser = new FileChooser(FileChooser.FileMode.FILES, INPUT_FILE_DIALOG_TEXT);
 		add(inputFileChooser);
 
 		createComponentSeparator();
 
-		outputDirectoryChooser = new FileChooser(FileChooser.FileMode.DIRECTORIES);
+		outputDirectoryChooser = new FileChooser(FileChooser.FileMode.DIRECTORIES, OUTPUT_DIRECTORY_DIALOG_TEXT);
 		add(outputDirectoryChooser);
 	}
 

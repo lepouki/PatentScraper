@@ -54,6 +54,14 @@ public class ScraperControls extends WidgetGroup {
 		statusLabel.setText(status);
 	}
 
+	public void setLayerProgressBarText(String text) {
+		scraperProgressBars.setLayerProgressBarText(text);
+	}
+
+	public void setDocumentProgressBarText(String text) {
+		scraperProgressBars.setDocumentProgressBarText(text);
+	}
+
 	public void setLayerProgressBarValue(int value) {
 		scraperProgressBars.setLayerProgressBarValue(value);
 	}
@@ -62,8 +70,8 @@ public class ScraperControls extends WidgetGroup {
 		scraperProgressBars.setDocumentProgressBarValue(value);
 	}
 
-	public void setProgressBarsValue(int value) {
-		scraperProgressBars.setProgressBarsValue(value);
+	public void resetProgressBars() {
+		scraperProgressBars.resetProgressBars();
 	}
 
 }

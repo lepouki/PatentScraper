@@ -20,16 +20,20 @@ public class ClaimCountProcessor extends IntegerPagePropertyProcessor {
 	private int getClaimCountInClaimsSection(Element claimsSection) {
 		Element claimCountElement = claimsSection.selectFirst("span[itemprop=count]");
 
-		if (claimCountElement == null) {
-			return 0;
+		if (claimCountElement != null) {
+			return parseClaimCountElement(claimCountElement);
 		}
 
-		return parseClaimCountElement(claimCountElement);
+		return countClaimElements(claimsSection);
 	}
 
 	private int parseClaimCountElement(Element claimCountElement) {
 		String claimCountText = claimCountElement.ownText();
 		return Integer.parseInt(claimCountText);
+	}
+
+	private int countClaimElements(Element claimsSection) {
+		return claimsSection.select("claim").size();
 	}
 
 }

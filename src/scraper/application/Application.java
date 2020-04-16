@@ -9,7 +9,8 @@ import javax.swing.*;
 
 public class Application extends JFrame {
 
-	private static final String TITLE = "Scraper";
+	private static final String TITLE = "Patent scraper";
+	private static final String WORKER_SCRAPING_MESSAGE = "Scraping";
 	private static final String WORKER_DONE_MESSAGE = "Done";
 
 	private InputOutputChooser inputOutputChooser;
@@ -65,26 +66,26 @@ public class Application extends JFrame {
 		}
 	}
 
+	private Set<Document> getInputDocuments() throws IOException {
+		String inputFilePath = inputOutputChooser.getInputFilePathText();
+		PathChecker.checkExists(inputFilePath);
+		return inputOutputChooser.getCsvParser().parseFile(inputFilePath);
+	}
+	private List<PropertyScraper> getPropertyScrapers() throws IOException {
+		String outputDirectoryPath = inputOutputChooser.getOutputDirectoryPathText();
+		PathChecker.checkExists(outputDirectoryPath);
+		return scraperOptionsPicker.getPropertyScrapers(outputDirectoryPath);
+	}
+
 	public void onWorkerInitialized() {
 		setSettingsEnabled(false);
+		scraperControls.setStatus(WORKER_SCRAPING_MESSAGE);
 		scraperControls.toggleButtons();
 	}
 
 	private void setSettingsEnabled(boolean enabled) {
 		inputOutputChooser.setEnabled(enabled);
 		scraperOptionsPicker.setEnabled(enabled);
-	}
-
-	private Set<Document> getInputDocuments() throws IOException {
-		String inputFilePath = inputOutputChooser.getInputFilePathText();
-		PathChecker.checkExists(inputFilePath);
-		return inputOutputChooser.getCsvParser().parseFile(inputFilePath);
-	}
-
-	private List<PropertyScraper> getPropertyScrapers() throws IOException {
-		String outputDirectoryPath = inputOutputChooser.getOutputDirectoryPathText();
-		PathChecker.checkExists(outputDirectoryPath);
-		return scraperOptionsPicker.getPropertyScrapers(outputDirectoryPath);
 	}
 
 	public void onAbortButtonPressed() {
@@ -96,30 +97,32 @@ public class Application extends JFrame {
 	}
 
 	public void onWorkerProgress(ProgressEvent event) {
-		updateProgressBarsText(event);
-		updateProgressBarsValues(event);
-	}
-
-	private void updateProgressBarsText(ProgressEvent event) {
-		statusMessageUpdater.handleProgressEvent(event);
-	}
-
-	private void updateProgressBarsValues(ProgressEvent event) {
-		int progressValue = (int)event.getPercentage();
+		int value = event.getValue();
+		String status = event.getStatus();
 
 		if (event instanceof Scraper.LayerProgressEvent) {
-			scraperControls.setLayerProgressBarValue(progressValue);
+			updateLayerProgressBar(value, status);
 		}
 		else if (event instanceof Scraper.DocumentProgressEvent) {
-			scraperControls.setDocumentProgressBarValue(progressValue);
+			updateDocumentProgressBar(value, status);
 		}
+	}
+
+	private void updateLayerProgressBar(int value, String text) {
+		scraperControls.setLayerProgressBarText(text);
+		scraperControls.setLayerProgressBarValue(value);
+	}
+
+	private void updateDocumentProgressBar(int value, String text) {
+		scraperControls.setDocumentProgressBarText(text);
+		scraperControls.setDocumentProgressBarValue(value);
 	}
 
 	public void onWorkerDone() {
-		scraperControls.resetButtons();
 		setSettingsEnabled(true);
 		statusMessageUpdater.setStatusMessage(WORKER_DONE_MESSAGE);
-		scraperControls.setProgressBarsValue(100);
+		scraperControls.resetButtons();
+		scraperControls.resetProgressBars();
 	}
 
 }

@@ -4,17 +4,17 @@ import scraper.core.events.Event;
 
 public class ProgressEvent extends Event {
 
-	private final float percentage;
+	private final int value;
 	private final String status;
 
-	public ProgressEvent(Object source, float percentage, String status) {
+	public ProgressEvent(Object source, int value, String status) {
 		super(source);
-		this.percentage = percentage;
+		this.value = value;
 		this.status = status;
 	}
 
-	public float getPercentage() {
-		return percentage;
+	public int getValue() {
+		return value;
 	}
 
 	public String getStatus() {

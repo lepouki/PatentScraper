@@ -43,22 +43,22 @@ public class PropertyScraper {
 	public void scrapeProperty(Document document) {
 		try {
 			propertyProcessor.processDocument(document);
-			String[] propertyData = propertyProcessor.getPropertyData();
-			writePropertyDataToFileDataWriter(propertyData);
+			String[] entries = propertyProcessor.getPropertyData();
+			writePropertyDataToFileDataWriter(entries);
 		}
 		catch (PropertyProcessor.NoSuchPropertyException exception) {
 			writeEmptyEntriesToFileDataWriter(); // If we fail, write empty entries instead
 		}
 	}
 
-	private void writePropertyDataToFileDataWriter(String[] propertyData) {
+	private void writePropertyDataToFileDataWriter(String[] entries) {
 		++successCount;
-		tryWriteToFileDataWriter(propertyData);
+		tryWriteToFileDataWriter(entries);
 	}
 
-	private void tryWriteToFileDataWriter(String[] propertyData) {
+	private void tryWriteToFileDataWriter(String[] entries) {
 		try {
-			fileDataWriter.write(propertyData);
+			fileDataWriter.write(entries);
 		}
 		catch (IOException ignored) {}
 	}
@@ -78,11 +78,11 @@ public class PropertyScraper {
 	public void cleanup() throws IOException {
 	}
 
-	protected void setDataWriterFile(String filePath) throws IOException {
+	protected void setFileDataWriterFile(String filePath) throws IOException {
 		fileDataWriter.setFile(filePath);
 	}
 
-	protected void closeDataWriter() throws IOException {
+	protected void closeFileDataWriter() throws IOException {
 		fileDataWriter.close();
 	}
 

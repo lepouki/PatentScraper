@@ -4,16 +4,16 @@ import scraper.application.Widget;
 
 import javax.swing.*;
 
-public class CitationLayerCountPicker extends Widget {
+public class RecursionLayerCountPicker extends Widget {
 
-	private static final String TITLE = "Citation layer count";
+	private static final String TITLE = "Number of recursion layers";
 	private static final int TEXT_FIELD_COLUMN_COUNT = 2;
 	private static final int MINIMUM_VALUE = 1;
 	private static final int MAXIMUM_VALUE = 50;
 
 	private JSpinner integerSpinner;
 
-	public CitationLayerCountPicker() {
+	public RecursionLayerCountPicker() {
 		JLabel titleLabel = new JLabel(TITLE);
 		add(titleLabel);
 

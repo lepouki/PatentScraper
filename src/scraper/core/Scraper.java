@@ -9,16 +9,16 @@ public class Scraper extends EventSource {
 
 	public static class LayerProgressEvent extends ProgressEvent {
 
-		public LayerProgressEvent(Object source, float percentage, String status) {
-			super(source, percentage, status);
+		public LayerProgressEvent(Object source, int index, String status) {
+			super(source, index, status);
 		}
 
 	}
 
 	public static class DocumentProgressEvent extends ProgressEvent {
 
-		public DocumentProgressEvent(Object source, float percentage, String status) {
-			super(source, percentage, status);
+		public DocumentProgressEvent(Object source, int index, String status) {
+			super(source, index, status);
 		}
 
 	}
@@ -57,7 +57,7 @@ public class Scraper extends EventSource {
 	}
 
 	private void notifyEventListenersLayerProgress(int layerIndex) {
-		String layerStatus = "(layer " + layerIndex + ")";
+		String layerStatus = "Layer " + layerIndex;
 
 		notifyEventListeners(
 			new LayerProgressEvent(
@@ -66,8 +66,8 @@ public class Scraper extends EventSource {
 		);
 	}
 
-	private float calculateLayerProgressPercentage(int layerIndex) {
-		return (float)layerIndex / layerCount * 100.0f;
+	private int calculateLayerProgressPercentage(int layerIndex) {
+		return (int)(layerIndex / (float)layerCount * 100);
 	}
 
 	private void scrapeLayer() {
@@ -87,8 +87,8 @@ public class Scraper extends EventSource {
 		);
 	}
 
-	private float calculateDocumentProgressPercentage(int documentIndex) {
-		return (float)documentIndex / documents.size() * 100.0f;
+	private int calculateDocumentProgressPercentage(int documentIndex) {
+		return (int)(documentIndex / (float)documents.size() * 100);
 	}
 
 	private void prepareNextLayerDocuments() {

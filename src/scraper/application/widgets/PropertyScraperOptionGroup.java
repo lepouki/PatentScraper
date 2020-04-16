@@ -17,7 +17,7 @@ public class PropertyScraperOptionGroup extends Widget {
 	private final List<PropertyScraper> preparationPropertyScrapers;
 
 	public PropertyScraperOptionGroup(String title) {
-		BoxLayout layout = new BoxLayout(this, BoxLayout.PAGE_AXIS);
+		BorderLayout layout = new BorderLayout();
 		setLayout(layout);
 
 		preparationPropertyScrapers = new ArrayList<>();
@@ -26,14 +26,24 @@ public class PropertyScraperOptionGroup extends Widget {
 
 	private void createTitleLabel(String title) {
 		JLabel titleLabel = new JLabel(title);
-		add(titleLabel);
-		titleLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+		makeTitleTextBold(titleLabel);
+		add(titleLabel, BorderLayout.NORTH);
+	}
+
+	private void makeTitleTextBold(JLabel titleLabel) {
+		Font titleFont = titleLabel.getFont();
+
+		titleLabel.setFont(
+			titleFont.deriveFont(titleFont.getStyle() | Font.BOLD)
+		);
 	}
 
 	public void setOptionPropertyScrapers(List<OptionPropertyScraper> optionPropertyScraper) {
-		if (propertyScraperOptionGrid != null) return; // Ignore if the option grid has already been created
+		if (propertyScraperOptionGrid != null)
+			return; // Ignore if the option grid has already been created
+
 		propertyScraperOptionGrid = new PropertyScraperOptionGrid(optionPropertyScraper);
-		add(propertyScraperOptionGrid);
+		add(propertyScraperOptionGrid, BorderLayout.SOUTH);
 	}
 
 	public void pushPreparationPropertyScrapers(List<PropertyScraper> propertyScrapers) {

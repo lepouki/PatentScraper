@@ -9,7 +9,7 @@ import java.io.IOException;
 
 public class IdentifierScraper extends PropertyScraper {
 
-	private static final String RELATIVE_DATA_FRAME_PATH = "csv/DataFrame.csv";
+	private static final String RELATIVE_DATA_FRAME_CSV_PATH = "csv" + File.separator + "DataFrame.csv";
 
 	public IdentifierScraper(PageProcessor pageProcessor) {
 		super(
@@ -19,12 +19,12 @@ public class IdentifierScraper extends PropertyScraper {
 
 	@Override
 	public void initialize(String rootDirectory) throws IOException {
-		setDataWriterFile(rootDirectory + File.separator + RELATIVE_DATA_FRAME_PATH);
+		setFileDataWriterFile(rootDirectory + File.separator + RELATIVE_DATA_FRAME_CSV_PATH);
 	}
 
 	@Override
 	public void cleanup() throws IOException {
-		closeDataWriter();
+		closeFileDataWriter();
 	}
 
 }

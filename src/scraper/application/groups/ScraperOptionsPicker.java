@@ -3,6 +3,7 @@ package scraper.application.groups;
 import scraper.application.*;
 import scraper.application.widgets.*;
 import scraper.core.*;
+import scraper.core.processors.PageProcessor;
 
 import java.io.IOException;
 import java.util.*;
@@ -14,7 +15,8 @@ public class ScraperOptionsPicker extends WidgetGroup {
 	private static final String TITLE = "Options";
 
 	private List<PropertyScraperOptionGroup> optionGroups;
-	private CitationLayerCountPicker citationLayerCountPicker;
+	private PageProcessor pageProcessor;
+	private RecursionLayerCountPicker recursionLayerCountPicker;
 
 	public ScraperOptionsPicker() {
 		super(TITLE, LayoutConfiguration.PADDING);
@@ -30,13 +32,14 @@ public class ScraperOptionsPicker extends WidgetGroup {
 		optionGroups = new ArrayList<>();
 
 		createDataFrameAdditionsOptionGroup();
-		createCitationsOptionGroup();
 		createExtraInformationOptionGroup();
+		createRecursiveCitationsOptionGroup();
 	}
 
 	private void createDataFrameAdditionsOptionGroup() {
-		PropertyScraperOptionGroup optionGroup = new DataFrameAdditionsOptionGroup();
+		DataFrameAdditionsOptionGroup optionGroup = new DataFrameAdditionsOptionGroup();
 		pushOptionGroup(optionGroup);
+		pageProcessor = optionGroup.getPageProcessor();
 	}
 
 	private void pushOptionGroup(PropertyScraperOptionGroup optionGroup) {
@@ -45,19 +48,19 @@ public class ScraperOptionsPicker extends WidgetGroup {
 		createComponentSeparator();
 	}
 
-	private void createCitationsOptionGroup() {
-		PropertyScraperOptionGroup optionGroup = new CitationsOptionGroup();
+	private void createRecursiveCitationsOptionGroup() {
+		RecursiveScrapingOptionGroup optionGroup = new RecursiveScrapingOptionGroup(pageProcessor);
 		pushOptionGroup(optionGroup);
 	}
 
 	private void createExtraInformationOptionGroup() {
-		PropertyScraperOptionGroup optionGroup = new ExtraInformationOptionGroup();
+		ExtraInformationOptionGroup optionGroup = new ExtraInformationOptionGroup();
 		pushOptionGroup(optionGroup);
 	}
 
 	private void createCitationLayerCountPicker() {
-		citationLayerCountPicker = new CitationLayerCountPicker();
-		add(citationLayerCountPicker);
+		recursionLayerCountPicker = new RecursionLayerCountPicker();
+		add(recursionLayerCountPicker);
 	}
 
 	public List<PropertyScraper> getPropertyScrapers(String outputDirectory) throws IOException {
@@ -82,7 +85,7 @@ public class ScraperOptionsPicker extends WidgetGroup {
 	}
 
 	public int getLayerCount() {
-		return citationLayerCountPicker.getValue();
+		return recursionLayerCountPicker.getValue();
 	}
 
 }

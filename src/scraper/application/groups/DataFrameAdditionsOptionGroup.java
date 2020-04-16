@@ -39,7 +39,7 @@ public class DataFrameAdditionsOptionGroup extends PropertyScraperOptionGroup {
 		);
 
 		preparationScrapers.add(
-			new AssigneeScraper(pageProcessor)
+			new AssigneesScraper(pageProcessor)
 		);
 
 		preparationScrapers.add(
@@ -115,6 +115,10 @@ public class DataFrameAdditionsOptionGroup extends PropertyScraperOptionGroup {
 
 		additionsScrapers.add(
 			new GenderScraper(pageProcessor)
+		);
+
+		additionsScrapers.add(
+			new IntermediateClassificationScraper(pageProcessor)
 		);
 
 		setOptionPropertyScrapers(additionsScrapers);
