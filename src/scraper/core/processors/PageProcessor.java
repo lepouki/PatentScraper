@@ -39,11 +39,6 @@ public class PageProcessor extends PropertyProcessor {
 		}
 	}
 
-	@Override
-	public String[] getPropertyData() {
-		return new String[0];
-	}
-
 	public Element getPage() {
 		return document;
 	}

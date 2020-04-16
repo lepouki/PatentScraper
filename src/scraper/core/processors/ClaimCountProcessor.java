@@ -14,10 +14,10 @@ public class ClaimCountProcessor extends IntegerPagePropertyProcessor {
 	protected int getValue() throws NoSuchPropertyException {
 		String selector = HasClaimsProcessor.getClaimsSectionSelector();
 		Element claimsSection = selectFirst(selector);
-		return getClaimCountInClaimsSection(claimsSection);
+		return retrieveClaimCountInClaimsSection(claimsSection);
 	}
 
-	private int getClaimCountInClaimsSection(Element claimsSection) {
+	private int retrieveClaimCountInClaimsSection(Element claimsSection) {
 		Element claimCountElement = claimsSection.selectFirst("span[itemprop=count]");
 
 		if (claimCountElement != null) {

@@ -28,16 +28,6 @@ public abstract class CitationProcessor extends PagePropertyProcessor {
 		processCitationElements(retrieveCitationElements(), document);
 	}
 
-	private Elements retrieveCitationElements() {
-		try {
-			String citationSelector = getCitationSelector();
-			return select(citationSelector);
-		}
-		catch (NoSuchPropertyException exception) {
-			return new Elements(0); // It is not an error if documents have no citations
-		}
-	}
-
 	private void processCitationElements(Elements citationElements, Document document) {
 		for (Element citationElement : citationElements) {
 			String otherDocumentIdentifier = citationElement.selectFirst("span[itemprop=publicationNumber]").ownText();
@@ -66,6 +56,16 @@ public abstract class CitationProcessor extends PagePropertyProcessor {
 		);
 	}
 
+	private Elements retrieveCitationElements() {
+		try {
+			String citationSelector = getCitationSelector();
+			return select(citationSelector);
+		}
+		catch (NoSuchPropertyException exception) {
+			return new Elements(0); // It is not an error if documents have no citations
+		}
+	}
+
 	@Override
 	public String[] getPropertyData() {
 		int propertyCount = getPropertyNames().length;
@@ -74,7 +74,6 @@ public abstract class CitationProcessor extends PagePropertyProcessor {
 
 		for (int i = 0; i < citationCount; ++i) {
 			Citation citation = citations.get(i);
-
 			int index = i * propertyCount;
 			pushCitationToPropertyData(citation, index, propertyData);
 		}

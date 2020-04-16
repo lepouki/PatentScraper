@@ -12,15 +12,6 @@ public abstract class PagePropertyProcessor extends PropertyProcessor {
 		this.pageProcessor = pageProcessor;
 	}
 
-	@Override
-	public void processDocument(Document document) throws NoSuchPropertyException {
-	}
-
-	@Override
-	public String[] getPropertyData() {
-		return new String[0];
-	}
-
 	protected String getPageLink() {
 		return pageProcessor.getPageLink();
 	}

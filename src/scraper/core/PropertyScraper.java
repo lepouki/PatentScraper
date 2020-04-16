@@ -1,19 +1,18 @@
 package scraper.core;
 
-import scraper.core.processors.GenderWithProbabilityProcessor;
 import scraper.core.writers.DummyFileDataWriter;
 
 import java.io.IOException;
 
 public class PropertyScraper {
 
-	private FileDataWriter fileDataWriter;
-	private int successCount;
 	private final PropertyProcessor propertyProcessor;
+	private int successCount;
+	private FileDataWriter fileDataWriter;
 
 	public PropertyScraper(PropertyProcessor propertyProcessor) {
-		successCount = 0;
 		this.propertyProcessor = propertyProcessor;
+		successCount = 0;
 
 		setFileDataWriter(
 			new DummyFileDataWriter()

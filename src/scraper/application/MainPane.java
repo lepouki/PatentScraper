@@ -9,7 +9,7 @@ public class MainPane extends JPanel {
 		BoxLayout layout = new BoxLayout(this, BoxLayout.PAGE_AXIS);
 		setLayout(layout);
 
-		int padding = LayoutConfiguration.PADDING;
+		final int padding = LayoutConfiguration.PADDING;
 		Border border = BorderFactory.createEmptyBorder(padding, padding, padding, padding);
 		setBorder(border);
 	}

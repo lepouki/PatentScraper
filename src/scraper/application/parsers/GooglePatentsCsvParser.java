@@ -50,14 +50,14 @@ public class GooglePatentsCsvParser extends DocumentIdentifierCsvParser {
 
 	private String getDocumentLinkInLine() {
 		String[] splitDocumentLine = getSplitDocumentLine();
-		final int documentLinkIndex = (splitDocumentLine.length - 2);
+		final int documentLinkIndex = splitDocumentLine.length - 2;
 		return splitDocumentLine[documentLinkIndex];
 	}
 
 	private String[] getSplitDocumentLine() {
 		String separator = Character.toString(CsvCharacters.SEPARATOR);
 
-		// If we don't add the extra character, the representative figure link gets ignored when empty
+		// If we don't add the extra character, the representative figure link column gets ignored when empty
 		return (getNextDocumentLine() + ' ').split(separator);
 	}
 
@@ -65,7 +65,7 @@ public class GooglePatentsCsvParser extends DocumentIdentifierCsvParser {
 		String linkSeparator = Character.toString('/');
 		String[] splitDocumentLink = documentLink.split(linkSeparator);
 
-		final int documentIdentifierIndex = (splitDocumentLink.length - 2);
+		final int documentIdentifierIndex = splitDocumentLink.length - 2;
 		return splitDocumentLink[documentIdentifierIndex];
 	}
 

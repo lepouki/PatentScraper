@@ -6,7 +6,7 @@ import scraper.core.*;
 import java.io.*;
 import java.util.*;
 
-public abstract class DocumentIdentifierCsvParser extends CsvParser {
+public abstract class DocumentIdentifierCsvParser implements CsvParser {
 
 	public static class IdentifierFormatException extends FormatException {
 

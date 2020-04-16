@@ -58,7 +58,7 @@ public class BasicFileDataWriter implements FileDataWriter {
 
 	@Override
 	public void setFile(String filePath) throws IOException {
-		createFileIfDoesNotExists(filePath);
+		createFileIfDoesNotExist(filePath);
 		tryOpenFile(filePath);
 	}
 
@@ -73,7 +73,7 @@ public class BasicFileDataWriter implements FileDataWriter {
 		this.filePath = filePath;
 	}
 
-	private void createFileIfDoesNotExists(String filePath) {
+	private void createFileIfDoesNotExist(String filePath) {
 		Path path = Paths.get(filePath);
 		boolean exists = Files.exists(path);
 
@@ -86,14 +86,6 @@ public class BasicFileDataWriter implements FileDataWriter {
 		Path parentDirectory = file.getParent();
 		createDirectory(parentDirectory);
 		tryCreateFile(file);
-	}
-
-	private void tryCreateFile(Path file) {
-		try {
-			Files.createFile(file);
-		}
-		// The parent directory gets checked before so this should never happen
-		catch (IOException ignored) {}
 	}
 
 	private void createDirectory(Path directory) {
@@ -110,6 +102,14 @@ public class BasicFileDataWriter implements FileDataWriter {
 	private void tryCreateDirectory(Path directory) {
 		try {
 			Files.createDirectory(directory);
+		}
+		// The parent directory gets checked before so this should never happen
+		catch (IOException ignored) {}
+	}
+
+	private void tryCreateFile(Path file) {
+		try {
+			Files.createFile(file);
 		}
 		// The parent directory gets checked before so this should never happen
 		catch (IOException ignored) {}

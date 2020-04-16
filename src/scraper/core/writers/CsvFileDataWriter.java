@@ -3,8 +3,7 @@ package scraper.core.writers;
 import scraper.core.CsvCharacters;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class CsvFileDataWriter extends BasicFileDataWriter {
 
@@ -26,12 +25,6 @@ public class CsvFileDataWriter extends BasicFileDataWriter {
 	}
 
 	@Override
-	public void write(String[] entries) throws IOException {
-		for (String entry : entries) {
-			write(entry);
-		}
-	}
-
 	public void write(String entry) throws IOException {
 		String formatted = applyFormat(entry);
 		super.write(formatted);
