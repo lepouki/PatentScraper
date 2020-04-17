@@ -3,7 +3,7 @@ package scraper.application.groups;
 import scraper.application.*;
 import scraper.application.widgets.*;
 import scraper.core.*;
-import scraper.core.processors.PageProcessor;
+import scraper.core.scrapers.PageScraper;
 
 import java.io.IOException;
 import java.util.*;
@@ -15,7 +15,7 @@ public class ScraperOptionsPicker extends WidgetGroup {
 	private static final String TITLE = "Options";
 
 	private List<PropertyScraperOptionGroup> optionGroups;
-	private PageProcessor pageProcessor;
+	private PageScraper pageScraper;
 	private RecursionLayerCountPicker recursionLayerCountPicker;
 
 	public ScraperOptionsPicker() {
@@ -39,7 +39,7 @@ public class ScraperOptionsPicker extends WidgetGroup {
 	private void createDataFrameAdditionsOptionGroup() {
 		DataFrameAdditionsOptionGroup optionGroup = new DataFrameAdditionsOptionGroup();
 		pushOptionGroup(optionGroup);
-		pageProcessor = optionGroup.getPageProcessor();
+		pageScraper = optionGroup.getPageScraper();
 	}
 
 	private void pushOptionGroup(PropertyScraperOptionGroup optionGroup) {
@@ -49,12 +49,12 @@ public class ScraperOptionsPicker extends WidgetGroup {
 	}
 
 	private void createRecursiveCitationsOptionGroup() {
-		RecursiveScrapingOptionGroup optionGroup = new RecursiveScrapingOptionGroup(pageProcessor);
+		RecursiveScrapingOptionGroup optionGroup = new RecursiveScrapingOptionGroup(pageScraper);
 		pushOptionGroup(optionGroup);
 	}
 
 	private void createExtraInformationOptionGroup() {
-		ExtraInformationOptionGroup optionGroup = new ExtraInformationOptionGroup();
+		ExtraInformationOptionGroup optionGroup = new ExtraInformationOptionGroup(pageScraper);
 		pushOptionGroup(optionGroup);
 	}
 
@@ -63,7 +63,7 @@ public class ScraperOptionsPicker extends WidgetGroup {
 		add(recursionLayerCountPicker);
 	}
 
-	public List<PropertyScraper> getPropertyScrapers(String outputDirectory) throws IOException {
+	public List<PropertyScraper> getPropertyScrapers(String outputDirectory) {
 		List<PropertyScraper> propertyScrapers = new ArrayList<>();
 
 		for (PropertyScraperOptionGroup optionGroup : optionGroups) {
@@ -76,8 +76,7 @@ public class ScraperOptionsPicker extends WidgetGroup {
 		return propertyScrapers;
 	}
 
-	private static void initializePropertyScrapers(
-		List<PropertyScraper> propertyScrapers, String outputDirectory) throws IOException
+	private static void initializePropertyScrapers(List<PropertyScraper> propertyScrapers, String outputDirectory)
 	{
 		for (PropertyScraper propertyScraper : propertyScrapers) {
 			propertyScraper.initialize(outputDirectory);

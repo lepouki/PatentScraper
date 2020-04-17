@@ -44,6 +44,11 @@ public class BasicFileDataWriter implements FileDataWriter {
 	@Override
 	public void write(String entry) throws IOException {
 		byte[] bytes = entry.getBytes();
+		writeBytes(bytes);
+	}
+
+	@Override
+	public void writeBytes(byte[] bytes) throws IOException {
 		tryWriteToFile(bytes);
 	}
 
@@ -60,17 +65,6 @@ public class BasicFileDataWriter implements FileDataWriter {
 	public void setFile(String filePath) throws IOException {
 		createFileIfDoesNotExist(filePath);
 		tryOpenFile(filePath);
-	}
-
-	private void tryOpenFile(String filePath) throws FileOpeningException {
-		try {
-			fileOutputStream = new FileOutputStream(filePath);
-		}
-		catch (IOException exception) {
-			throw new FileOpeningException(filePath);
-		}
-
-		this.filePath = filePath;
 	}
 
 	private void createFileIfDoesNotExist(String filePath) {
@@ -113,6 +107,17 @@ public class BasicFileDataWriter implements FileDataWriter {
 		}
 		// The parent directory gets checked before so this should never happen
 		catch (IOException ignored) {}
+	}
+
+	private void tryOpenFile(String filePath) throws FileOpeningException {
+		try {
+			fileOutputStream = new FileOutputStream(filePath);
+		}
+		catch (IOException exception) {
+			throw new FileOpeningException(filePath);
+		}
+
+		this.filePath = filePath;
 	}
 
 	@Override

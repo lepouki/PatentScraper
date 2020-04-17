@@ -1,17 +1,21 @@
 package scraper.core.scrapers;
 
-import scraper.core.OptionPropertyScraper;
-import scraper.core.processors.*;
+public class CitationCountScraperGiven extends ElementCountScraper {
 
-public class CitationCountScraperGiven extends OptionPropertyScraper {
+	private static final String READABLE_NAME = "Given citation count";
 
-	private static final String OPTION_NAME = "Given citation count";
+	public CitationCountScraperGiven(PageScraper pageScraper) {
+		super(READABLE_NAME, pageScraper);
+	}
 
-	public CitationCountScraperGiven(PageProcessor pageProcessor) {
-		super(
-			OPTION_NAME,
-			new CitationCountProcessorGiven(pageProcessor)
-		);
+	@Override
+	public String[] getPropertyNames() {
+		return new String[] {"given citation count"};
+	}
+
+	@Override
+	protected String getElementSelector() {
+		return "tr[itemprop=backwardReferencesOrig]";
 	}
 
 }

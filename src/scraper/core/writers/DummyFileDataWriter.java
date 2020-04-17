@@ -2,6 +2,8 @@ package scraper.core.writers;
 
 import scraper.core.FileDataWriter;
 
+import java.io.IOException;
+
 public class DummyFileDataWriter implements FileDataWriter {
 
 	@Override
@@ -10,6 +12,10 @@ public class DummyFileDataWriter implements FileDataWriter {
 
 	@Override
 	public void write(String entry) {
+	}
+
+	@Override
+	public void writeBytes(byte[] bytes) {
 	}
 
 	@Override

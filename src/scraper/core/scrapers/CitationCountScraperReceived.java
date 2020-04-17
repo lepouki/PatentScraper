@@ -1,17 +1,21 @@
 package scraper.core.scrapers;
 
-import scraper.core.OptionPropertyScraper;
-import scraper.core.processors.*;
-
-public class CitationCountScraperReceived extends OptionPropertyScraper {
+public class CitationCountScraperReceived extends ElementCountScraper {
 
 	private static final String OPTION_NAME = "Received citation count";
 
-	public CitationCountScraperReceived(PageProcessor pageProcessor) {
-		super(
-			OPTION_NAME,
-			new CitationCountProcessorReceived(pageProcessor)
-		);
+	public CitationCountScraperReceived(PageScraper pageScraper) {
+		super(OPTION_NAME, pageScraper);
+	}
+
+	@Override
+	public String[] getPropertyNames() {
+		return new String[] {"received citation count"};
+	}
+
+	@Override
+	protected String getElementSelector() {
+		return "tr[itemprop=forwardReferencesOrig]";
 	}
 
 }

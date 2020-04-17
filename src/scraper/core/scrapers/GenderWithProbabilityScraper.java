@@ -1,21 +1,20 @@
-package scraper.core.processors;
+package scraper.core.scrapers;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-import scraper.core.Document;
-import scraper.core.PageDownloader;
+import org.json.*;
+import scraper.core.*;
 
 import java.io.IOException;
 
-public class GenderWithProbabilityProcessor extends PagePropertyProcessor {
+public class GenderWithProbabilityScraper extends PagePropertyScraper {
 
+	private static final String READABLE_NAME = "Gender with probability";
 	private static final String GENDER_REQUEST_PAGE_LINK_PREFIX = "https://api.genderize.io/?name=";
 
 	private String gender;
 	private double genderProbability;
 
-	public GenderWithProbabilityProcessor(PageProcessor pageProcessor) {
-		super(pageProcessor);
+	public GenderWithProbabilityScraper(PageScraper pageScraper) {
+		super(READABLE_NAME, pageScraper);
 	}
 
 	@Override
@@ -41,7 +40,7 @@ public class GenderWithProbabilityProcessor extends PagePropertyProcessor {
 	}
 
 	private String getInventorOrAuthor() throws NoSuchPropertyException {
-		String selector = InventorOrAuthorProcessor.getSelector();
+		String selector = InventorOrAuthorScraper.getInventorSelector();
 		return selectFirst(selector).ownText();
 	}
 
@@ -62,7 +61,7 @@ public class GenderWithProbabilityProcessor extends PagePropertyProcessor {
 
 	private String tryRetrieveGenderData(String pageLink) {
 		try {
-			return PageDownloader.download(pageLink);
+			return PageDownloader.retrieveText(pageLink);
 		}
 		catch (IOException exception) {
 			return "";

@@ -2,7 +2,6 @@ package scraper.application.groups;
 
 import scraper.application.widgets.PropertyScraperOptionGroup;
 import scraper.core.*;
-import scraper.core.processors.PageProcessor;
 import scraper.core.scrapers.*;
 import scraper.core.writers.CsvFileDataWriter;
 
@@ -21,104 +20,102 @@ public class DataFrameAdditionsOptionGroup extends PropertyScraperOptionGroup {
 		pageScraper = new PageScraper();
 
 		createPreparationPropertyScrapers();
-		createPropertyScrapers();
+		createOptionPropertyScrapers();
 
 		setPropertyScrapersFileDataWriter(dataFrameWriter);
 	}
 
 	private void createPreparationPropertyScrapers() {
 		List<PropertyScraper> preparationScrapers = new ArrayList<>();
-		PageProcessor pageProcessor = (PageProcessor)pageScraper.getPropertyProcessor();
 
 		preparationScrapers.add(
-			new IdentifierScraper(pageProcessor)
+			new IdentifierScraper(pageScraper)
 		);
 
 		preparationScrapers.add(
-			new TitleScraper(pageProcessor)
+			new TitleScraper(pageScraper)
 		);
 
 		preparationScrapers.add(
-			new AssigneesScraper(pageProcessor)
+			new AssigneesScraper(pageScraper)
 		);
 
 		preparationScrapers.add(
-			new InventorOrAuthorScraper(pageProcessor)
+			new InventorOrAuthorScraper(pageScraper)
 		);
 
 		preparationScrapers.add(
-			new PriorityDateScraper(pageProcessor)
+			new PriorityDateScraper(pageScraper)
 		);
 
 		preparationScrapers.add(
-			new FilingOrCreationDateScraper(pageProcessor)
+			new FilingOrCreationDateScraper(pageScraper)
 		);
 
 		preparationScrapers.add(
-			new PublicationDateScraper(pageProcessor)
+			new PublicationDateScraper(pageScraper)
 		);
 
 		preparationScrapers.add(
-			new GrantDateScraper(pageProcessor)
+			new GrantDateScraper(pageScraper)
 		);
 
 		preparationScrapers.add(
-			new PageLinkScraper(pageProcessor)
+			new PageLinkScraper(pageScraper)
 		);
 
 		pushPreparationPropertyScrapers(preparationScrapers);
 	}
 
-	private void createPropertyScrapers() {
-		List<OptionPropertyScraper> additionsScrapers = new ArrayList<>();
-		PageProcessor pageProcessor = (PageProcessor)pageScraper.getPropertyProcessor();
+	private void createOptionPropertyScrapers() {
+		List<PropertyScraper> additionsScrapers = new ArrayList<>();
 
 		additionsScrapers.add(
-			new PatentOfficeScraper(pageProcessor)
+			new PatentOfficeScraper(pageScraper)
 		);
 
 		additionsScrapers.add(
-			new TypeScraper(pageProcessor)
+			new TypeScraper(pageScraper)
 		);
 
 		additionsScrapers.add(
-			new StatusScraper(pageProcessor)
+			new StatusScraper(pageScraper)
 		);
 
 		additionsScrapers.add(
-			new HasAbstractScraper(pageProcessor)
+			new HasAbstractScraper(pageScraper)
 		);
 
 		additionsScrapers.add(
-			new HasDescriptionScraper(pageProcessor)
+			new HasDescriptionScraper(pageScraper)
 		);
 
 		additionsScrapers.add(
-			new HasClaimsScraper(pageProcessor)
+			new HasClaimsScraper(pageScraper)
 		);
 
 		additionsScrapers.add(
-			new ClaimCountScraper(pageProcessor)
+			new ClaimCountScraper(pageScraper)
 		);
 
 		additionsScrapers.add(
-			new CitationCountScraperReceived(pageProcessor)
+			new CitationCountScraperReceived(pageScraper)
 		);
 
 		additionsScrapers.add(
-			new CitationCountScraperGiven(pageProcessor)
+			new CitationCountScraperGiven(pageScraper)
 		);
 
 		additionsScrapers.add(
-			new CitationCountScraperNonPatent(pageProcessor)
+			new CitationCountScraperNonPatent(pageScraper)
 		);
 
 		additionsScrapers.add(
-			new GenderScraper(pageProcessor)
+			new GenderWithProbabilityScraper(pageScraper)
 		);
 
 		additionsScrapers.add(
-			new IntermediateClassificationScraper(pageProcessor)
+			new IntermediateClassificationScraper(pageScraper)
 		);
 
 		setOptionPropertyScrapers(additionsScrapers);
@@ -161,13 +158,13 @@ public class DataFrameAdditionsOptionGroup extends PropertyScraperOptionGroup {
 	}
 
 	@Override
-	public void setOptionPropertyScrapers(List<OptionPropertyScraper> optionPropertyScrapers) {
+	public void setOptionPropertyScrapers(List<PropertyScraper> optionPropertyScrapers) {
 		super.setOptionPropertyScrapers(optionPropertyScrapers);
 
 	}
 
-	public PageProcessor getPageProcessor() {
-		return (PageProcessor)pageScraper.getPropertyProcessor();
+	public PageScraper getPageScraper() {
+		return pageScraper;
 	}
 
 }

@@ -1,14 +1,23 @@
 package scraper.core.scrapers;
 
-import scraper.core.PropertyScraper;
-import scraper.core.processors.*;
+public class PageLinkScraper extends PagePropertyScraper {
 
-public class PageLinkScraper extends PropertyScraper {
+	private static final String READABLE_NAME = "Page link";
 
-	public PageLinkScraper(PageProcessor pageProcessor) {
-		super(
-			new PageLinkProcessor(pageProcessor)
-		);
+	public PageLinkScraper(PageScraper pageScraper) {
+		super(READABLE_NAME, pageScraper);
+	}
+
+	@Override
+	public String[] getPropertyNames() {
+		return new String[] {"page link"};
+	}
+
+	@Override
+	protected String[] getPropertyData() {
+		return new String[] {
+			getPageLink()
+		};
 	}
 
 }

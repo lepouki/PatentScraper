@@ -1,28 +1,25 @@
 package scraper.core.scrapers;
 
 import scraper.core.PropertyScraper;
-import scraper.core.processors.DummyProcessor;
 
 import java.io.File;
-import java.io.IOException;
 
 public class CitationFileDataWriterCreator extends PropertyScraper {
 
+	private static final String READABLE_NAME = "Citation file data writer";
 	private static final String RELATIVE_CITATION_CSV_PATH = "csv" + File.separator + "Citations.csv";
 
 	public CitationFileDataWriterCreator() {
-		super(
-			new DummyProcessor()
-		);
+		super(READABLE_NAME);
 	}
 
 	@Override
-	public void initialize(String rootDirectory) throws IOException {
+	public void initialize(String rootDirectory) {
 		setFileDataWriterFile(rootDirectory + File.separator + RELATIVE_CITATION_CSV_PATH);
 	}
 
 	@Override
-	public void cleanup() throws IOException {
+	public void cleanup() {
 		closeFileDataWriter();
 	}
 

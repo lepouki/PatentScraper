@@ -1,17 +1,21 @@
 package scraper.core.scrapers;
 
-import scraper.core.OptionPropertyScraper;
-import scraper.core.processors.*;
+public class CitationScraperGiven extends CitationScraper {
 
-public class CitationScraperGiven extends OptionPropertyScraper {
+	private static final String READABLE_NAME = "Cited documents";
 
-	private static final String OPTION_NAME = "Cited documents";
+	public CitationScraperGiven(PageScraper pageScraper) {
+		super(READABLE_NAME, pageScraper);
+	}
 
-	public CitationScraperGiven(PageProcessor pageProcessor) {
-		super(
-			OPTION_NAME,
-			new CitationProcessorGiven(pageProcessor)
-		);
+	@Override
+	protected boolean isGivenCitation() {
+		return true;
+	}
+
+	@Override
+	protected String getCitationSelector() {
+		return "tr[itemprop=forwardReferencesOrig]";
 	}
 
 }

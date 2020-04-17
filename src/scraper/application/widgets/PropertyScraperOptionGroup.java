@@ -38,7 +38,7 @@ public class PropertyScraperOptionGroup extends Widget {
 		);
 	}
 
-	public void setOptionPropertyScrapers(List<OptionPropertyScraper> optionPropertyScraper) {
+	public void setOptionPropertyScrapers(List<PropertyScraper> optionPropertyScraper) {
 		if (propertyScraperOptionGrid != null)
 			return; // Ignore if the option grid has already been created
 

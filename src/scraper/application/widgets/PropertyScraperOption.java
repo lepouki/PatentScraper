@@ -6,11 +6,11 @@ import javax.swing.*;
 
 public class PropertyScraperOption extends JCheckBox {
 
-	private final OptionPropertyScraper propertyScraper;
+	private final PropertyScraper propertyScraper;
 
-	public PropertyScraperOption(OptionPropertyScraper propertyScraper) {
+	public PropertyScraperOption(PropertyScraper propertyScraper) {
 		this.propertyScraper = propertyScraper;
-		String propertyName = this.propertyScraper.getOptionName();
+		String propertyName = this.propertyScraper.getReadableName();
 		setText(propertyName);
 	}
 

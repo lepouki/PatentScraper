@@ -1,17 +1,21 @@
 package scraper.core.scrapers;
 
-import scraper.core.OptionPropertyScraper;
-import scraper.core.processors.*;
+public class CitationCountScraperNonPatent extends ElementCountScraper {
 
-public class CitationCountScraperNonPatent extends OptionPropertyScraper {
+	private static final String READABLE_NAME = "Non patent citation count";
 
-	private static final String OPTION_NAME = "Non patent citation count";
+	public CitationCountScraperNonPatent(PageScraper pageScraper) {
+		super(READABLE_NAME, pageScraper);
+	}
 
-	public CitationCountScraperNonPatent(PageProcessor pageProcessor) {
-		super(
-			OPTION_NAME,
-			new CitationCountProcessorNonPatent(pageProcessor)
-		);
+	@Override
+	public String[] getPropertyNames() {
+		return new String[] {"non patent citation count"};
+	}
+
+	@Override
+	protected String getElementSelector() {
+		return "tr[itemprop=detailedNonPatentLiterature]";
 	}
 
 }

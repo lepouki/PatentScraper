@@ -1,18 +1,21 @@
 package scraper.core.scrapers;
 
-import scraper.core.OptionPropertyScraper;
-import scraper.core.processors.CitationProcessorReceived;
-import scraper.core.processors.PageProcessor;
+public class CitationScraperReceived extends CitationScraper {
 
-public class CitationScraperReceived extends OptionPropertyScraper {
+	private static final String READABLE_NAME = "Citing documents";
 
-	private static final String OPTION_NAME = "Citing documents";
+	public CitationScraperReceived(PageScraper pageScraper) {
+		super(READABLE_NAME, pageScraper);
+	}
 
-	public CitationScraperReceived(PageProcessor pageProcessor) {
-		super(
-			OPTION_NAME,
-			new CitationProcessorReceived(pageProcessor)
-		);
+	@Override
+	protected boolean isGivenCitation() {
+		return false;
+	}
+
+	@Override
+	protected String getCitationSelector() {
+		return "tr[itemprop=backwardReferencesOrig]";
 	}
 
 }

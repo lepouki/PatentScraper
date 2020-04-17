@@ -1,14 +1,30 @@
 package scraper.core.scrapers;
 
-import scraper.core.PropertyScraper;
-import scraper.core.processors.*;
+import scraper.core.Document;
 
-public class PriorityDateScraper extends PropertyScraper {
+public class PriorityDateScraper extends PagePropertyScraper {
 
-	public PriorityDateScraper(PageProcessor pageProcessor) {
-		super(
-			new PriorityDateProcessor(pageProcessor)
-		);
+	private static final String READABLE_NAME = "Priority date";
+
+	private String priorityDate;
+
+	public PriorityDateScraper(PageScraper pageScraper) {
+		super(READABLE_NAME, pageScraper);
+	}
+
+	@Override
+	public String[] getPropertyNames() {
+		return new String[] {"priority date"};
+	}
+
+	@Override
+	public void processDocument(Document document) throws NoSuchPropertyException {
+		priorityDate = selectFirst("time[itemprop=priorityDate]").ownText();
+	}
+
+	@Override
+	protected String[] getPropertyData() {
+		return new String[] {priorityDate};
 	}
 
 }

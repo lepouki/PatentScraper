@@ -1,23 +1,24 @@
-package scraper.core.processors;
+package scraper.core.scrapers;
 
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
-import scraper.core.*;
+import scraper.core.PropertyScraper;
 
-public abstract class PagePropertyProcessor extends PropertyProcessor {
+public class PagePropertyScraper extends PropertyScraper {
 
-	private final PageProcessor pageProcessor;
+	private final PageScraper pageScraper;
 
-	public PagePropertyProcessor(PageProcessor pageProcessor) {
-		this.pageProcessor = pageProcessor;
+	public PagePropertyScraper(String readableName, PageScraper pageScraper) {
+		super(readableName);
+		this.pageScraper = pageScraper;
 	}
 
 	protected String getPageLink() {
-		return pageProcessor.getPageLink();
+		return pageScraper.getPageLink();
 	}
 
 	protected Elements select(String selector) throws NoSuchPropertyException {
-		Elements selected = pageProcessor.getPage().select(selector);
+		Elements selected = pageScraper.getPage().select(selector);
 
 		if (selected.size() == 0) {
 			throw new NoSuchPropertyException();
@@ -27,7 +28,7 @@ public abstract class PagePropertyProcessor extends PropertyProcessor {
 	}
 
 	protected Element selectFirst(String selector) throws NoSuchPropertyException {
-		Element selected = pageProcessor.getPage().selectFirst(selector);
+		Element selected = pageScraper.getPage().selectFirst(selector);
 
 		if (selected == null) {
 			throw new NoSuchPropertyException();

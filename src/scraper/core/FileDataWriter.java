@@ -8,6 +8,8 @@ public interface FileDataWriter {
 
 	void write(String entry) throws IOException;
 
+	void writeBytes(byte[] bytes) throws IOException;
+
 	void setFile(String filePath) throws IOException;
 
 	void close() throws IOException;

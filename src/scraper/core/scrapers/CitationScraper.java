@@ -1,20 +1,18 @@
-package scraper.core.processors;
+package scraper.core.scrapers;
 
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
-import scraper.core.Citation;
-import scraper.core.Document;
+import scraper.core.*;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
-public abstract class CitationProcessor extends PagePropertyProcessor {
+public abstract class CitationScraper extends PagePropertyScraper {
 
-	private final List<Citation> citations;
+	private final List<Citation> documentCitations;
 
-	public CitationProcessor(PageProcessor pageProcessor) {
-		super(pageProcessor);
-		citations = new ArrayList<>();
+	public CitationScraper(String readableName, PageScraper pageScraper) {
+		super(readableName, pageScraper);
+		documentCitations = new ArrayList<>();
 	}
 
 	@Override
@@ -24,7 +22,7 @@ public abstract class CitationProcessor extends PagePropertyProcessor {
 
 	@Override
 	public void processDocument(Document document) {
-		citations.clear();
+		documentCitations.clear();
 		processCitationElements(retrieveCitationElements(), document);
 	}
 
@@ -51,7 +49,7 @@ public abstract class CitationProcessor extends PagePropertyProcessor {
 		String target = isGivenCitation
 			? documentIdentifier : otherDocumentIdentifier;
 
-		citations.add(
+		documentCitations.add(
 			new Citation(source, target)
 		);
 	}
@@ -69,11 +67,11 @@ public abstract class CitationProcessor extends PagePropertyProcessor {
 	@Override
 	public String[] getPropertyData() {
 		int propertyCount = getPropertyNames().length;
-		int citationCount = citations.size();
+		int citationCount = documentCitations.size();
 		String[] propertyData = new String[citationCount * propertyCount];
 
 		for (int i = 0; i < citationCount; ++i) {
-			Citation citation = citations.get(i);
+			Citation citation = documentCitations.get(i);
 			int index = i * propertyCount;
 			pushCitationToPropertyData(citation, index, propertyData);
 		}

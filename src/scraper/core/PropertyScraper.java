@@ -3,32 +3,32 @@ package scraper.core;
 import scraper.core.writers.DummyFileDataWriter;
 
 import java.io.IOException;
+import java.util.Base64;
 
 public class PropertyScraper {
 
-	private final PropertyProcessor propertyProcessor;
+	public static class NoSuchPropertyException extends Exception {}
+
+	private final String readableName;
 	private int successCount;
 	private FileDataWriter fileDataWriter;
+	private Scraper scraper;
 
-	public PropertyScraper(PropertyProcessor propertyProcessor) {
-		this.propertyProcessor = propertyProcessor;
+	public PropertyScraper(String readableName) {
 		successCount = 0;
+		this.readableName = readableName;
 
 		setFileDataWriter(
 			new DummyFileDataWriter()
 		);
 	}
 
-	public String[] getPropertyNames() {
-		return propertyProcessor.getPropertyNames();
+	public String getReadableName() {
+		return readableName;
 	}
 
 	public int getSuccessCount() {
 		return successCount;
-	}
-
-	public PropertyProcessor getPropertyProcessor() {
-		return propertyProcessor;
 	}
 
 	public void setFileDataWriter(FileDataWriter fileDataWriter) {
@@ -36,18 +36,30 @@ public class PropertyScraper {
 	}
 
 	public void setScraper(Scraper scraper) {
-		propertyProcessor.setScraper(scraper);
+		this.scraper = scraper;
 	}
 
 	public void scrapeProperty(Document document) {
+		prepareForDocument(document);
+		tryProcessDocumentProperty(document);
+		cleanupForNextDocument();
+	}
+
+	protected void prepareForDocument(Document document) {
+	}
+
+	private void tryProcessDocumentProperty(Document document) {
 		try {
-			propertyProcessor.processDocument(document);
-			String[] entries = propertyProcessor.getPropertyData();
+			processDocument(document);
+			String[] entries = getPropertyData();
 			writePropertyDataToFileDataWriter(entries);
 		}
-		catch (PropertyProcessor.NoSuchPropertyException exception) {
+		catch (NoSuchPropertyException exception) {
 			writeEmptyEntriesToFileDataWriter(); // If we fail, write empty entries instead
 		}
+	}
+
+	protected void cleanupForNextDocument() {
 	}
 
 	private void writePropertyDataToFileDataWriter(String[] entries) {
@@ -57,32 +69,75 @@ public class PropertyScraper {
 
 	private void tryWriteToFileDataWriter(String[] entries) {
 		try {
-			fileDataWriter.write(entries);
+			writeEntries(entries);
 		}
 		catch (IOException ignored) {}
 	}
 
+	private void writeEntries(String[] entries) throws IOException {
+		boolean isBinary = isPropertyDataBinary();
+
+		if (isBinary) {
+			writeBinaryEntries(entries);
+		}
+		else {
+			fileDataWriter.write(entries);
+		}
+	}
+
+	private void writeBinaryEntries(String[] entries) throws IOException {
+		for (String entry : entries) {
+			byte[] entryData = Base64.getDecoder().decode(entry);
+			fileDataWriter.writeBytes(entryData);
+		}
+	}
+
 	private void writeEmptyEntriesToFileDataWriter() {
 		String[] emptyEntry = new String[] {""};
-		int entryCount = propertyProcessor.getPropertyNames().length;
+		int entryCount = getPropertyNames().length;
 
 		for (int i = 0; i < entryCount; ++i) {
 			tryWriteToFileDataWriter(emptyEntry);
 		}
 	}
 
-	public void initialize(String rootDirectory) throws IOException {
+	protected boolean isPropertyDataBinary() {
+		return false;
 	}
 
-	public void cleanup() throws IOException {
+	public void initialize(String rootDirectory) {
 	}
 
-	protected void setFileDataWriterFile(String filePath) throws IOException {
-		fileDataWriter.setFile(filePath);
+	protected void cleanup() {
 	}
 
-	protected void closeFileDataWriter() throws IOException {
-		fileDataWriter.close();
+	protected void setFileDataWriterFile(String filePath) {
+		try {
+			fileDataWriter.setFile(filePath);
+		}
+		catch (IOException ignored) {}
+	}
+
+	protected void closeFileDataWriter() {
+		try {
+			fileDataWriter.close();
+		}
+		catch (IOException ignored) {}
+	}
+
+	protected void pushNextLayerDocument(Document document) {
+		scraper.pushNextLayerDocument(document);
+	}
+
+	public String[] getPropertyNames() {
+		return new String[0];
+	}
+
+	protected void processDocument(Document document) throws NoSuchPropertyException {
+	}
+
+	protected String[] getPropertyData() {
+		return new String[0];
 	}
 
 }

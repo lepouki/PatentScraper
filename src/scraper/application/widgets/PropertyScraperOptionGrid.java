@@ -11,18 +11,18 @@ public class PropertyScraperOptionGrid extends Widget {
 
 	private List<PropertyScraperOption> propertyScraperOptions;
 
-	public PropertyScraperOptionGrid(List<OptionPropertyScraper> optionPropertyScrapers) {
+	public PropertyScraperOptionGrid(List<PropertyScraper> optionPropertyScrapers) {
 		GridLayout layout = new GridLayout(0, LayoutConfiguration.OPTIONS_PER_ROW);
 		setLayout(layout);
 
 		createPropertyScraperOptions(optionPropertyScrapers);
 	}
 
-	private void createPropertyScraperOptions(List<OptionPropertyScraper> optionPropertyScrapers) {
+	private void createPropertyScraperOptions(List<PropertyScraper> optionPropertyScrapers) {
 		int optionCount = optionPropertyScrapers.size();
 		propertyScraperOptions = new ArrayList<>(optionCount);
 
-		for (OptionPropertyScraper optionPropertyScraper : optionPropertyScrapers) {
+		for (PropertyScraper optionPropertyScraper : optionPropertyScrapers) {
 			PropertyScraperOption propertyScraperOption = new PropertyScraperOption(optionPropertyScraper);
 			add(propertyScraperOption);
 			propertyScraperOptions.add(propertyScraperOption);

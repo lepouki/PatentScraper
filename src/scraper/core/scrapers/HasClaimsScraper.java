@@ -1,17 +1,27 @@
 package scraper.core.scrapers;
 
-import scraper.core.OptionPropertyScraper;
-import scraper.core.processors.*;
+public class HasClaimsScraper extends BooleanPagePropertyScraper {
 
-public class HasClaimsScraper extends OptionPropertyScraper {
+	private static final String READABLE_NAME = "Has claims";
 
-	private static final String OPTION_NAME = "Has claims";
+	public HasClaimsScraper(PageScraper pageScraper) {
+		super(READABLE_NAME, pageScraper);
+	}
 
-	public HasClaimsScraper(PageProcessor pageProcessor) {
-		super(
-			OPTION_NAME,
-			new HasClaimsProcessor(pageProcessor)
-		);
+	@Override
+	public String[] getPropertyNames() {
+		return new String[] {"has claims"};
+	}
+
+	@Override
+	protected boolean getValue() throws NoSuchPropertyException {
+		String selector = getClaimsSectionSelector();
+		selectFirst(selector);
+		return true;
+	}
+
+	public static String getClaimsSectionSelector() {
+		return "section[itemprop=claims]";
 	}
 
 }

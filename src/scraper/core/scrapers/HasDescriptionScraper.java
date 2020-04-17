@@ -1,17 +1,22 @@
 package scraper.core.scrapers;
 
-import scraper.core.OptionPropertyScraper;
-import scraper.core.processors.*;
+public class HasDescriptionScraper extends BooleanPagePropertyScraper {
 
-public class HasDescriptionScraper extends OptionPropertyScraper {
+	private static final String READABLE_NAME = "Has description";
 
-	private static final String OPTION_NAME = "Has description";
+	public HasDescriptionScraper(PageScraper pageScraper) {
+		super(READABLE_NAME, pageScraper);
+	}
 
-	public HasDescriptionScraper(PageProcessor pageProcessor) {
-		super(
-			OPTION_NAME,
-			new HasDescriptionProcessor(pageProcessor)
-		);
+	@Override
+	public String[] getPropertyNames() {
+		return new String[] {"has description"};
+	}
+
+	@Override
+	protected boolean getValue() throws NoSuchPropertyException {
+		selectFirst("section[itemprop=description]");
+		return true;
 	}
 
 }

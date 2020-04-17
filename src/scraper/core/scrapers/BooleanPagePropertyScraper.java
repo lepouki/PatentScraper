@@ -1,13 +1,13 @@
-package scraper.core.processors;
+package scraper.core.scrapers;
 
 import scraper.core.Document;
 
-public abstract class BooleanPagePropertyProcessor extends SinglePropertyPageProcessor {
+public abstract class BooleanPagePropertyScraper extends PagePropertyScraper {
 
 	private boolean value;
 
-	public BooleanPagePropertyProcessor(String propertyName, PageProcessor pageProcessor) {
-		super(propertyName, pageProcessor);
+	public BooleanPagePropertyScraper(String readableName, PageScraper pageScraper) {
+		super(readableName, pageScraper);
 	}
 
 	@Override
@@ -21,8 +21,8 @@ public abstract class BooleanPagePropertyProcessor extends SinglePropertyPagePro
 	}
 
 	@Override
-	public String getPropertyValue() {
-		return value ? "Yes" : "No";
+	public String[] getPropertyData() {
+		return new String[] {value ? "Yes" : "No"};
 	}
 
 	protected abstract boolean getValue() throws NoSuchPropertyException;

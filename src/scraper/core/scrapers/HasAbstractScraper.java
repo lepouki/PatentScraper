@@ -1,17 +1,22 @@
 package scraper.core.scrapers;
 
-import scraper.core.OptionPropertyScraper;
-import scraper.core.processors.*;
+public class HasAbstractScraper extends BooleanPagePropertyScraper {
 
-public class HasAbstractScraper extends OptionPropertyScraper {
+	private static final String READABLE_NAME = "Has abstract";
 
-	private static final String OPTION_NAME = "Has abstract";
+	public HasAbstractScraper(PageScraper pageScraper) {
+		super(READABLE_NAME, pageScraper);
+	}
 
-	public HasAbstractScraper(PageProcessor pageProcessor) {
-		super(
-			OPTION_NAME,
-			new HasAbstractProcessor(pageProcessor)
-		);
+	@Override
+	public String[] getPropertyNames() {
+		return new String[] {"grant date"};
+	}
+
+	@Override
+	protected boolean getValue() throws NoSuchPropertyException {
+		selectFirst("div[class=abstract]");
+		return true;
 	}
 
 }

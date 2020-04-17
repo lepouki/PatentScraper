@@ -41,11 +41,14 @@ public abstract class DocumentIdentifierCsvParser implements CsvParser {
 	private Set<Document> parseLines() throws IdentifierFormatException {
 		Set<Document> documents = new HashSet<>();
 
-		while (scanner.hasNextLine()) {
+		while (
+			scanner.hasNextLine()
+		) {
 			String identifier = getNextDocumentIdentifier();
 
-			boolean emptyIdentifier = identifier.isEmpty();
-			if (emptyIdentifier) continue;
+			if (
+				identifier.isEmpty()
+			) continue;
 
 			checkIdentifierFormat(identifier);
 			Document document = new Document(identifier);
