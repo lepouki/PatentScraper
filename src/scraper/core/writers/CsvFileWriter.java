@@ -5,12 +5,12 @@ import scraper.core.CsvCharacters;
 import java.io.IOException;
 import java.util.*;
 
-public class CsvFileDataWriter extends BasicFileDataWriter {
+public class CsvFileWriter extends BasicFileWriter {
 
 	private int valueIndex;
 	private List<String> columnNames;
 
-	public CsvFileDataWriter() {
+	public CsvFileWriter() {
 		valueIndex = 0;
 		columnNames = new ArrayList<>();
 	}
@@ -31,9 +31,14 @@ public class CsvFileDataWriter extends BasicFileDataWriter {
 	}
 
 	private String applyFormat(String data) {
-		String dataWithQuotesChecked = withQuotesWhenNeeded(data);
+		String dataWithQuotesReplaced = replaceQuotes(data);
+		String dataWithQuotesAdded = withQuotesWhenNeeded(dataWithQuotesReplaced);
 		updateValueIndex();
-		return withSeparatorOrNewLine(dataWithQuotesChecked);
+		return withSeparatorOrNewLine(dataWithQuotesAdded);
+	}
+
+	private String replaceQuotes(String data) {
+		return data.replace(CsvCharacters.QUOTE, CsvCharacters.QUOTE_REPLACEMENT);
 	}
 
 	private String withQuotesWhenNeeded(String data) {

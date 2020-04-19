@@ -2,7 +2,7 @@ package scraper.core;
 
 import java.io.IOException;
 
-public interface FileDataWriter {
+public interface FileWriter {
 
 	void write(String[] entries) throws IOException;
 

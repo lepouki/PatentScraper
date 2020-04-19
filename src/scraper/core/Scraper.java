@@ -26,16 +26,16 @@ public class Scraper extends EventSource {
 	private final int layerCount;
 	private final DocumentScraper documentScraper;
 
-	private Set<Document> documents;
-	private Set<Document> nextLayerDocuments;
+	private List<Document> documents;
+	private List<Document> nextLayerDocuments;
 
-	public Scraper(Set<Document> documents, List<PropertyScraper> propertyScrapers, int layerCount) {
+	public Scraper(List<Document> documents, List<PropertyScraper> propertyScrapers, int layerCount) {
 		updatePropertyScrapers(propertyScrapers);
 		this.layerCount = layerCount;
 
 		documentScraper = new DocumentScraper(propertyScrapers);
 		copyDocuments(documents);
-		nextLayerDocuments = new HashSet<>();
+		nextLayerDocuments = new ArrayList<>();
 	}
 
 	private void updatePropertyScrapers(List<PropertyScraper> propertyScrapers) {
@@ -44,8 +44,8 @@ public class Scraper extends EventSource {
 		}
 	}
 
-	public void copyDocuments(Set<Document> documents) {
-		this.documents = new HashSet<>(documents);
+	public void copyDocuments(List<Document> documents) {
+		this.documents = new ArrayList<>(documents);
 	}
 
 	public void scrape() {
@@ -93,7 +93,7 @@ public class Scraper extends EventSource {
 
 	private void prepareNextLayerDocuments() {
 		documents = nextLayerDocuments;
-		nextLayerDocuments = new HashSet<>();
+		nextLayerDocuments = new ArrayList<>();
 	}
 
 	public void cleanupPropertyScrapers() throws IOException {

@@ -10,7 +10,7 @@ public class HasAbstractScraper extends BooleanPagePropertyScraper {
 
 	@Override
 	public String[] getPropertyNames() {
-		return new String[] {"grant date"};
+		return new String[] {"has abstract"};
 	}
 
 	@Override

@@ -2,8 +2,6 @@ package scraper.application.parsers;
 
 import scraper.core.CsvCharacters;
 
-import java.util.Arrays;
-
 public class GooglePatentsCsvParser extends DocumentIdentifierCsvParser {
 
 	public static class LineSkipException extends FormatException {

@@ -44,9 +44,9 @@ public class PropertyScraperOptionGrid extends Widget {
 		return propertyScrapers;
 	}
 
-	public void setPropertyScrapersFileDataWriter(FileDataWriter fileDataWriter) {
+	public void setPropertyScrapersFileDataWriter(FileWriter fileWriter) {
 		for (PropertyScraperOption propertyScraperOption : propertyScraperOptions) {
-			propertyScraperOption.getPropertyScraper().setFileDataWriter(fileDataWriter);
+			propertyScraperOption.getPropertyScraper().setFileWriter(fileWriter);
 		}
 	}
 

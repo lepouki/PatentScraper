@@ -19,7 +19,7 @@ public abstract class DocumentIdentifierCsvParser implements CsvParser {
 	private Scanner scanner;
 
 	@Override
-	public Set<Document> parseFile(String filePath) throws FormatException {
+	public List<Document> parseFile(String filePath) throws FormatException {
 		createScanner(filePath);
 		prepare();
 		return parseLines();
@@ -38,8 +38,8 @@ public abstract class DocumentIdentifierCsvParser implements CsvParser {
 		catch (FileNotFoundException ignored) {}
 	}
 
-	private Set<Document> parseLines() throws IdentifierFormatException {
-		Set<Document> documents = new HashSet<>();
+	private List<Document> parseLines() throws IdentifierFormatException {
+		List<Document> documents = new ArrayList<>();
 
 		while (
 			scanner.hasNextLine()

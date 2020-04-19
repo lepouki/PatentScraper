@@ -13,7 +13,7 @@ public class WorkerManager {
 		this.application = application;
 	}
 
-	public void runWorker(Set<Document> documents, List<PropertyScraper> propertyScrapers, int layerCount) {
+	public void runWorker(List<Document> documents, List<PropertyScraper> propertyScrapers, int layerCount) {
 		worker = new Worker(
 			application, new Scraper(documents, propertyScrapers, layerCount)
 		);

@@ -66,12 +66,12 @@ public class PropertyScraperOptionGroup extends Widget {
 		return propertyScrapers;
 	}
 
-	public void setPropertyScrapersFileDataWriter(FileDataWriter fileDataWriter) {
+	public void setPropertyScrapersFileDataWriter(FileWriter fileWriter) {
 		for (PropertyScraper propertyScraper : preparationPropertyScrapers) {
-			propertyScraper.setFileDataWriter(fileDataWriter);
+			propertyScraper.setFileWriter(fileWriter);
 		}
 
-		propertyScraperOptionGrid.setPropertyScrapersFileDataWriter(fileDataWriter);
+		propertyScraperOptionGrid.setPropertyScrapersFileDataWriter(fileWriter);
 	}
 
 }

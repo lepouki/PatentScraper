@@ -16,22 +16,56 @@ public abstract class CitationScraper extends PagePropertyScraper {
 	}
 
 	@Override
+	public void initialize(String rootDirectory) {
+		setFileWriterFile(rootDirectory + "/csv/Citations.csv");
+	}
+
+	@Override
+	public void cleanup() {
+		closeFileWriter();
+	}
+
+	@Override
 	public String[] getPropertyNames() {
+		return getColumnNames();
+	}
+
+	public static String[] getColumnNames() {
 		return new String[] {"source", "target"};
 	}
 
 	@Override
-	public void processDocument(Document document) {
+	public void processDocument(Document document) throws NoSuchPropertyException {
 		documentCitations.clear();
 		processCitationElements(retrieveCitationElements(), document);
 	}
 
-	private void processCitationElements(Elements citationElements, Document document) {
+	private Elements retrieveCitationElements() {
+		try {
+			String citationSelector = getCitationSelector();
+			return select(citationSelector);
+		}
+		catch (NoSuchPropertyException exception) {
+			return new Elements(0); // It is not an error if documents have no citations
+		}
+	}
+
+	private void processCitationElements(Elements citationElements, Document document) throws NoSuchPropertyException {
 		for (Element citationElement : citationElements) {
-			String otherDocumentIdentifier = citationElement.selectFirst("span[itemprop=publicationNumber]").ownText();
+			String otherDocumentIdentifier = retrieveOtherDocumentIdentifier(citationElement);
 			pushToNextLayerDocuments(otherDocumentIdentifier);
 			pushCitationToCitations(document.identifier, otherDocumentIdentifier);
 		}
+	}
+
+	private String retrieveOtherDocumentIdentifier(Element citationElement) throws NoSuchPropertyException {
+		Element identifierElement = citationElement.selectFirst("span[itemprop=publicationNumber]");
+
+		if (identifierElement == null) {
+			throw new NoSuchPropertyException();
+		}
+
+		return identifierElement.ownText();
 	}
 
 	private void pushToNextLayerDocuments(String otherDocumentIdentifier) {
@@ -52,16 +86,6 @@ public abstract class CitationScraper extends PagePropertyScraper {
 		documentCitations.add(
 			new Citation(source, target)
 		);
-	}
-
-	private Elements retrieveCitationElements() {
-		try {
-			String citationSelector = getCitationSelector();
-			return select(citationSelector);
-		}
-		catch (NoSuchPropertyException exception) {
-			return new Elements(0); // It is not an error if documents have no citations
-		}
 	}
 
 	@Override

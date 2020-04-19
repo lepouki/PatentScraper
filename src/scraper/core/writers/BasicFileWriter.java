@@ -1,11 +1,11 @@
 package scraper.core.writers;
 
-import scraper.core.FileDataWriter;
+import scraper.core.FileWriter;
 
 import java.io.*;
 import java.nio.file.*;
 
-public class BasicFileDataWriter implements FileDataWriter {
+public class BasicFileWriter implements FileWriter {
 
 	private static class FileWritingException extends IOException {
 

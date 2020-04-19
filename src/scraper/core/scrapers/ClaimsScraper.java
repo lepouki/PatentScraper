@@ -21,7 +21,7 @@ public class ClaimsScraper extends PagePropertyScraper {
 
 	private void setOutputFileForDocument(Document document) {
 		String filePath = makeFilePathForDocument(document);
-		setFileDataWriterFile(filePath);
+		setFileWriterFile(filePath);
 	}
 
 	private String makeFilePathForDocument(Document document) {

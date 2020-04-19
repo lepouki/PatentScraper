@@ -56,7 +56,7 @@ public class Application extends JFrame {
 
 	public void onStartButtonPressed() {
 		try {
-			Set<Document> documents = getInputDocuments();
+			List<Document> documents = getInputDocuments();
 			List<PropertyScraper> propertyScrapers = getPropertyScrapers();
 			int layerCount = scraperOptionsPicker.getLayerCount();
 			workerManager.runWorker(documents, propertyScrapers, layerCount);
@@ -66,7 +66,7 @@ public class Application extends JFrame {
 		}
 	}
 
-	private Set<Document> getInputDocuments() throws IOException {
+	private List<Document> getInputDocuments() throws IOException {
 		String inputFilePath = inputOutputChooser.getInputFilePathText();
 		PathChecker.checkExists(inputFilePath);
 		return inputOutputChooser.getCsvParser().parseFile(inputFilePath);

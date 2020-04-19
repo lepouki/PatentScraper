@@ -17,12 +17,12 @@ public class IdentifierScraper extends PagePropertyScraper {
 
 	@Override
 	public void initialize(String rootDirectory) {
-		setFileDataWriterFile(rootDirectory + File.separator + RELATIVE_DATA_FRAME_CSV_PATH);
+		setFileWriterFile(rootDirectory + File.separator + RELATIVE_DATA_FRAME_CSV_PATH);
 	}
 
 	@Override
 	public void cleanup() {
-		closeFileDataWriter();
+		closeFileWriter();
 	}
 
 	@Override

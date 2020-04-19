@@ -1,10 +1,8 @@
 package scraper.core.writers;
 
-import scraper.core.FileDataWriter;
+import scraper.core.FileWriter;
 
-import java.io.IOException;
-
-public class DummyFileDataWriter implements FileDataWriter {
+public class DummyFileWriter implements FileWriter {
 
 	@Override
 	public void write(String[] entries) {

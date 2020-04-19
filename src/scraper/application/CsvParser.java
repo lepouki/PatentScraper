@@ -3,7 +3,7 @@ package scraper.application;
 import scraper.core.Document;
 
 import java.io.IOException;
-import java.util.Set;
+import java.util.List;
 
 public interface CsvParser {
 
@@ -15,6 +15,6 @@ public interface CsvParser {
 
 	}
 
-	Set<Document> parseFile(String filePath) throws FormatException;
+	List<Document> parseFile(String filePath) throws FormatException;
 
 }

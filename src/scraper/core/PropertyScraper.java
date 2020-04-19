@@ -1,6 +1,6 @@
 package scraper.core;
 
-import scraper.core.writers.DummyFileDataWriter;
+import scraper.core.writers.DummyFileWriter;
 
 import java.io.IOException;
 import java.util.Base64;
@@ -11,15 +11,15 @@ public class PropertyScraper {
 
 	private final String readableName;
 	private int successCount;
-	private FileDataWriter fileDataWriter;
+	private FileWriter fileWriter;
 	private Scraper scraper;
 
 	public PropertyScraper(String readableName) {
 		successCount = 0;
 		this.readableName = readableName;
 
-		setFileDataWriter(
-			new DummyFileDataWriter()
+		setFileWriter(
+			new DummyFileWriter()
 		);
 	}
 
@@ -31,8 +31,8 @@ public class PropertyScraper {
 		return successCount;
 	}
 
-	public void setFileDataWriter(FileDataWriter fileDataWriter) {
-		this.fileDataWriter = fileDataWriter;
+	public void setFileWriter(FileWriter fileWriter) {
+		this.fileWriter = fileWriter;
 	}
 
 	public void setScraper(Scraper scraper) {
@@ -51,23 +51,25 @@ public class PropertyScraper {
 	private void tryProcessDocumentProperty(Document document) {
 		try {
 			processDocument(document);
-			String[] entries = getPropertyData();
-			writePropertyDataToFileDataWriter(entries);
+
+			writePropertyDataToFileWriter(
+				getPropertyData()
+			);
 		}
 		catch (NoSuchPropertyException exception) {
-			writeEmptyEntriesToFileDataWriter(); // If we fail, write empty entries instead
+			writeEmptyEntriesToFileWriter(); // If we fail, write empty entries instead
 		}
 	}
 
 	protected void cleanupForNextDocument() {
 	}
 
-	private void writePropertyDataToFileDataWriter(String[] entries) {
+	private void writePropertyDataToFileWriter(String[] entries) {
 		++successCount;
-		tryWriteToFileDataWriter(entries);
+		tryWriteToFileWriter(entries);
 	}
 
-	private void tryWriteToFileDataWriter(String[] entries) {
+	private void tryWriteToFileWriter(String[] entries) {
 		try {
 			writeEntries(entries);
 		}
@@ -81,23 +83,31 @@ public class PropertyScraper {
 			writeBinaryEntries(entries);
 		}
 		else {
-			fileDataWriter.write(entries);
+			fileWriter.write(entries);
 		}
 	}
 
-	private void writeBinaryEntries(String[] entries) throws IOException {
+	private void writeBinaryEntries(String[] entries) {
 		for (String entry : entries) {
-			byte[] entryData = Base64.getDecoder().decode(entry);
-			fileDataWriter.writeBytes(entryData);
+			writeBinaryToFileWriter(entry);
 		}
 	}
 
-	private void writeEmptyEntriesToFileDataWriter() {
+	// To be refactored
+	protected void writeBinaryToFileWriter(String binary) {
+		try {
+			byte[] data = Base64.getDecoder().decode(binary);
+			fileWriter.writeBytes(data);
+		}
+		catch (IOException ignored) {}
+	}
+
+	private void writeEmptyEntriesToFileWriter() {
 		String[] emptyEntry = new String[] {""};
 		int entryCount = getPropertyNames().length;
 
 		for (int i = 0; i < entryCount; ++i) {
-			tryWriteToFileDataWriter(emptyEntry);
+			tryWriteToFileWriter(emptyEntry);
 		}
 	}
 
@@ -111,16 +121,16 @@ public class PropertyScraper {
 	protected void cleanup() {
 	}
 
-	protected void setFileDataWriterFile(String filePath) {
+	protected void setFileWriterFile(String filePath) {
 		try {
-			fileDataWriter.setFile(filePath);
+			fileWriter.setFile(filePath);
 		}
 		catch (IOException ignored) {}
 	}
 
-	protected void closeFileDataWriter() {
+	protected void closeFileWriter() {
 		try {
-			fileDataWriter.close();
+			fileWriter.close();
 		}
 		catch (IOException ignored) {}
 	}

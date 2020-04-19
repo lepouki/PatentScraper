@@ -3,7 +3,7 @@ package scraper.application.groups;
 import scraper.application.widgets.PropertyScraperOptionGroup;
 import scraper.core.*;
 import scraper.core.scrapers.*;
-import scraper.core.writers.CsvFileDataWriter;
+import scraper.core.writers.CsvFileWriter;
 
 import java.util.*;
 
@@ -11,27 +11,24 @@ public class RecursiveScrapingOptionGroup extends PropertyScraperOptionGroup {
 
 	private static final String TITLE = "Scrape documents recursively";
 
-	private final CsvFileDataWriter citationFileDataWriter;
+	private final CsvFileWriter citationFileWriter;
 
 	public RecursiveScrapingOptionGroup(PageScraper pageScraper) {
 		super(TITLE);
 
-		citationFileDataWriter = new CsvFileDataWriter();
+		citationFileWriter = new CsvFileWriter();
+		setCitationFileWriterColumnNames();
 
-		createPreparationPropertyScrapers();
 		createOptionPropertyScrapers(pageScraper);
-
-		setPropertyScrapersFileDataWriter(citationFileDataWriter);
+		setPropertyScrapersFileDataWriter(citationFileWriter);
 	}
 
-	private void createPreparationPropertyScrapers() {
-		List<PropertyScraper> preparationScrapers = new ArrayList<>();
-
-		preparationScrapers.add(
-			new CitationFileDataWriterCreator()
+	private void setCitationFileWriterColumnNames() {
+		List<String> columnNames = Arrays.asList(
+			CitationScraper.getColumnNames()
 		);
 
-		pushPreparationPropertyScrapers(preparationScrapers);
+		citationFileWriter.setColumnNames(columnNames);
 	}
 
 	private void createOptionPropertyScrapers(PageScraper pageScraper) {
@@ -45,21 +42,11 @@ public class RecursiveScrapingOptionGroup extends PropertyScraperOptionGroup {
 			new CitationScraperReceived(pageScraper)
 		);
 
-		setOptionPropertyScrapers(citationsScrapers);
-	}
-
-	@Override
-	public void setOptionPropertyScrapers(List<PropertyScraper> citationsScrapers) {
-		setFileDataWriterColumns(citationsScrapers);
-		super.setOptionPropertyScrapers(citationsScrapers);
-	}
-
-	private void setFileDataWriterColumns(List<PropertyScraper> citationsScrapers) {
-		String[] columnNames = citationsScrapers.get(0).getPropertyNames();
-
-		citationFileDataWriter.setColumnNames(
-			Arrays.asList(columnNames)
+		citationsScrapers.add(
+			new SimilarDocumentsScraper(pageScraper)
 		);
+
+		setOptionPropertyScrapers(citationsScrapers);
 	}
 
 }

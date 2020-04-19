@@ -3,7 +3,7 @@ package scraper.application.groups;
 import scraper.application.widgets.PropertyScraperOptionGroup;
 import scraper.core.*;
 import scraper.core.scrapers.*;
-import scraper.core.writers.CsvFileDataWriter;
+import scraper.core.writers.CsvFileWriter;
 
 import java.util.*;
 
@@ -11,12 +11,12 @@ public class DataFrameAdditionsOptionGroup extends PropertyScraperOptionGroup {
 
 	private static final String TITLE = "Data frame additions";
 
-	private final CsvFileDataWriter dataFrameWriter;
+	private final CsvFileWriter dataFrameWriter;
 	private final PageScraper pageScraper;
 
 	public DataFrameAdditionsOptionGroup() {
 		super(TITLE);
-		dataFrameWriter = new CsvFileDataWriter();
+		dataFrameWriter = new CsvFileWriter();
 		pageScraper = new PageScraper();
 
 		createPreparationPropertyScrapers();

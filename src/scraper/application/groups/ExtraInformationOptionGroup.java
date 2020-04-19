@@ -34,6 +34,10 @@ public class ExtraInformationOptionGroup extends PropertyScraperOptionGroup {
 			new ClaimsScraper(pageScraper)
 		);
 
+		extraInformationScrapers.add(
+			new FiguresScraper(pageScraper)
+		);
+
 		setOptionPropertyScrapers(extraInformationScrapers);
 	}
 

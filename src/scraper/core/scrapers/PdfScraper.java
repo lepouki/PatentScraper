@@ -1,7 +1,7 @@
 package scraper.core.scrapers;
 
 import scraper.core.*;
-import scraper.core.writers.BasicFileDataWriter;
+import scraper.core.writers.BasicFileWriter;
 
 import java.io.*;
 
@@ -14,14 +14,14 @@ public class PdfScraper extends PagePropertyScraper {
 
 	public PdfScraper(PageScraper pageScraper) {
 		super(READABLE_NAME, pageScraper);
-
-		setFileDataWriter(
-			new BasicFileDataWriter()
-		);
 	}
 
 	@Override
 	public void initialize(String rootDirectory) {
+		setFileWriter(
+			new BasicFileWriter()
+		);
+
 		this.rootDirectory = rootDirectory;
 	}
 
@@ -43,7 +43,7 @@ public class PdfScraper extends PagePropertyScraper {
 
 	private void setOutputFileForDocument(Document document) {
 		String filePath = makeFilePathForDocument(document);
-		setFileDataWriterFile(filePath);
+		setFileWriterFile(filePath);
 	}
 
 	private String makeFilePathForDocument(Document document) {
