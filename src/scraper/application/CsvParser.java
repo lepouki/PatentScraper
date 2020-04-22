@@ -15,6 +15,6 @@ public interface CsvParser {
 
 	}
 
-	List<Document> parseFile(String filePath) throws FormatException;
+	List<Document> parseDocuments(String filePath) throws FormatException;
 
 }

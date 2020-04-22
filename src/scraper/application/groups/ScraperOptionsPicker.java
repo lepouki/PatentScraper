@@ -5,6 +5,7 @@ import scraper.application.widgets.*;
 import scraper.core.*;
 import scraper.core.scrapers.PageScraper;
 
+import java.awt.*;
 import java.io.IOException;
 import java.util.*;
 import java.util.List;
@@ -13,10 +14,12 @@ import javax.swing.*;
 public class ScraperOptionsPicker extends WidgetGroup {
 
 	private static final String TITLE = "Options";
+	private static final String NATIVE_LANGUAGE_CHECKBOX_TEXT = "Use native document language";
 
+	private JCheckBox nativeLanguageCheckbox;
 	private List<PropertyScraperOptionGroup> optionGroups;
-	private PageScraper pageScraper;
 	private RecursionLayerCountPicker recursionLayerCountPicker;
+	private PageScraper pageScraper;
 
 	public ScraperOptionsPicker() {
 		super(TITLE, LayoutConfiguration.PADDING);
@@ -24,8 +27,16 @@ public class ScraperOptionsPicker extends WidgetGroup {
 		BoxLayout layout = new BoxLayout(this, BoxLayout.PAGE_AXIS);
 		setLayout(layout);
 
+		createNativeLanguageCheckbox();
 		createOptionGroups();
 		createCitationLayerCountPicker();
+	}
+
+	private void createNativeLanguageCheckbox() {
+		nativeLanguageCheckbox = new JCheckBox(NATIVE_LANGUAGE_CHECKBOX_TEXT);
+		add(nativeLanguageCheckbox);
+		nativeLanguageCheckbox.setAlignmentX(Component.CENTER_ALIGNMENT);
+		createComponentSeparator();
 	}
 
 	private void createOptionGroups() {
@@ -64,6 +75,7 @@ public class ScraperOptionsPicker extends WidgetGroup {
 	}
 
 	public List<PropertyScraper> getPropertyScrapers(String outputDirectory) {
+		initializePageScraper();
 		List<PropertyScraper> propertyScrapers = new ArrayList<>();
 
 		for (PropertyScraperOptionGroup optionGroup : optionGroups) {
@@ -76,8 +88,12 @@ public class ScraperOptionsPicker extends WidgetGroup {
 		return propertyScrapers;
 	}
 
-	private static void initializePropertyScrapers(List<PropertyScraper> propertyScrapers, String outputDirectory)
-	{
+	private void initializePageScraper() {
+		boolean useNativeLanguage = nativeLanguageCheckbox.isSelected();
+		pageScraper.setUseNativeLanguage(useNativeLanguage);
+	}
+
+	private static void initializePropertyScrapers(List<PropertyScraper> propertyScrapers, String outputDirectory) {
 		for (PropertyScraper propertyScraper : propertyScrapers) {
 			propertyScraper.initialize(outputDirectory);
 		}

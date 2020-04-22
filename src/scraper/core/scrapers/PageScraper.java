@@ -11,36 +11,42 @@ public class PageScraper extends PropertyScraper {
 	private static final String READABLE_NAME = "Document page";
 	private static final String PATENT_LINK_PREFIX = "https://patents.google.com/patent/";
 
+	private boolean useNativeLanguage = false;
 	private String pageLink;
-	private org.jsoup.nodes.Document document;
+	private org.jsoup.nodes.Document page;
 
 	public PageScraper() {
 		super(READABLE_NAME);
 	}
 
+	public void setUseNativeLanguage(boolean useNativeLanguage) {
+		this.useNativeLanguage = useNativeLanguage;
+	}
+
 	@Override
 	public void processDocument(Document document) throws NoSuchPropertyException {
-		this.document = null;
+		page = null;
 		pageLink = makePageLink(document);
 		tryRetrievePage();
 	}
 
 	private String makePageLink(Document document) {
-		return PATENT_LINK_PREFIX + document.identifier + "/en";
+		String languageSuffix = useNativeLanguage ? "" : "/en";
+		return PATENT_LINK_PREFIX + document.identifier + languageSuffix;
 	}
 
 	private void tryRetrievePage() throws NoSuchPropertyException {
 		try {
-			document = Jsoup.connect(pageLink).get();
+			page = Jsoup.connect(pageLink).get();
 		}
 		catch (IOException exception) {
-			document = new org.jsoup.nodes.Document("");
+			page = new org.jsoup.nodes.Document("");
 			throw new NoSuchPropertyException();
 		}
 	}
 
 	public Element getPage() {
-		return document;
+		return page;
 	}
 
 	public String getPageLink() {

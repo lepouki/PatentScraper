@@ -1,8 +1,9 @@
 package scraper.core.scrapers;
 
 import scraper.core.Document;
+import scraper.core.writers.BasicFileWriter;
 
-public class ClaimsScraper extends PagePropertyScraper {
+public class ClaimsScraper extends FileChangingPagePropertyScraper {
 
 	private static final String READABLE_NAME = "Claims";
 
@@ -10,13 +11,23 @@ public class ClaimsScraper extends PagePropertyScraper {
 
 	public ClaimsScraper(PageScraper pageScraper) {
 		super(READABLE_NAME, pageScraper);
+
+		setFileWriter(
+			new BasicFileWriter()
+		);
 	}
 
 	@Override
 	public void processDocument(Document document) throws NoSuchPropertyException {
-		setOutputFileForDocument(document);
 		String selector = HasClaimsScraper.getClaimsSectionSelector();
 		claims = selectFirst(selector).wholeText();
+
+		boolean areClaimsEmpty = claims.isEmpty();
+		if (areClaimsEmpty) {
+			throw new NoSuchPropertyException();
+		}
+
+		setOutputFileForDocument(document);
 	}
 
 	private void setOutputFileForDocument(Document document) {

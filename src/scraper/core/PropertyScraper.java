@@ -93,7 +93,6 @@ public class PropertyScraper {
 		}
 	}
 
-	// To be refactored
 	protected void writeBinaryToFileWriter(String binary) {
 		try {
 			byte[] data = Base64.getDecoder().decode(binary);

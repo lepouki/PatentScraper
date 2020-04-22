@@ -14,6 +14,11 @@ public class CitationScraperGiven extends CitationScraper {
 	}
 
 	@Override
+	protected String getCsvName() {
+		return READABLE_NAME;
+	}
+
+	@Override
 	protected String getCitationSelector() {
 		return "tr[itemprop=forwardReferencesOrig]";
 	}

@@ -7,7 +7,7 @@ import java.io.File;
 public class IdentifierScraper extends PagePropertyScraper {
 
 	private static final String READABLE_NAME = "Identifier";
-	private static final String RELATIVE_DATA_FRAME_CSV_PATH = "csv" + File.separator + "DataFrame.csv";
+	private static final String RELATIVE_DATA_FRAME_CSV_PATH = "csv" + File.separator + "Data frame.csv";
 
 	private String identifier;
 

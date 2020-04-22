@@ -3,21 +3,34 @@ package scraper.core.scrapers;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import scraper.core.*;
+import scraper.core.writers.CsvFileWriter;
 
 import java.util.*;
 
 public abstract class CitationScraper extends PagePropertyScraper {
 
-	private final List<Citation> documentCitations;
+	private final List<Citation> citations;
 
 	public CitationScraper(String readableName, PageScraper pageScraper) {
 		super(readableName, pageScraper);
-		documentCitations = new ArrayList<>();
+		citations = new ArrayList<>();
+
+		CsvFileWriter citationFileWriter = new CsvFileWriter();
+		setFileWriter(citationFileWriter);
+		setCitationFileWriterColumnNames(citationFileWriter);
+	}
+
+	private void setCitationFileWriterColumnNames(CsvFileWriter csvFileWriter) {
+		List<String> columnNames = Arrays.asList(
+			getColumnNames()
+		);
+
+		csvFileWriter.setColumnNames(columnNames);
 	}
 
 	@Override
 	public void initialize(String rootDirectory) {
-		setFileWriterFile(rootDirectory + "/csv/Citations.csv");
+		setFileWriterFile(rootDirectory + "/csv/" + getCsvName() + ".csv");
 	}
 
 	@Override
@@ -25,18 +38,13 @@ public abstract class CitationScraper extends PagePropertyScraper {
 		closeFileWriter();
 	}
 
-	@Override
-	public String[] getPropertyNames() {
-		return getColumnNames();
-	}
-
-	public static String[] getColumnNames() {
-		return new String[] {"source", "target"};
+	private static String[] getColumnNames() {
+		return new String[] {"source", "target", "cited by"};
 	}
 
 	@Override
 	public void processDocument(Document document) throws NoSuchPropertyException {
-		documentCitations.clear();
+		citations.clear();
 		processCitationElements(retrieveCitationElements(), document);
 	}
 
@@ -53,8 +61,10 @@ public abstract class CitationScraper extends PagePropertyScraper {
 	private void processCitationElements(Elements citationElements, Document document) throws NoSuchPropertyException {
 		for (Element citationElement : citationElements) {
 			String otherDocumentIdentifier = retrieveOtherDocumentIdentifier(citationElement);
+			char originCharacter = retrieveOriginCharacter(citationElement);
+
 			pushToNextLayerDocuments(otherDocumentIdentifier);
-			pushCitationToCitations(document.identifier, otherDocumentIdentifier);
+			pushCitationToCitations(document.identifier, otherDocumentIdentifier, originCharacter);
 		}
 	}
 
@@ -68,13 +78,25 @@ public abstract class CitationScraper extends PagePropertyScraper {
 		return identifierElement.ownText();
 	}
 
+	private char retrieveOriginCharacter(Element citationElement) {
+		Element originElement = citationElement.selectFirst("span[itemprop=examinerCited]");
+
+		if (originElement == null) {
+			return 0;
+		}
+
+		return originElement.ownText().charAt(0);
+	}
+
 	private void pushToNextLayerDocuments(String otherDocumentIdentifier) {
 		pushNextLayerDocument(
 			new Document(otherDocumentIdentifier)
 		);
 	}
 
-	private void pushCitationToCitations(String documentIdentifier, String otherDocumentIdentifier) {
+	private void pushCitationToCitations(
+		String documentIdentifier, String otherDocumentIdentifier, char originCharacter)
+	{
 		boolean isGivenCitation = isGivenCitation();
 
 		String source = isGivenCitation
@@ -83,20 +105,20 @@ public abstract class CitationScraper extends PagePropertyScraper {
 		String target = isGivenCitation
 			? documentIdentifier : otherDocumentIdentifier;
 
-		documentCitations.add(
-			new Citation(source, target)
+		citations.add(
+			new Citation(source, target, originCharacter)
 		);
 	}
 
 	@Override
 	public String[] getPropertyData() {
-		int propertyCount = getPropertyNames().length;
-		int citationCount = documentCitations.size();
-		String[] propertyData = new String[citationCount * propertyCount];
+		int columnCount = getColumnNames().length;
+		int citationCount = citations.size();
+		String[] propertyData = new String[citationCount * columnCount];
 
 		for (int i = 0; i < citationCount; ++i) {
-			Citation citation = documentCitations.get(i);
-			int index = i * propertyCount;
+			Citation citation = citations.get(i);
+			int index = i * columnCount;
 			pushCitationToPropertyData(citation, index, propertyData);
 		}
 
@@ -106,9 +128,12 @@ public abstract class CitationScraper extends PagePropertyScraper {
 	private void pushCitationToPropertyData(Citation citation, int index, String[] propertyData) {
 		propertyData[index] = citation.source;
 		propertyData[index + 1] = citation.target;
+		propertyData[index + 2] = citation.origin;
 	}
 
 	protected abstract boolean isGivenCitation();
+
+	protected abstract String getCsvName();
 
 	protected abstract String getCitationSelector();
 

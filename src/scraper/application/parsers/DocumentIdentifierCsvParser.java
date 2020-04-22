@@ -19,7 +19,7 @@ public abstract class DocumentIdentifierCsvParser implements CsvParser {
 	private Scanner scanner;
 
 	@Override
-	public List<Document> parseFile(String filePath) throws FormatException {
+	public List<Document> parseDocuments(String filePath) throws FormatException {
 		createScanner(filePath);
 		prepare();
 		return parseLines();

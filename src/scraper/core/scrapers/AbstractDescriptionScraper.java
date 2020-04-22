@@ -1,8 +1,9 @@
 package scraper.core.scrapers;
 
 import scraper.core.Document;
+import scraper.core.writers.BasicFileWriter;
 
-public class AbstractDescriptionScraper extends PagePropertyScraper {
+public class AbstractDescriptionScraper extends FileChangingPagePropertyScraper {
 
 	private static final String READABLE_NAME = "Abstract";
 
@@ -10,12 +11,22 @@ public class AbstractDescriptionScraper extends PagePropertyScraper {
 
 	public AbstractDescriptionScraper(PageScraper pageScraper) {
 		super(READABLE_NAME, pageScraper);
+
+		setFileWriter(
+			new BasicFileWriter()
+		);
 	}
 
 	@Override
 	public void processDocument(Document document) throws NoSuchPropertyException {
-		setOutputFileForDocument(document);
 		abstractDescription = selectFirst("section[itemprop=abstract]").wholeText();
+
+		boolean isAbstractDescriptionEmpty = abstractDescription.isEmpty();
+		if (isAbstractDescriptionEmpty) {
+			throw new NoSuchPropertyException();
+		}
+
+		setOutputFileForDocument(document);
 	}
 
 	private void setOutputFileForDocument(Document document) {

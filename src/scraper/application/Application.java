@@ -69,7 +69,7 @@ public class Application extends JFrame {
 	private List<Document> getInputDocuments() throws IOException {
 		String inputFilePath = inputOutputChooser.getInputFilePathText();
 		PathChecker.checkExists(inputFilePath);
-		return inputOutputChooser.getCsvParser().parseFile(inputFilePath);
+		return inputOutputChooser.getCsvParser().parseDocuments(inputFilePath);
 	}
 	private List<PropertyScraper> getPropertyScrapers() throws IOException {
 		String outputDirectoryPath = inputOutputChooser.getOutputDirectoryPathText();

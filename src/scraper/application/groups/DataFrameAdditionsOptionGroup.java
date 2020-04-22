@@ -5,6 +5,7 @@ import scraper.core.*;
 import scraper.core.scrapers.*;
 import scraper.core.writers.CsvFileWriter;
 
+import javax.swing.*;
 import java.util.*;
 
 public class DataFrameAdditionsOptionGroup extends PropertyScraperOptionGroup {
@@ -23,6 +24,10 @@ public class DataFrameAdditionsOptionGroup extends PropertyScraperOptionGroup {
 		createOptionPropertyScrapers();
 
 		setPropertyScrapersFileDataWriter(dataFrameWriter);
+	}
+
+	public void setUseNativeLanguage(boolean useNativeLanguage) {
+		pageScraper.setUseNativeLanguage(useNativeLanguage);
 	}
 
 	private void createPreparationPropertyScrapers() {

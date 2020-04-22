@@ -24,29 +24,29 @@ public class SimilarDocumentsScraper extends PagePropertyScraper {
 
 		setFileWriterColumns(fileWriter);
 		setFileWriter(fileWriter);
-		setFileWriterFile(rootDirectory + "/csv/Similar.csv");
+		setFileWriterFile(rootDirectory + "/csv/" + READABLE_NAME + ".csv");
 	}
 
 	private void setFileWriterColumns(CsvFileWriter fileWriter) {
 		List<String> columnNames = Arrays.asList(
-			getPropertyNames()
+			getColumnNames()
 		);
 
 		fileWriter.setColumnNames(columnNames);
 	}
 
-	@Override
-	public String[] getPropertyNames() {
-		return new String[] {"document", "similar document"};
+	private static String[] getColumnNames() {
+		return new String[] {"document", "similar"};
 	}
 
 	@Override
 	public void processDocument(Document document) throws NoSuchPropertyException {
+		similarDocuments.clear();
 		Elements similarDocuments = select("tr[itemprop=similarDocuments]");
 
 		for (Element similarDocument : similarDocuments) {
 			String similarDocumentIdentifier = retrieveSimilarDocumentIdentifier(similarDocument);
-			pushDocument(document, similarDocumentIdentifier);
+			pushSimilarDocument(document, similarDocumentIdentifier);
 		}
 	}
 
@@ -60,7 +60,7 @@ public class SimilarDocumentsScraper extends PagePropertyScraper {
 		return identifier.ownText();
 	}
 
-	private void pushDocument(Document document, String similarDocumentIdentifier) {
+	private void pushSimilarDocument(Document document, String similarDocumentIdentifier) {
 		SimilarDocument similarDocument = new SimilarDocument(document, similarDocumentIdentifier);
 		similarDocuments.add(similarDocument);
 		pushNextLayerDocument(similarDocument.similarDocument);
@@ -68,13 +68,13 @@ public class SimilarDocumentsScraper extends PagePropertyScraper {
 
 	@Override
 	public String[] getPropertyData() {
-		int propertyCount = getPropertyNames().length;
 		int documentCount = similarDocuments.size();
-		String[] propertyData = new String[documentCount * propertyCount];
+		int columnCount = getColumnNames().length;
+		String[] propertyData = new String[documentCount * columnCount];
 
 		for (int i = 0; i < documentCount; ++i) {
 			SimilarDocument similarDocument = similarDocuments.get(i);
-			int index = i * propertyCount;
+			int index = i * columnCount;
 			pushSimilarDocumentToPropertyData(similarDocument, index, propertyData);
 		}
 
