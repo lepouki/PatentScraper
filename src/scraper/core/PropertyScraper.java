@@ -117,7 +117,7 @@ public class PropertyScraper {
 	public void initialize(String rootDirectory) {
 	}
 
-	protected void cleanup() {
+	protected void cleanupResources() {
 	}
 
 	protected void setFileWriterFile(String filePath) {

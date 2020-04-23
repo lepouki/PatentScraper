@@ -25,12 +25,16 @@ public class FiguresScraper extends FileChangingPagePropertyScraper {
 
 		for (Element figureElement : figureElements) {
 			String figureLink = figureElement.selectFirst("meta[itemprop=full]").attr("content");
-			setFileWriterFileForDocumentFigure(document, figureLink);
-			writeFigureDataToFileWriter(figureLink);
+			writeFigureDataToCorrespondingFile(document, figureLink);
 		}
 	}
 
-	private void setFileWriterFileForDocumentFigure(Document document, String figureLink) {
+	private void writeFigureDataToCorrespondingFile(Document document, String figureLink) {
+		setFileWriterFileForFigure(document, figureLink);
+		writeFigureDataToFileWriter(figureLink);
+	}
+
+	private void setFileWriterFileForFigure(Document document, String figureLink) {
 		String figureName = getFigureNameInFigureLink(figureLink);
 		String figureRelativeFilePath = String.format("extra/figures/%s/%s", document.identifier, figureName);
 		setFileWriterFile(figureRelativeFilePath);

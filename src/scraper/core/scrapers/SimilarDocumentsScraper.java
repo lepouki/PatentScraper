@@ -87,7 +87,7 @@ public class SimilarDocumentsScraper extends PagePropertyScraper {
 	}
 
 	@Override
-	public void cleanup() {
+	public void cleanupResources() {
 		closeFileWriter();
 	}
 

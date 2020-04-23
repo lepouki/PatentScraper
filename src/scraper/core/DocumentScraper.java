@@ -19,7 +19,7 @@ public class DocumentScraper {
 
 	public void cleanupPropertyScrapers() throws IOException {
 		for (PropertyScraper propertyScraper : propertyScrapers) {
-			propertyScraper.cleanup();
+			propertyScraper.cleanupResources();
 		}
 	}
 

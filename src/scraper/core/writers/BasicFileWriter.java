@@ -122,6 +122,13 @@ public class BasicFileWriter implements FileWriter {
 
 	@Override
 	public void close() throws IOException {
+		if (fileOutputStream == null)
+			return;
+
+		tryCloseFileWriter();
+	}
+
+	private void tryCloseFileWriter() throws FileClosingException {
 		try {
 			fileOutputStream.close();
 		}

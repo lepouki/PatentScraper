@@ -21,7 +21,7 @@ public class IdentifierScraper extends PagePropertyScraper {
 	}
 
 	@Override
-	public void cleanup() {
+	public void cleanupResources() {
 		closeFileWriter();
 	}
 

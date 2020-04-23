@@ -16,7 +16,13 @@ public class FileChangingPagePropertyScraper extends PagePropertyScraper {
 	}
 
 	@Override
+	public void cleanupResources() {
+		closeFileWriter();
+	}
+
+	@Override
 	public void setFileWriterFile(String relativeFilePath) {
+		closeFileWriter();
 		super.setFileWriterFile(rootDirectory + File.separator + relativeFilePath);
 	}
 
