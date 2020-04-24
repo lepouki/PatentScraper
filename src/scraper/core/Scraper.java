@@ -109,9 +109,9 @@ public class Scraper extends EventSource {
 	}
 
 	public void pushNextLayerDocument(Document document) {
-		boolean hasBeenProcessed = processed.contains(document);
+		boolean alreadyProcessed = processed.contains(document);
 
-		if (hasBeenProcessed)
+		if (alreadyProcessed)
 			return;
 
 		nextLayerDocuments.add(document);
@@ -119,7 +119,9 @@ public class Scraper extends EventSource {
 
 	public void writeSummary(String filePath) {
 		List<PropertyScraper> propertyScrapers = documentScraper.getPropertyScrapers();
-		SummaryWriter summaryWriter = new SummaryWriter(processed.size(), propertyScrapers);
+		int documentCount = processed.size();
+
+		SummaryWriter summaryWriter = new SummaryWriter(documentCount, propertyScrapers);
 		summaryWriter.writeSummary(filePath);
 	}
 

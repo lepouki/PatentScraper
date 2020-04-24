@@ -46,11 +46,15 @@ public class InputOutputChooser extends WidgetGroup {
 	}
 
 	public String getInputFilePathText() {
-		return inputFileChooser.getFilePathText().strip();
+		return getFileChooserText(inputFileChooser);
+	}
+
+	private String getFileChooserText(FileChooser fileChooser) {
+		return fileChooser.getFilePathText().strip();
 	}
 
 	public String getOutputDirectoryPathText() {
-		return outputDirectoryChooser.getFilePathText().strip();
+		return getFileChooserText(outputDirectoryChooser);
 	}
 
 	public CsvParser getCsvParser() {

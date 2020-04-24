@@ -127,7 +127,6 @@ public class Application extends JFrame {
 	public void onWorkerDone() {
 		writeScraperSummary();
 		updateInterfaceWorkerDone();
-
 	}
 
 	private void writeScraperSummary() {

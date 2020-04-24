@@ -31,7 +31,7 @@ public class SummaryWriter {
 			fileWriter.setFile(filePath);
 			return fileWriter;
 		}
-		catch (IOException ignored) {
+		catch (IOException exception) {
 			return new DummyFileWriter();
 		}
 	}

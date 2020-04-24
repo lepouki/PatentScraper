@@ -25,10 +25,6 @@ public class DataFrameAdditionsOptionGroup extends PropertyScraperOptionGroup {
 		setPropertyScrapersFileDataWriter(dataFrameWriter);
 	}
 
-	public void setUseNativeLanguage(boolean useNativeLanguage) {
-		pageScraper.setUseNativeLanguage(useNativeLanguage);
-	}
-
 	private void createPreparationPropertyScrapers() {
 		List<PropertyScraper> preparationScrapers = new ArrayList<>();
 
@@ -159,12 +155,6 @@ public class DataFrameAdditionsOptionGroup extends PropertyScraperOptionGroup {
 		columnNames.addAll(
 			Arrays.asList(propertyNames)
 		);
-	}
-
-	@Override
-	public void setOptionPropertyScrapers(List<PropertyScraper> optionPropertyScrapers) {
-		super.setOptionPropertyScrapers(optionPropertyScrapers);
-
 	}
 
 	public PageScraper getPageScraper() {

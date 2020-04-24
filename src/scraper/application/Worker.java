@@ -22,7 +22,9 @@ public class Worker extends SwingWorker<Void, ProgressEvent> implements EventLis
 	@Override
 	protected void process(List<ProgressEvent> progressEvents) {
 		boolean isCancelled = isCancelled();
-		if (isCancelled) return; // Sometimes process gets called after the worker has been cancelled
+
+		if (isCancelled)
+			return; // Sometimes process gets called after the worker has been cancelled
 
 		for (ProgressEvent progressEvent : progressEvents) {
 			application.onWorkerProgress(progressEvent);
@@ -31,7 +33,8 @@ public class Worker extends SwingWorker<Void, ProgressEvent> implements EventLis
 
 	@Override
 	protected Void doInBackground() {
-		scraper.scrape(); return null;
+		scraper.scrape();
+		return null;
 	}
 
 	@Override
