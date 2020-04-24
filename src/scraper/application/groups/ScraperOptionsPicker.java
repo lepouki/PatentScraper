@@ -40,10 +40,9 @@ public class ScraperOptionsPicker extends WidgetGroup {
 
 	private void createOptionGroups() {
 		optionGroups = new ArrayList<>();
-
 		createDataFrameAdditionsOptionGroup();
 		createExtraFilesOptionGroup();
-		createRecursiveCitationsOptionGroup();
+		createRecursiveScrapingOptionGroup();
 	}
 
 	private void createDataFrameAdditionsOptionGroup() {
@@ -58,7 +57,7 @@ public class ScraperOptionsPicker extends WidgetGroup {
 		createComponentSeparator();
 	}
 
-	private void createRecursiveCitationsOptionGroup() {
+	private void createRecursiveScrapingOptionGroup() {
 		RecursiveScrapingOptionGroup optionGroup = new RecursiveScrapingOptionGroup(pageScraper);
 		pushOptionGroup(optionGroup);
 	}
