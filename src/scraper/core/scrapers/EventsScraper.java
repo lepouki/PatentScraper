@@ -44,13 +44,14 @@ public class EventsScraper extends FileChangingPagePropertyScraper {
 		setFileWriterFileForDocument(document);
 
 		for (Element eventElement : eventElements) {
-			Event event = parseEvent(eventElement);
-			events.add(event);
+			events.add(
+				parseEvent(eventElement)
+			);
 		}
 	}
 
 	private void setFileWriterFileForDocument(Document document) {
-		setFileWriterFile("/extra/events/" + document.identifier + ".csv");
+		setRelativeFileWriterFile("/extra/events/" + document.identifier + ".csv");
 	}
 
 	private Event parseEvent(Element legalEventElement) {

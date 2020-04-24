@@ -17,6 +17,7 @@ public class AbstractDescriptionScraper extends FileChangingPagePropertyScraper 
 		);
 	}
 
+
 	@Override
 	public void processDocument(Document document) throws NoSuchPropertyException {
 		abstractDescription = selectFirst("section[itemprop=abstract]").wholeText();
@@ -30,12 +31,7 @@ public class AbstractDescriptionScraper extends FileChangingPagePropertyScraper 
 	}
 
 	private void setOutputFileForDocument(Document document) {
-		String filePath = makeFilePathForDocument(document);
-		setFileWriterFile(filePath);
-	}
-
-	private String makeFilePathForDocument(Document document) {
-		return String.format("extra/abstract/%s.txt", document.identifier);
+		setRelativeFileWriterFile("extra/abstract/" + document.identifier + ".txt");
 	}
 
 	@Override

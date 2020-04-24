@@ -31,12 +31,7 @@ public class ClaimsScraper extends FileChangingPagePropertyScraper {
 	}
 
 	private void setOutputFileForDocument(Document document) {
-		String filePath = makeFilePathForDocument(document);
-		setFileWriterFile(filePath);
-	}
-
-	private String makeFilePathForDocument(Document document) {
-		return String.format("extra/claims/%s.txt", document.identifier);
+		setRelativeFileWriterFile("extra/claims/" + document.identifier + ".txt");
 	}
 
 	@Override

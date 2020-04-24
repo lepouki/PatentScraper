@@ -20,10 +20,9 @@ public class FileChangingPagePropertyScraper extends PagePropertyScraper {
 		closeFileWriter();
 	}
 
-	@Override
-	public void setFileWriterFile(String relativeFilePath) {
+	protected void setRelativeFileWriterFile(String relativeFilePath) {
 		closeFileWriter();
-		super.setFileWriterFile(rootDirectory + File.separator + relativeFilePath);
+		setFileWriterFile(rootDirectory + File.separator + relativeFilePath);
 	}
 
 }

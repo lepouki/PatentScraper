@@ -30,12 +30,7 @@ public class DescriptionScraper extends FileChangingPagePropertyScraper {
 	}
 
 	private void setOutputFileForDocument(Document document) {
-		String filePath = makeFilePathForDocument(document);
-		setFileWriterFile(filePath);
-	}
-
-	private String makeFilePathForDocument(Document document) {
-		return String.format("extra/description/%s.txt", document.identifier);
+		setRelativeFileWriterFile("extra/description/" + document.identifier + ".txt");
 	}
 
 	@Override

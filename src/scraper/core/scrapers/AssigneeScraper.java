@@ -23,7 +23,7 @@ public class AssigneeScraper extends PagePropertyScraper {
 			retrieveAssignees();
 		}
 		catch (NoSuchPropertyException exception) {
-			retrieveInventorOrAuthor(); // When there is no assignee provided, the assignee is the inventor or author
+			retrieveInventorOrAuthor(); // When there is no assignee provided, the assignee is the inventor
 		}
 	}
 

@@ -23,20 +23,10 @@ public class GenderWithProbabilityScraper extends PagePropertyScraper {
 	}
 
 	@Override
-	public void processDocument(Document document) {
-		tryRequestGender();
-	}
-
-	private void tryRequestGender() {
-		try {
-			String inventorOrAuthor = getInventorOrAuthor();
-			String genderRequestPageLink = makeGenderRequestPageLink(inventorOrAuthor);
-			processGenderRequest(genderRequestPageLink);
-		}
-		catch (NoSuchPropertyException exception) {
-			gender = "unknown";
-			genderProbability = 0.0f;
-		}
+	public void processDocument(Document document) throws NoSuchPropertyException {
+		String inventorOrAuthor = getInventorOrAuthor();
+		String genderRequestPageLink = makeGenderRequestPageLink(inventorOrAuthor);
+		processGenderRequest(genderRequestPageLink);
 	}
 
 	private String getInventorOrAuthor() throws NoSuchPropertyException {

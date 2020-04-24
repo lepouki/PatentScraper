@@ -2,10 +2,10 @@ package scraper.core.scrapers;
 
 public class CitationCountScraperReceived extends ElementCountScraper {
 
-	private static final String OPTION_NAME = "Received citation count";
+	private static final String READABLE_NAME = "Received citation count";
 
 	public CitationCountScraperReceived(PageScraper pageScraper) {
-		super(OPTION_NAME, pageScraper);
+		super(READABLE_NAME, pageScraper);
 	}
 
 	@Override
