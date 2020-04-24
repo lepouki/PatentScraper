@@ -6,7 +6,6 @@ import scraper.core.*;
 import scraper.core.scrapers.PageScraper;
 
 import java.awt.*;
-import java.io.IOException;
 import java.util.*;
 import java.util.List;
 import javax.swing.*;
@@ -43,7 +42,7 @@ public class ScraperOptionsPicker extends WidgetGroup {
 		optionGroups = new ArrayList<>();
 
 		createDataFrameAdditionsOptionGroup();
-		createExtraInformationOptionGroup();
+		createExtraFilesOptionGroup();
 		createRecursiveCitationsOptionGroup();
 	}
 
@@ -64,8 +63,8 @@ public class ScraperOptionsPicker extends WidgetGroup {
 		pushOptionGroup(optionGroup);
 	}
 
-	private void createExtraInformationOptionGroup() {
-		ExtraInformationOptionGroup optionGroup = new ExtraInformationOptionGroup(pageScraper);
+	private void createExtraFilesOptionGroup() {
+		ExtraFilesOptionGroup optionGroup = new ExtraFilesOptionGroup(pageScraper);
 		pushOptionGroup(optionGroup);
 	}
 
@@ -95,6 +94,7 @@ public class ScraperOptionsPicker extends WidgetGroup {
 
 	private static void initializePropertyScrapers(List<PropertyScraper> propertyScrapers, String outputDirectory) {
 		for (PropertyScraper propertyScraper : propertyScrapers) {
+			propertyScraper.resetSuccessCount();
 			propertyScraper.initialize(outputDirectory);
 		}
 	}

@@ -11,6 +11,10 @@ public class DocumentScraper {
 		this.propertyScrapers = new ArrayList<>(propertyScrapers);
 	}
 
+	public List<PropertyScraper> getPropertyScrapers() {
+		return propertyScrapers;
+	}
+
 	public void scrape(Document document) {
 		for (PropertyScraper propertyScraper : propertyScrapers) {
 			propertyScraper.scrapeProperty(document);

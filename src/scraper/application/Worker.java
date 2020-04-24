@@ -53,4 +53,8 @@ public class Worker extends SwingWorker<Void, ProgressEvent> implements EventLis
 		publish(progressEvent);
 	}
 
+	public void writeScraperSummary(String filePath) {
+		scraper.writeSummary(filePath);
+	}
+
 }

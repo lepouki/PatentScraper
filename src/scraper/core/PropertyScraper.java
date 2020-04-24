@@ -15,12 +15,16 @@ public class PropertyScraper {
 	private Scraper scraper;
 
 	public PropertyScraper(String readableName) {
-		successCount = 0;
+		resetSuccessCount();
 		this.readableName = readableName;
 
 		setFileWriter(
 			new DummyFileWriter()
 		);
+	}
+
+	public void resetSuccessCount() {
+		successCount = 0;
 	}
 
 	public String getReadableName() {
@@ -40,12 +44,7 @@ public class PropertyScraper {
 	}
 
 	public void scrapeProperty(Document document) {
-		prepareForDocument(document);
 		tryProcessDocumentProperty(document);
-		cleanupForNextDocument();
-	}
-
-	protected void prepareForDocument(Document document) {
 	}
 
 	private void tryProcessDocumentProperty(Document document) {
@@ -59,9 +58,6 @@ public class PropertyScraper {
 		catch (NoSuchPropertyException exception) {
 			writeEmptyEntriesToFileWriter(); // If we fail, write empty entries instead
 		}
-	}
-
-	protected void cleanupForNextDocument() {
 	}
 
 	private void writePropertyDataToFileWriter(String[] entries) {

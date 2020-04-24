@@ -30,4 +30,8 @@ public class WorkerManager {
 		}
 	}
 
+	public void writeScraperSummary(String filePath) {
+		worker.writeScraperSummary(filePath);
+	}
+
 }

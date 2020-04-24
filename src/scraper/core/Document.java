@@ -8,4 +8,16 @@ public class Document {
 		this.identifier = identifier;
 	}
 
+	@Override
+	public boolean equals(Object other) {
+		boolean isDocument = other instanceof Document;
+
+		if (isDocument) {
+			Document otherDocument = (Document)other;
+			return identifier.equals(otherDocument.identifier);
+		}
+
+		return false;
+	}
+
 }

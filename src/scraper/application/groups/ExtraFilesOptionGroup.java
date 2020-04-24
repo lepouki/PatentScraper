@@ -6,11 +6,11 @@ import scraper.core.scrapers.*;
 
 import java.util.*;
 
-public class ExtraInformationOptionGroup extends PropertyScraperOptionGroup {
+public class ExtraFilesOptionGroup extends PropertyScraperOptionGroup {
 
-	private static final String TITLE = "Extra information";
+	private static final String TITLE = "Extra files";
 
-	public ExtraInformationOptionGroup(PageScraper pageScraper) {
+	public ExtraFilesOptionGroup(PageScraper pageScraper) {
 		super(TITLE);
 		createOptionPropertyScrapers(pageScraper);
 	}

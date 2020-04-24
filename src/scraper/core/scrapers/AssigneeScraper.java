@@ -2,19 +2,19 @@ package scraper.core.scrapers;
 
 import scraper.core.Document;
 
-public class AssigneesScraper extends PagePropertyScraper {
+public class AssigneeScraper extends PagePropertyScraper {
 
-	private static final String READABLE_NAME = "Assignees";
+	private static final String READABLE_NAME = "Assignee";
 
 	private String assignees;
 
-	public AssigneesScraper(PageScraper pageScraper) {
+	public AssigneeScraper(PageScraper pageScraper) {
 		super(READABLE_NAME, pageScraper);
 	}
 
 	@Override
 	public String[] getPropertyNames() {
-		return new String[] {"assignees"};
+		return new String[] {"assignee"};
 	}
 
 	@Override

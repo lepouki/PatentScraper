@@ -9,7 +9,7 @@ import javax.swing.*;
 
 public class Application extends JFrame {
 
-	private static final String TITLE = "Patent scraper";
+	private static final String TITLE = "Scraper";
 	private static final String WORKER_SCRAPING_MESSAGE = "Scraping";
 	private static final String WORKER_DONE_MESSAGE = "Done";
 
@@ -18,7 +18,6 @@ public class Application extends JFrame {
 	private ScraperControls scraperControls;
 
 	private final WorkerManager workerManager;
-	private final StatusMessageUpdater statusMessageUpdater;
 
 	public Application() {
 		super(TITLE);
@@ -26,10 +25,8 @@ public class Application extends JFrame {
 		MainPane mainPane = new MainPane();
 		setContentPane(mainPane);
 
-		workerManager = new WorkerManager(this);
 		createWidgetGroups();
-		statusMessageUpdater = new StatusMessageUpdater(scraperControls);
-
+		workerManager = new WorkerManager(this);
 		configureFrame();
 	}
 
@@ -55,15 +52,24 @@ public class Application extends JFrame {
 	}
 
 	public void onStartButtonPressed() {
+		tryRunWorker();
+	}
+
+	private void tryRunWorker() {
 		try {
-			List<Document> documents = getInputDocuments();
-			List<PropertyScraper> propertyScrapers = getPropertyScrapers();
-			int layerCount = scraperOptionsPicker.getLayerCount();
-			workerManager.runWorker(documents, propertyScrapers, layerCount);
+			runWorker();
 		}
 		catch (IOException exception) {
-			statusMessageUpdater.handleException(exception);
+			String exceptionMessage = exception.getMessage();
+			scraperControls.setStatus("Error: " + exceptionMessage);
 		}
+	}
+
+	private void runWorker() throws IOException {
+		List<Document> documents = getInputDocuments();
+		List<PropertyScraper> propertyScrapers = getPropertyScrapers();
+		int layerCount = scraperOptionsPicker.getLayerCount();
+		workerManager.runWorker(documents, propertyScrapers, layerCount);
 	}
 
 	private List<Document> getInputDocuments() throws IOException {
@@ -119,8 +125,19 @@ public class Application extends JFrame {
 	}
 
 	public void onWorkerDone() {
+		writeScraperSummary();
+		updateInterfaceWorkerDone();
+
+	}
+
+	private void writeScraperSummary() {
+		String summaryFile = inputOutputChooser.getOutputDirectoryPathText() + "/csv/Summary.csv";
+		workerManager.writeScraperSummary(summaryFile);
+	}
+
+	private void updateInterfaceWorkerDone() {
 		setSettingsEnabled(true);
-		statusMessageUpdater.setStatusMessage(WORKER_DONE_MESSAGE);
+		scraperControls.setStatus(WORKER_DONE_MESSAGE);
 		scraperControls.resetButtons();
 		scraperControls.resetProgressBars();
 	}

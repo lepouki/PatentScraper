@@ -2,14 +2,18 @@ package scraper.core;
 
 public class Event {
 
-	public String type;
+	public String code;
 	public String title;
 	public String date;
+	public String description;
 
-	public Event(String type, String title, String date) {
-		this.type = type;
+	public Event(
+		String code, String title, String date, String description)
+	{
+		this.code = code;
 		this.title = title;
 		this.date = date;
+		this.description = description;
 	}
 
 }

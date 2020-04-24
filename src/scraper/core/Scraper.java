@@ -25,15 +25,18 @@ public class Scraper extends EventSource {
 
 	private final int layerCount;
 	private final DocumentScraper documentScraper;
+	private final Set<Document> processed;
 
-	private List<Document> documents;
+	private List<Document> currentDocuments;
 	private List<Document> nextLayerDocuments;
 
 	public Scraper(List<Document> documents, List<PropertyScraper> propertyScrapers, int layerCount) {
 		updatePropertyScrapers(propertyScrapers);
-		this.layerCount = layerCount;
 
+		this.layerCount = layerCount;
 		documentScraper = new DocumentScraper(propertyScrapers);
+		processed = new HashSet<>();
+
 		copyDocuments(documents);
 		nextLayerDocuments = new ArrayList<>();
 	}
@@ -45,7 +48,7 @@ public class Scraper extends EventSource {
 	}
 
 	public void copyDocuments(List<Document> documents) {
-		this.documents = new ArrayList<>(documents);
+		this.currentDocuments = new ArrayList<>(documents);
 	}
 
 	public void scrape() {
@@ -73,7 +76,7 @@ public class Scraper extends EventSource {
 	private void scrapeLayer() {
 		int currentDocument = 0;
 
-		for (Document document : documents) {
+		for (Document document : currentDocuments) {
 			notifyEventListenersDocumentProgress(++currentDocument, document.identifier);
 			documentScraper.scrape(document);
 		}
@@ -88,11 +91,16 @@ public class Scraper extends EventSource {
 	}
 
 	private int calculateDocumentProgressPercentage(int documentIndex) {
-		return (int)(documentIndex / (float)documents.size() * 100);
+		return (int)(documentIndex / (float) currentDocuments.size() * 100);
 	}
 
 	private void prepareNextLayerDocuments() {
-		documents = nextLayerDocuments;
+		processed.addAll(currentDocuments);
+		swapToNextLayerDocuments();
+	}
+
+	private void swapToNextLayerDocuments() {
+		currentDocuments = nextLayerDocuments;
 		nextLayerDocuments = new ArrayList<>();
 	}
 
@@ -101,7 +109,18 @@ public class Scraper extends EventSource {
 	}
 
 	public void pushNextLayerDocument(Document document) {
+		boolean hasBeenProcessed = processed.contains(document);
+
+		if (hasBeenProcessed)
+			return;
+
 		nextLayerDocuments.add(document);
+	}
+
+	public void writeSummary(String filePath) {
+		List<PropertyScraper> propertyScrapers = documentScraper.getPropertyScrapers();
+		SummaryWriter summaryWriter = new SummaryWriter(processed.size(), propertyScrapers);
+		summaryWriter.writeSummary(filePath);
 	}
 
 }

@@ -9,7 +9,7 @@ import java.util.*;
 
 public class EventsScraper extends FileChangingPagePropertyScraper {
 
-	private static final String READABLE_NAME = "Events";
+	private static final String READABLE_NAME = "Legal events";
 
 	private final List<Event> events;
 
@@ -34,14 +34,14 @@ public class EventsScraper extends FileChangingPagePropertyScraper {
 	}
 
 	private static String[] getColumnNames() {
-		return new String[] {"type", "title", "date"};
+		return new String[] {"date", "code", "title", "description"};
 	}
 
 	@Override
 	public void processDocument(Document document) throws NoSuchPropertyException {
-		setFileWriterFileForDocument(document);
 		events.clear();
-		Elements eventElements = select("dd[itemprop=events]");
+		Elements eventElements = select("tr[itemprop=legalEvents]");
+		setFileWriterFileForDocument(document);
 
 		for (Element eventElement : eventElements) {
 			Event event = parseEvent(eventElement);
@@ -54,10 +54,11 @@ public class EventsScraper extends FileChangingPagePropertyScraper {
 	}
 
 	private Event parseEvent(Element legalEventElement) {
-		String type = legalEventElement.selectFirst("span[itemprop=type]").ownText();
-		String title = legalEventElement.selectFirst("span[itemprop=title]").ownText();
+		String code = legalEventElement.selectFirst("td[itemprop=code]").ownText();
+		String title = legalEventElement.selectFirst("td[itemprop=title]").ownText();
 		String date = legalEventElement.selectFirst("time[itemprop=date]").ownText();
-		return new Event(type, title, date);
+		String description = legalEventElement.selectFirst("td:last-of-type").text();
+		return new Event(code, title, date, description);
 	}
 
 	@Override
@@ -76,9 +77,10 @@ public class EventsScraper extends FileChangingPagePropertyScraper {
 	}
 
 	private void pushLegalEventToPropertyData(Event event, int index, String[] propertyData) {
-		propertyData[index] = event.type;
-		propertyData[index + 1] = event.title;
-		propertyData[index + 2] = event.date;
+		propertyData[index] = event.date;
+		propertyData[index + 1] = event.code;
+		propertyData[index + 2] = event.title;
+		propertyData[index + 3] = event.description;
 	}
 
 }
