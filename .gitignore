@@ -13,3 +13,6 @@ res/
 
 # macOS files
 .DS_store
+
+# Java files
+META-INF/
