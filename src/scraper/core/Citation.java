@@ -1,6 +1,6 @@
 package scraper.core;
 
-public class Citation {
+public class Citation extends CsvConvertible {
 
 	public String source, target;
 	public String origin;
@@ -18,6 +18,11 @@ public class Citation {
 			case '‡': return "family to family";
 			 default: return "document";
 		}
+	}
+
+	@Override
+	public String[] toCsvEntries() {
+		return new String[] {source, target, origin};
 	}
 
 }

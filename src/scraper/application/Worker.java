@@ -33,21 +33,15 @@ public class Worker extends SwingWorker<Void, ProgressEvent> implements EventLis
 
 	@Override
 	protected Void doInBackground() {
-		scraper.scrape();
+		Worker worker = this;
+		scraper.scrape(worker);
 		return null;
 	}
 
 	@Override
 	protected void done() {
-		tryCleanupPropertyScrapers();
+		scraper.cleanupPropertyScrapers();
 		application.onWorkerDone();
-	}
-
-	private void tryCleanupPropertyScrapers() {
-		try {
-			scraper.cleanupPropertyScrapers();
-		}
-		catch (IOException ignored) {}
 	}
 
 	@Override

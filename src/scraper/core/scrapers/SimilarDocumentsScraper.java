@@ -7,27 +7,22 @@ import scraper.core.writers.CsvFileWriter;
 
 import java.util.*;
 
-public class SimilarDocumentsScraper extends PagePropertyScraper {
+public class SimilarDocumentsScraper extends CsvConvertiblePagePropertyScraper {
 
 	private static final String READABLE_NAME = "Similar documents";
 
-	private final List<SimilarDocument> similarDocuments;
-
 	public SimilarDocumentsScraper(PageScraper pageScraper) {
 		super(READABLE_NAME, pageScraper);
-		similarDocuments = new ArrayList<>();
+		createFileWriter();
 	}
 
-	@Override
-	public void initialize(String rootDirectory) {
+	private void createFileWriter() {
 		CsvFileWriter fileWriter = new CsvFileWriter();
-
-		setFileWriterColumns(fileWriter);
 		setFileWriter(fileWriter);
-		setFileWriterFile(rootDirectory + "/csv/" + READABLE_NAME + ".csv");
+		setFileWriterColumnNames(fileWriter);
 	}
 
-	private void setFileWriterColumns(CsvFileWriter fileWriter) {
+	private void setFileWriterColumnNames(CsvFileWriter fileWriter) {
 		List<String> columnNames = Arrays.asList(
 			getColumnNames()
 		);
@@ -40,8 +35,17 @@ public class SimilarDocumentsScraper extends PagePropertyScraper {
 	}
 
 	@Override
-	public void processDocument(Document document) throws NoSuchPropertyException {
-		similarDocuments.clear();
+	public void initialize(String rootDirectory) {
+		setFileWriterFile(rootDirectory + "/csv/" + READABLE_NAME + ".csv");
+	}
+
+	@Override
+	public void cleanupResources() {
+		closeFileWriter();
+	}
+
+	@Override
+	protected void processProperties(Document document) throws NoSuchPropertyException {
 		Elements similarDocuments = select("tr[itemprop=similarDocuments]");
 
 		for (Element similarDocument : similarDocuments) {
@@ -62,33 +66,8 @@ public class SimilarDocumentsScraper extends PagePropertyScraper {
 
 	private void pushSimilarDocument(Document document, String similarDocumentIdentifier) {
 		SimilarDocument similarDocument = new SimilarDocument(document, similarDocumentIdentifier);
-		similarDocuments.add(similarDocument);
+		pushProperty(similarDocument);
 		pushNextLayerDocument(similarDocument.similarDocument);
-	}
-
-	@Override
-	public String[] getPropertyData() {
-		int documentCount = similarDocuments.size();
-		int columnCount = getColumnNames().length;
-		String[] propertyData = new String[documentCount * columnCount];
-
-		for (int i = 0; i < documentCount; ++i) {
-			SimilarDocument similarDocument = similarDocuments.get(i);
-			int index = i * columnCount;
-			pushSimilarDocumentToPropertyData(similarDocument, index, propertyData);
-		}
-
-		return propertyData;
-	}
-
-	private void pushSimilarDocumentToPropertyData(SimilarDocument similarDocument, int index, String[] propertyData) {
-		propertyData[index] = similarDocument.document.identifier;
-		propertyData[index + 1] = similarDocument.similarDocument.identifier;
-	}
-
-	@Override
-	public void cleanupResources() {
-		closeFileWriter();
 	}
 
 }

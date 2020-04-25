@@ -93,7 +93,6 @@ public class ScraperOptionsPicker extends WidgetGroup {
 
 	private static void initializePropertyScrapers(List<PropertyScraper> propertyScrapers, String outputDirectory) {
 		for (PropertyScraper propertyScraper : propertyScrapers) {
-			propertyScraper.resetSuccessCount();
 			propertyScraper.initialize(outputDirectory);
 		}
 	}

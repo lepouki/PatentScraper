@@ -50,18 +50,16 @@ public class PropertyScraper {
 	private void tryProcessDocumentProperty(Document document) {
 		try {
 			processDocument(document);
-
-			writePropertyDataToFileWriter(
-				getPropertyData()
-			);
+			writePropertyDataToFileWriter();
 		}
 		catch (NoSuchPropertyException exception) {
 			writeEmptyEntriesToFileWriter(); // If we fail, write empty entries instead
 		}
 	}
 
-	private void writePropertyDataToFileWriter(String[] entries) {
+	private void writePropertyDataToFileWriter() {
 		++successCount;
+		String[] entries = getPropertyData();
 		tryWriteToFileWriter(entries);
 	}
 

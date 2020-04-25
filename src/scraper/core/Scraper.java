@@ -1,44 +1,41 @@
 package scraper.core;
 
+import scraper.application.Worker;
 import scraper.core.events.EventSource;
 
-import java.io.IOException;
 import java.util.*;
 
 public class Scraper extends EventSource {
 
 	public static class LayerProgressEvent extends ProgressEvent {
 
-		public LayerProgressEvent(Object source, int index, String status) {
-			super(source, index, status);
+		public LayerProgressEvent(Object source, int index, int maximumValue, String status) {
+			super(source, index, maximumValue, status);
 		}
 
 	}
 
 	public static class DocumentProgressEvent extends ProgressEvent {
 
-		public DocumentProgressEvent(Object source, int index, String status) {
-			super(source, index, status);
+		public DocumentProgressEvent(Object source, int index, int maximumValue, String status) {
+			super(source, index, maximumValue, status);
 		}
 
 	}
 
 	private final int layerCount;
+	private final ScraperLayerSwapper layerSwapper;
+	private final ScraperProgressionCounter progressionCounter;
 	private final DocumentScraper documentScraper;
-	private final Set<Document> processed;
-
-	private List<Document> currentDocuments;
-	private List<Document> nextLayerDocuments;
 
 	public Scraper(List<Document> documents, List<PropertyScraper> propertyScrapers, int layerCount) {
-		updatePropertyScrapers(propertyScrapers);
-
 		this.layerCount = layerCount;
-		documentScraper = new DocumentScraper(propertyScrapers);
-		processed = new HashSet<>();
 
-		copyDocuments(documents);
-		nextLayerDocuments = new ArrayList<>();
+		layerSwapper = new ScraperLayerSwapper(documents);
+		progressionCounter = new ScraperProgressionCounter();
+		documentScraper = new DocumentScraper(propertyScrapers);
+
+		updatePropertyScrapers(propertyScrapers);
 	}
 
 	private void updatePropertyScrapers(List<PropertyScraper> propertyScrapers) {
@@ -47,16 +44,18 @@ public class Scraper extends EventSource {
 		}
 	}
 
-	public void copyDocuments(List<Document> documents) {
-		this.currentDocuments = new ArrayList<>(documents);
+	public void scrape(Worker worker) {
+		resetPropertyScraperSuccessCounts();
+
+		for (int i = 1; i <= layerCount && !worker.isCancelled(); ++i) {
+			notifyEventListenersLayerProgress(i);
+			scrapeLayer(worker);
+			layerSwapper.swapToNextLayerDocuments();
+		}
 	}
 
-	public void scrape() {
-		for (int i = 1; i <= layerCount; ++i) {
-			notifyEventListenersLayerProgress(i);
-			scrapeLayer();
-			prepareNextLayerDocuments();
-		}
+	private void resetPropertyScraperSuccessCounts() {
+		documentScraper.resetPropertyScraperSuccessCounts();
 	}
 
 	private void notifyEventListenersLayerProgress(int layerIndex) {
@@ -64,64 +63,48 @@ public class Scraper extends EventSource {
 
 		notifyEventListeners(
 			new LayerProgressEvent(
-				this, calculateLayerProgressPercentage(layerIndex), layerStatus
+				this, layerIndex, layerCount, layerStatus
 			)
 		);
 	}
 
-	private int calculateLayerProgressPercentage(int layerIndex) {
-		return (int)(layerIndex / (float)layerCount * 100);
-	}
+	private void scrapeLayer(Worker worker) {
+		layerSwapper.pushDocumentsToProgressionCounter(progressionCounter);
 
-	private void scrapeLayer() {
-		int currentDocument = 0;
-
-		for (Document document : currentDocuments) {
-			notifyEventListenersDocumentProgress(++currentDocument, document.identifier);
+		for (int i = 0; i < layerSwapper.getDocumentCount() && !worker.isCancelled(); ++i) {
+			Document document = layerSwapper.getDocument(i);
+			notifyEventListenersDocumentProgress(i, document.identifier);
 			documentScraper.scrape(document);
+			progressionCounter.incrementDocumentCount();
 		}
 	}
 
 	private void notifyEventListenersDocumentProgress(int documentIndex, String documentStatus) {
+		int ceilingDocumentIndex = documentIndex + 1;
+
 		notifyEventListeners(
 			new DocumentProgressEvent(
-				this, calculateDocumentProgressPercentage(documentIndex), documentStatus
+				this, ceilingDocumentIndex, layerSwapper.getDocumentCount(), documentStatus
 			)
 		);
 	}
 
-	private int calculateDocumentProgressPercentage(int documentIndex) {
-		return (int)(documentIndex / (float) currentDocuments.size() * 100);
-	}
-
-	private void prepareNextLayerDocuments() {
-		processed.addAll(currentDocuments);
-		swapToNextLayerDocuments();
-	}
-
-	private void swapToNextLayerDocuments() {
-		currentDocuments = nextLayerDocuments;
-		nextLayerDocuments = new ArrayList<>();
-	}
-
-	public void cleanupPropertyScrapers() throws IOException {
+	public void cleanupPropertyScrapers() {
 		documentScraper.cleanupPropertyScrapers();
 	}
 
 	public void pushNextLayerDocument(Document document) {
-		boolean alreadyProcessed = processed.contains(document);
+		boolean alreadyProcessed = progressionCounter.isDocumentAlreadyProcessed(document);
 
 		if (alreadyProcessed)
 			return;
 
-		nextLayerDocuments.add(document);
+		layerSwapper.pushNextLayerDocument(document);
 	}
 
 	public void writeSummary(String filePath) {
 		List<PropertyScraper> propertyScrapers = documentScraper.getPropertyScrapers();
-		int documentCount = processed.size();
-
-		SummaryWriter summaryWriter = new SummaryWriter(documentCount, propertyScrapers);
+		SummaryWriter summaryWriter = new SummaryWriter(progressionCounter.getDocumentCount(), propertyScrapers);
 		summaryWriter.writeSummary(filePath);
 	}
 

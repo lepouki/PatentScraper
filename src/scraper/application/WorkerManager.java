@@ -26,7 +26,8 @@ public class WorkerManager {
 		boolean canAbort = (worker != null) && !worker.isCancelled() && !worker.isDone();
 
 		if (canAbort) {
-			worker.cancel(false);
+			final boolean interrupt = true;
+			worker.cancel(interrupt);
 		}
 	}
 

@@ -7,20 +7,20 @@ import scraper.core.writers.CsvFileWriter;
 
 import java.util.*;
 
-public abstract class CitationScraper extends PagePropertyScraper {
-
-	private final List<Citation> citations;
+public abstract class CitationScraper extends CsvConvertiblePagePropertyScraper {
 
 	public CitationScraper(String readableName, PageScraper pageScraper) {
 		super(readableName, pageScraper);
-		citations = new ArrayList<>();
-
-		CsvFileWriter citationFileWriter = new CsvFileWriter();
-		setFileWriter(citationFileWriter);
-		setCitationFileWriterColumnNames(citationFileWriter);
+		createFileWriter();
 	}
 
-	private void setCitationFileWriterColumnNames(CsvFileWriter csvFileWriter) {
+	private void createFileWriter() {
+		CsvFileWriter citationFileWriter = new CsvFileWriter();
+		setFileWriter(citationFileWriter);
+		setFileWriterColumnNames(citationFileWriter);
+	}
+
+	private void setFileWriterColumnNames(CsvFileWriter csvFileWriter) {
 		List<String> columnNames = Arrays.asList(
 			getColumnNames()
 		);
@@ -43,8 +43,7 @@ public abstract class CitationScraper extends PagePropertyScraper {
 	}
 
 	@Override
-	public void processDocument(Document document) throws NoSuchPropertyException {
-		citations.clear();
+	protected void processProperties(Document document) throws NoSuchPropertyException {
 		processCitationElements(retrieveCitationElements(), document);
 	}
 
@@ -105,30 +104,9 @@ public abstract class CitationScraper extends PagePropertyScraper {
 		String target = isGivenCitation
 			? documentIdentifier : otherDocumentIdentifier;
 
-		citations.add(
+		pushProperty(
 			new Citation(source, target, originCharacter)
 		);
-	}
-
-	@Override
-	public String[] getPropertyData() {
-		int columnCount = getColumnNames().length;
-		int citationCount = citations.size();
-		String[] propertyData = new String[citationCount * columnCount];
-
-		for (int i = 0; i < citationCount; ++i) {
-			Citation citation = citations.get(i);
-			int index = i * columnCount;
-			pushCitationToPropertyData(citation, index, propertyData);
-		}
-
-		return propertyData;
-	}
-
-	private void pushCitationToPropertyData(Citation citation, int index, String[] propertyData) {
-		propertyData[index] = citation.source;
-		propertyData[index + 1] = citation.target;
-		propertyData[index + 2] = citation.origin;
 	}
 
 	protected abstract boolean isGivenCitation();

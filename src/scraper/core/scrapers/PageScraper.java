@@ -37,7 +37,7 @@ public class PageScraper extends PropertyScraper {
 
 	private void tryRetrievePage() throws NoSuchPropertyException {
 		try {
-			page = Jsoup.connect(pageLink).get();
+			page = PageDownloader.retrieveDocument(pageLink);
 		}
 		catch (IOException exception) {
 			page = new org.jsoup.nodes.Document("");

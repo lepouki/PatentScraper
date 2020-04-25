@@ -13,11 +13,15 @@ public class Document {
 		boolean isDocument = other instanceof Document;
 
 		if (isDocument) {
-			Document otherDocument = (Document)other;
-			return identifier.equals(otherDocument.identifier);
+			return hashCode() == other.hashCode();
 		}
 
 		return false;
+	}
+
+	@Override
+	public int hashCode() {
+		return identifier.hashCode();
 	}
 
 }

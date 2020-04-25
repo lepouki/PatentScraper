@@ -1,6 +1,6 @@
 package scraper.core;
 
-public class Event {
+public class Event extends CsvConvertible {
 
 	public String code;
 	public String title;
@@ -14,6 +14,11 @@ public class Event {
 		this.title = title;
 		this.date = date;
 		this.description = description;
+	}
+
+	@Override
+	public String[] toCsvEntries() {
+		return new String[] {date, code, title, description};
 	}
 
 }

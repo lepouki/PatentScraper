@@ -64,24 +64,22 @@ public class EventsScraper extends FileChangingPagePropertyScraper {
 
 	@Override
 	public String[] getPropertyData() {
-		int columnCount = getColumnNames().length;
-		int eventCount = events.size();
-		String[] propertyData = new String[eventCount * columnCount];
+		int entryCount = getColumnNames().length * events.size();
+		List<String> entries = new ArrayList<>(entryCount);
 
-		for (int i = 0; i < eventCount; ++i) {
-			Event event = events.get(i);
-			int index = i * columnCount;
-			pushLegalEventToPropertyData(event, index, propertyData);
+		for (Event event : events) {
+			pushEventToEntries(event, entries);
 		}
 
-		return propertyData;
+		return CsvConvertiblePagePropertyScraper.toEntryArray(entries);
 	}
 
-	private void pushLegalEventToPropertyData(Event event, int index, String[] propertyData) {
-		propertyData[index] = event.date;
-		propertyData[index + 1] = event.code;
-		propertyData[index + 2] = event.title;
-		propertyData[index + 3] = event.description;
+	private void pushEventToEntries(Event event, List<String> entries) {
+		List<String> eventEntries = Arrays.asList(
+			event.toCsvEntries()
+		);
+
+		entries.addAll(eventEntries);
 	}
 
 }

@@ -17,7 +17,6 @@ public class AbstractDescriptionScraper extends FileChangingPagePropertyScraper 
 		);
 	}
 
-
 	@Override
 	public void processDocument(Document document) throws NoSuchPropertyException {
 		abstractDescription = selectFirst("section[itemprop=abstract]").wholeText();

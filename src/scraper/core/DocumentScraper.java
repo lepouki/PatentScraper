@@ -1,14 +1,13 @@
 package scraper.core;
 
-import java.io.IOException;
-import java.util.*;
+import java.util.List;
 
 public class DocumentScraper {
 
 	private final List<PropertyScraper> propertyScrapers;
 
 	public DocumentScraper(List<PropertyScraper> propertyScrapers) {
-		this.propertyScrapers = new ArrayList<>(propertyScrapers);
+		this.propertyScrapers = propertyScrapers;
 	}
 
 	public List<PropertyScraper> getPropertyScrapers() {
@@ -21,7 +20,13 @@ public class DocumentScraper {
 		}
 	}
 
-	public void cleanupPropertyScrapers() throws IOException {
+	public void resetPropertyScraperSuccessCounts() {
+		for (PropertyScraper propertyScraper : propertyScrapers) {
+			propertyScraper.resetSuccessCount();
+		}
+	}
+
+	public void cleanupPropertyScrapers() {
 		for (PropertyScraper propertyScraper : propertyScrapers) {
 			propertyScraper.cleanupResources();
 		}
