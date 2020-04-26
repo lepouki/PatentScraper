@@ -104,24 +104,31 @@ public class Application extends JFrame {
 	}
 
 	public void onWorkerProgress(ProgressEvent event) {
-		String status = event.getStatus();
-		int progressPercentage = event.getPercentage();
-
 		if (event instanceof Scraper.LayerProgressEvent) {
-			updateLayerProgressBar(progressPercentage, status);
+			updateLayerProgressBar(event);
 		}
 		else if (event instanceof Scraper.DocumentProgressEvent) {
-			scraperControls.setDocumentProgressBarText(
-				makeDocumentProgressString(event.getValue(), event.getMaximumValue(), status)
-			);
-
-			scraperControls.setDocumentProgressBarValue(progressPercentage);
+			updateDocumentProgressBar(event);
 		}
 	}
 
-	private void updateLayerProgressBar(int percentage, String text) {
-		scraperControls.setLayerProgressBarText(text);
-		scraperControls.setLayerProgressBarValue(percentage);
+	private void updateLayerProgressBar(ProgressEvent event) {
+		String status = event.getStatus();
+		scraperControls.setLayerProgressBarText(status);
+
+		int progressPercentage = event.getPercentage();
+		scraperControls.setLayerProgressBarValue(progressPercentage);
+	}
+
+	private void updateDocumentProgressBar(ProgressEvent event) {
+		String status = event.getStatus();
+
+		scraperControls.setDocumentProgressBarText(
+			makeDocumentProgressString(event.getValue(), event.getMaximumValue(), status)
+		);
+
+		int progressPercentage = event.getPercentage();
+		scraperControls.setDocumentProgressBarValue(progressPercentage);
 	}
 
 	private String makeDocumentProgressString(int value, int maximumValue, String text) {
