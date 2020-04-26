@@ -19,7 +19,7 @@ public class ExtraFilesOptionGroup extends PropertyScraperOptionGroup {
 		List<PropertyScraper> extraInformationScrapers = new ArrayList<>();
 
 		extraInformationScrapers.add(
-			new PdfScraper(pageScraper)
+			new EventsScraper(pageScraper)
 		);
 
 		extraInformationScrapers.add(
@@ -35,11 +35,11 @@ public class ExtraFilesOptionGroup extends PropertyScraperOptionGroup {
 		);
 
 		extraInformationScrapers.add(
-			new FiguresScraper(pageScraper)
+			new ConcatenateScraper(pageScraper)
 		);
 
 		extraInformationScrapers.add(
-			new EventsScraper(pageScraper)
+			new FiguresScraper(pageScraper)
 		);
 
 		extraInformationScrapers.add(
@@ -47,7 +47,7 @@ public class ExtraFilesOptionGroup extends PropertyScraperOptionGroup {
 		);
 
 		extraInformationScrapers.add(
-			new ConcatenateScraper(pageScraper)
+			new PdfScraper(pageScraper)
 		);
 
 		setOptionPropertyScrapers(extraInformationScrapers);
