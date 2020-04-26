@@ -77,6 +77,7 @@ public class Application extends JFrame {
 		PathChecker.checkExists(inputFilePath);
 		return inputOutputChooser.getCsvParser().parseDocuments(inputFilePath);
 	}
+
 	private List<PropertyScraper> getPropertyScrapers() throws IOException {
 		String outputDirectoryPath = inputOutputChooser.getOutputDirectoryPathText();
 		PathChecker.checkExists(outputDirectoryPath);
@@ -107,7 +108,7 @@ public class Application extends JFrame {
 		int progressPercentage = event.getPercentage();
 
 		if (event instanceof Scraper.LayerProgressEvent) {
-			updateLayerProgressBar(event.getPercentage(), status);
+			updateLayerProgressBar(progressPercentage, status);
 		}
 		else if (event instanceof Scraper.DocumentProgressEvent) {
 			scraperControls.setDocumentProgressBarText(
@@ -118,9 +119,9 @@ public class Application extends JFrame {
 		}
 	}
 
-	private void updateLayerProgressBar(int value, String text) {
+	private void updateLayerProgressBar(int percentage, String text) {
 		scraperControls.setLayerProgressBarText(text);
-		scraperControls.setLayerProgressBarValue(value);
+		scraperControls.setLayerProgressBarValue(percentage);
 	}
 
 	private String makeDocumentProgressString(int value, int maximumValue, String text) {

@@ -54,11 +54,11 @@ public class EventsScraper extends FileChangingPagePropertyScraper {
 		setRelativeFileWriterFile("/extra/events/" + document.identifier + ".csv");
 	}
 
-	private Event parseEvent(Element legalEventElement) {
-		String code = legalEventElement.selectFirst("td[itemprop=code]").ownText();
-		String title = legalEventElement.selectFirst("td[itemprop=title]").ownText();
-		String date = legalEventElement.selectFirst("time[itemprop=date]").ownText();
-		String description = legalEventElement.selectFirst("td:last-of-type").text();
+	private Event parseEvent(Element eventElement) {
+		String code = eventElement.selectFirst("td[itemprop=code]").ownText();
+		String title = eventElement.selectFirst("td[itemprop=title]").ownText();
+		String date = eventElement.selectFirst("time[itemprop=date]").ownText();
+		String description = eventElement.selectFirst("td:last-of-type").text();
 		return new Event(code, title, date, description);
 	}
 

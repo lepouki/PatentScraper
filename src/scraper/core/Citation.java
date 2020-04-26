@@ -1,6 +1,6 @@
 package scraper.core;
 
-public class Citation extends CsvConvertible {
+public class Citation implements CsvConvertible {
 
 	public String source, target;
 	public String origin;

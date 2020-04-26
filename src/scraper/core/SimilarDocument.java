@@ -1,6 +1,6 @@
 package scraper.core;
 
-public class SimilarDocument extends CsvConvertible {
+public class SimilarDocument implements CsvConvertible {
 
 	public Document document, similarDocument;
 

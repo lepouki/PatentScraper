@@ -15,9 +15,8 @@ public class PageLinkScraper extends PagePropertyScraper {
 
 	@Override
 	protected String[] getPropertyData() {
-		return new String[] {
-			getPageLink()
-		};
+		String pageLink = getPageLink();
+		return new String[] {pageLink};
 	}
 
 }

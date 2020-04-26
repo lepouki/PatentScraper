@@ -63,7 +63,7 @@ public abstract class CitationScraper extends CsvConvertiblePagePropertyScraper 
 			char originCharacter = retrieveOriginCharacter(citationElement);
 
 			pushToNextLayerDocuments(otherDocumentIdentifier);
-			pushCitationToCitations(document.identifier, otherDocumentIdentifier, originCharacter);
+			pushCitationToProperties(document.identifier, otherDocumentIdentifier, originCharacter);
 		}
 	}
 
@@ -93,7 +93,7 @@ public abstract class CitationScraper extends CsvConvertiblePagePropertyScraper 
 		);
 	}
 
-	private void pushCitationToCitations(
+	private void pushCitationToProperties(
 		String documentIdentifier, String otherDocumentIdentifier, char originCharacter)
 	{
 		boolean isGivenCitation = isGivenCitation();

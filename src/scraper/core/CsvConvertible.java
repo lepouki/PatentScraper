@@ -1,7 +1,7 @@
 package scraper.core;
 
-public abstract class CsvConvertible {
+public interface CsvConvertible {
 
-	public abstract String[] toCsvEntries();
+	String[] toCsvEntries();
 
 }

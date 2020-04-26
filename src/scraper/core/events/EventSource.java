@@ -17,10 +17,6 @@ public class EventSource {
 		}
 	}
 
-	public void popEventListener(EventListener eventListener) {
-		eventListeners.remove(eventListener);
-	}
-
 	protected void notifyEventListeners(Event event) {
 		for (EventListener eventListener : eventListeners) {
 			eventListener.onEventReceived(event);

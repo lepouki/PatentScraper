@@ -6,7 +6,7 @@ import scraper.core.*;
 import scraper.core.scrapers.PageScraper;
 
 import java.awt.*;
-import java.util.*;
+import java.util.ArrayList;
 import java.util.List;
 import javax.swing.*;
 

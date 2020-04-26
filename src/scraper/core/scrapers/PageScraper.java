@@ -1,6 +1,5 @@
 package scraper.core.scrapers;
 
-import org.jsoup.Jsoup;
 import org.jsoup.nodes.Element;
 import scraper.core.*;
 
