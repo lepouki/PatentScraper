@@ -1,6 +1,6 @@
 package scraper.core;
 
-public class Event implements CsvConvertible {
+public class Event extends CsvConvertible {
 
 	public String code;
 	public String title;

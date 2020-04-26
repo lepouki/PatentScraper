@@ -4,7 +4,7 @@ import scraper.core.*;
 
 import java.util.*;
 
-public abstract class CsvConvertiblePagePropertyScraper extends PagePropertyScraper {
+public abstract class CsvConvertiblePagePropertyScraper extends FileChangingPagePropertyScraper {
 
 	private final List<CsvConvertible> properties;
 
@@ -48,6 +48,10 @@ public abstract class CsvConvertiblePagePropertyScraper extends PagePropertyScra
 
 	protected void pushProperty(CsvConvertible property) {
 		properties.add(property);
+	}
+
+	protected boolean containsProperty(CsvConvertible property) {
+		return properties.contains(property);
 	}
 
 }

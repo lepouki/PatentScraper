@@ -1,7 +1,7 @@
 package scraper.core;
 
-public interface CsvConvertible {
+public abstract class CsvConvertible extends HashCodeComparable {
 
-	String[] toCsvEntries();
+	public abstract String[] toCsvEntries();
 
 }

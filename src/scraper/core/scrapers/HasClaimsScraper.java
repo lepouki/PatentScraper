@@ -15,13 +15,9 @@ public class HasClaimsScraper extends BooleanPagePropertyScraper {
 
 	@Override
 	protected boolean getValue() throws NoSuchPropertyException {
-		String selector = getClaimsSectionSelector();
+		String selector = ClaimsScraper.getClaimsSelector();
 		selectFirst(selector);
 		return true;
-	}
-
-	public static String getClaimsSectionSelector() {
-		return "section[itemprop=claims]";
 	}
 
 }

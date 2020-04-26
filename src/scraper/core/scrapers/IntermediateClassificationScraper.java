@@ -20,18 +20,15 @@ public class IntermediateClassificationScraper extends PagePropertyScraper {
 
 	@Override
 	public void processDocument(Document document) throws NoSuchPropertyException {
-		Element firstClassification = retrieveFirstClassification();
+		Element firstClassification = selectFirst("ul[itemprop=cpcs]");
 		Element intermediateClassificationElement = retrieveIntermediateClassificationElement(firstClassification);
 		intermediateClassificationCode = intermediateClassificationElement.ownText();
 	}
 
-	private Element retrieveFirstClassification() throws NoSuchPropertyException {
-		return selectFirst("ul[itemprop=cpcs]");
-	}
-
 	private Element retrieveIntermediateClassificationElement(Element classification) {
+		String selector = ClassificationsScraper.getClassificationCodeSelector();
 		final int intermediateClassificationIndex = 2;
-		return classification.select("span[itemprop=Code]").get(intermediateClassificationIndex);
+		return classification.select(selector).get(intermediateClassificationIndex);
 	}
 
 	@Override

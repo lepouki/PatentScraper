@@ -3,6 +3,9 @@ package scraper.application.groups;
 import scraper.application.*;
 import scraper.application.parsers.*;
 import scraper.application.widgets.FileChooser;
+import scraper.application.widgets.FileChooserListener;
+import scraper.application.widgets.FileChooserNotifier;
+import scraper.application.widgets.OutputDirectoryFileChooserListener;
 
 import java.awt.*;
 import javax.swing.*;
@@ -14,7 +17,8 @@ public class InputOutputChooser extends WidgetGroup {
 	private static final String INPUT_FILE_DIALOG_TITLE = "Input file";
 	private static final String OUTPUT_DIRECTORY_DIALOG_TITLE = "Output directory";
 
-	private FileChooser inputFileChooser, outputDirectoryChooser;
+	private FileChooserNotifier inputFileChooser;
+	private FileChooserListener outputDirectoryChooser;
 	private JCheckBox customInputCsvOption;
 
 	public InputOutputChooser() {
@@ -28,12 +32,25 @@ public class InputOutputChooser extends WidgetGroup {
 	}
 
 	private void createFileChoosers() {
-		inputFileChooser = new FileChooser(FileChooser.FileMode.FILES, INPUT_FILE_DIALOG_TITLE);
+		outputDirectoryChooser = createOutputDirectoryChooser();
+		inputFileChooser = createInputFileChooser(outputDirectoryChooser);
+		pushFileChoosers();
+	}
+
+	private static FileChooserListener createOutputDirectoryChooser() {
+		return new OutputDirectoryFileChooserListener(
+			FileChooser.FileMode.DIRECTORIES, OUTPUT_DIRECTORY_DIALOG_TITLE);
+	}
+
+	private static FileChooserNotifier createInputFileChooser(FileChooserListener outputDirectoryChooser) {
+		FileChooserNotifier fileChooser = new FileChooserNotifier(FileChooser.FileMode.FILES, INPUT_FILE_DIALOG_TITLE);
+		fileChooser.pushFileChooserListener(outputDirectoryChooser);
+		return fileChooser;
+	}
+
+	private void pushFileChoosers() {
 		add(inputFileChooser);
-
 		createComponentSeparator();
-
-		outputDirectoryChooser = new FileChooser(FileChooser.FileMode.DIRECTORIES, OUTPUT_DIRECTORY_DIALOG_TITLE);
 		add(outputDirectoryChooser);
 	}
 

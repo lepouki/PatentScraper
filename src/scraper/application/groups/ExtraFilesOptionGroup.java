@@ -42,6 +42,14 @@ public class ExtraFilesOptionGroup extends PropertyScraperOptionGroup {
 			new EventsScraper(pageScraper)
 		);
 
+		extraInformationScrapers.add(
+			new ClassificationsScraper(pageScraper)
+		);
+
+		extraInformationScrapers.add(
+			new ConcatenateScraper(pageScraper)
+		);
+
 		setOptionPropertyScrapers(extraInformationScrapers);
 	}
 

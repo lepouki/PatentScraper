@@ -17,7 +17,7 @@ public class ClaimCountScraper extends IntegerPagePropertyScraper {
 
 	@Override
 	protected int getValue() throws NoSuchPropertyException {
-		String selector = HasClaimsScraper.getClaimsSectionSelector();
+		String selector = ClaimsScraper.getClaimsSelector();
 		Element claimsSection = selectFirst(selector);
 		return retrieveClaimCountInClaimsSection(claimsSection);
 	}

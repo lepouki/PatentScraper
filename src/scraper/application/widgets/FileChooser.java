@@ -3,6 +3,7 @@ package scraper.application.widgets;
 import scraper.application.*;
 
 import java.awt.event.*;
+import java.util.Set;
 import javax.swing.*;
 
 public class FileChooser extends Widget implements ActionListener {
@@ -117,11 +118,15 @@ public class FileChooser extends Widget implements ActionListener {
 
 	private void updateFilePathText() {
 		String chosenFileAbsolutePath = fileChooser.getSelectedFile().getAbsolutePath();
-		filePathText.setText(chosenFileAbsolutePath);
+		setFilePathText(chosenFileAbsolutePath);
 	}
 
 	public String getFilePathText() {
 		return filePathText.getText();
+	}
+
+	protected void setFilePathText(String text) {
+		filePathText.setText(text);
 	}
 
 }

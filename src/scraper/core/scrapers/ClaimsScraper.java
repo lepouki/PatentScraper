@@ -19,7 +19,7 @@ public class ClaimsScraper extends FileChangingPagePropertyScraper {
 
 	@Override
 	public void processDocument(Document document) throws NoSuchPropertyException {
-		String selector = HasClaimsScraper.getClaimsSectionSelector();
+		String selector = getClaimsSelector();
 		claims = selectFirst(selector).wholeText();
 
 		boolean areClaimsEmpty = claims.isEmpty();
@@ -28,6 +28,10 @@ public class ClaimsScraper extends FileChangingPagePropertyScraper {
 		}
 
 		setOutputFileForDocument(document);
+	}
+
+	public static String getClaimsSelector() {
+		return "section[itemprop=claims]";
 	}
 
 	private void setOutputFileForDocument(Document document) {

@@ -11,6 +11,7 @@ public class PropertyScraperOption extends JCheckBox {
 	public PropertyScraperOption(PropertyScraper propertyScraper) {
 		this.propertyScraper = propertyScraper;
 		String propertyName = this.propertyScraper.getReadableName();
+		setSelected(true);
 		setText(propertyName);
 	}
 

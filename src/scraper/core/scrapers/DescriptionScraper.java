@@ -19,7 +19,8 @@ public class DescriptionScraper extends FileChangingPagePropertyScraper {
 
 	@Override
 	public void processDocument(Document document) throws NoSuchPropertyException {
-		description = selectFirst("section[itemprop=description]").wholeText();
+		String selector = getDescriptionSelector();
+		description = selectFirst(selector).wholeText();
 
 		boolean isDescriptionEmpty = description.isEmpty();
 		if (isDescriptionEmpty) {
@@ -27,6 +28,10 @@ public class DescriptionScraper extends FileChangingPagePropertyScraper {
 		}
 
 		setOutputFileForDocument(document);
+	}
+
+	public static String getDescriptionSelector() {
+		return "section[itemprop=description]";
 	}
 
 	private void setOutputFileForDocument(Document document) {

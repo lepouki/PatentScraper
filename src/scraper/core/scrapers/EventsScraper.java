@@ -7,16 +7,13 @@ import scraper.core.writers.CsvFileWriter;
 
 import java.util.*;
 
-public class EventsScraper extends FileChangingPagePropertyScraper {
+public class EventsScraper extends CsvConvertiblePagePropertyScraper {
 
 	private static final String READABLE_NAME = "Legal events";
-
-	private final List<Event> events;
 
 	public EventsScraper(PageScraper pageScraper) {
 		super(READABLE_NAME, pageScraper);
 		createFileWriter();
-		events = new ArrayList<>();
 	}
 
 	private void createFileWriter() {
@@ -38,20 +35,19 @@ public class EventsScraper extends FileChangingPagePropertyScraper {
 	}
 
 	@Override
-	public void processDocument(Document document) throws NoSuchPropertyException {
-		events.clear();
+	protected void processProperties(Document document) throws NoSuchPropertyException {
 		Elements eventElements = select("tr[itemprop=legalEvents]");
 		setFileWriterFileForDocument(document);
 
 		for (Element eventElement : eventElements) {
-			events.add(
+			pushProperty(
 				parseEvent(eventElement)
 			);
 		}
 	}
 
 	private void setFileWriterFileForDocument(Document document) {
-		setRelativeFileWriterFile("/extra/events/" + document.identifier + ".csv");
+		setRelativeFileWriterFile("extra/events/" + document.identifier + ".csv");
 	}
 
 	private Event parseEvent(Element eventElement) {
@@ -60,26 +56,6 @@ public class EventsScraper extends FileChangingPagePropertyScraper {
 		String date = eventElement.selectFirst("time[itemprop=date]").ownText();
 		String description = eventElement.selectFirst("td:last-of-type").text();
 		return new Event(code, title, date, description);
-	}
-
-	@Override
-	public String[] getPropertyData() {
-		int entryCount = getColumnNames().length * events.size();
-		List<String> entries = new ArrayList<>(entryCount);
-
-		for (Event event : events) {
-			pushEventToEntries(event, entries);
-		}
-
-		return CsvConvertiblePagePropertyScraper.toEntryArray(entries);
-	}
-
-	private void pushEventToEntries(Event event, List<String> entries) {
-		List<String> eventEntries = Arrays.asList(
-			event.toCsvEntries()
-		);
-
-		entries.addAll(eventEntries);
 	}
 
 }
