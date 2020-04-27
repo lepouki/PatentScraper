@@ -36,7 +36,7 @@ public class FiguresScraper extends FileChangingPagePropertyScraper {
 
 	private void setFileWriterFileForFigure(Document document, String figureLink) {
 		String figureName = getFigureNameInFigureLink(figureLink);
-		String relativeFigurePath = String.format("extra/figures/%s/%s", document.identifier, figureName);
+		String relativeFigurePath = String.format("FIGURES/%s/%s", document.identifier, figureName);
 		setRelativeFileWriterFile(relativeFigurePath);
 	}
 

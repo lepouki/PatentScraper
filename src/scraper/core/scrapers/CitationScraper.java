@@ -28,18 +28,14 @@ public abstract class CitationScraper extends CsvConvertiblePagePropertyScraper 
 		csvFileWriter.setColumnNames(columnNames);
 	}
 
-	@Override
-	public void initialize(String rootDirectory) {
-		setFileWriterFile(rootDirectory + "/csv/" + getCsvName() + ".csv");
-	}
-
-	@Override
-	public void cleanupResources() {
-		closeFileWriter();
-	}
-
 	private static String[] getColumnNames() {
 		return new String[] {"source", "target", "cited by"};
+	}
+
+	@Override
+	public void initialize(String rootDirectory) {
+		super.initialize(rootDirectory);
+		setRelativeFileWriterFile("CSV/" + getCsvName() + ".csv");
 	}
 
 	@Override

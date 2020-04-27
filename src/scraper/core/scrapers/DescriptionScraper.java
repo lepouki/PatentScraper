@@ -35,7 +35,7 @@ public class DescriptionScraper extends FileChangingPagePropertyScraper {
 	}
 
 	private void setOutputFileForDocument(Document document) {
-		setRelativeFileWriterFile("extra/description/" + document.identifier + ".txt");
+		setRelativeFileWriterFile("TEXT/DESCRIPTION/" + document.identifier + ".txt");
 	}
 
 	@Override

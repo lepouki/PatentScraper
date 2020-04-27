@@ -42,7 +42,7 @@ public class PdfScraper extends FileChangingPagePropertyScraper {
 	}
 
 	private void setOutputFileForDocument(Document document) {
-		setRelativeFileWriterFile("extra/pdf/" + document.identifier + ".pdf");
+		setRelativeFileWriterFile("PDF/" + document.identifier + ".pdf");
 	}
 
 	@Override

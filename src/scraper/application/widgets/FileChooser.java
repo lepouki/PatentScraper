@@ -116,13 +116,13 @@ public class FileChooser extends Widget implements ActionListener {
 		}
 	}
 
-	private void updateFilePathText() {
-		String chosenFileAbsolutePath = fileChooser.getSelectedFile().getAbsolutePath();
-		setFilePathText(chosenFileAbsolutePath);
-	}
-
 	public String getFilePathText() {
 		return filePathText.getText();
+	}
+
+	protected void updateFilePathText() {
+		String chosenFileAbsolutePath = fileChooser.getSelectedFile().getAbsolutePath();
+		setFilePathText(chosenFileAbsolutePath);
 	}
 
 	protected void setFilePathText(String text) {

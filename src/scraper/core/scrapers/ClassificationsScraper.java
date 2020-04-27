@@ -2,9 +2,7 @@ package scraper.core.scrapers;
 
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
-import scraper.core.Classification;
-import scraper.core.Document;
-import scraper.core.writers.BasicFileWriter;
+import scraper.core.*;
 import scraper.core.writers.CsvFileWriter;
 
 import java.util.Arrays;
@@ -49,7 +47,7 @@ public class ClassificationsScraper extends CsvConvertiblePagePropertyScraper {
 
 	private void processClassification(Element classificationElement) {
 		String code = getClassificationCode(classificationElement);
-		String description = classificationElement.selectFirst("span[itemprop=Description]").ownText();
+		String description = getClassificationDescription(classificationElement);
 
 		pushClassification(
 			new Classification(code, description)
@@ -69,12 +67,22 @@ public class ClassificationsScraper extends CsvConvertiblePagePropertyScraper {
 		return classificationElement.selectFirst(selector).ownText();
 	}
 
+	private String getClassificationDescription(Element classificationElement) {
+		Element descriptionElement = classificationElement.selectFirst("span[itemprop=Description]");
+
+		if (descriptionElement == null) {
+			return "";
+		}
+
+		return descriptionElement.ownText();
+	}
+
 	public static String getClassificationCodeSelector() {
 		return "span[itemprop=Code]";
 	}
 
 	private void setOutputFileForDocument(Document document) {
-		setRelativeFileWriterFile("extra/classifications/" + document.identifier + ".csv");
+		setRelativeFileWriterFile("CSV/CLASSIFICATIONS/" + document.identifier + ".csv");
 	}
 
 }

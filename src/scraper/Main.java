@@ -14,7 +14,7 @@ public class Main {
 	private static void trySetInterfaceToCrossPlatformInterface() {
 		try {
 			UIManager.setLookAndFeel(
-				UIManager.getCrossPlatformLookAndFeelClassName()
+				UIManager.getSystemLookAndFeelClassName()
 			);
 		}
 		catch (Exception ignored) {}

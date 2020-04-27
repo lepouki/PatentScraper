@@ -1,6 +1,5 @@
 package scraper.application.widgets;
 
-import java.awt.event.ActionEvent;
 import java.util.*;
 
 public class FileChooserNotifier extends FileChooser {
@@ -17,8 +16,8 @@ public class FileChooserNotifier extends FileChooser {
 	}
 
 	@Override
-	public void actionPerformed(ActionEvent event) {
-		super.actionPerformed(event);
+	protected void updateFilePathText() {
+		super.updateFilePathText();
 		notifyListeners();
 	}
 

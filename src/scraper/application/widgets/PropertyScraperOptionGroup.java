@@ -1,14 +1,10 @@
 package scraper.application.widgets;
 
-import scraper.application.Widget;
 import scraper.core.*;
 
-import java.awt.*;
-import java.util.ArrayList;
-import java.util.List;
-import javax.swing.*;
+import java.util.*;
 
-public class PropertyScraperOptionGroup extends Widget {
+public class PropertyScraperOptionGroup extends OptionGroup {
 
 	private PropertyScraperOptionGrid propertyScraperOptionGrid;
 
@@ -17,25 +13,8 @@ public class PropertyScraperOptionGroup extends Widget {
 	private final List<PropertyScraper> preparationPropertyScrapers;
 
 	public PropertyScraperOptionGroup(String title) {
-		BorderLayout layout = new BorderLayout();
-		setLayout(layout);
-
+		super(title);
 		preparationPropertyScrapers = new ArrayList<>();
-		createTitleLabel(title);
-	}
-
-	private void createTitleLabel(String title) {
-		JLabel titleLabel = new JLabel(title);
-		makeTitleTextBold(titleLabel);
-		add(titleLabel, BorderLayout.NORTH);
-	}
-
-	private void makeTitleTextBold(JLabel titleLabel) {
-		Font titleFont = titleLabel.getFont();
-
-		titleLabel.setFont(
-			titleFont.deriveFont(titleFont.getStyle() | Font.BOLD)
-		);
 	}
 
 	public void setOptionPropertyScrapers(List<PropertyScraper> optionPropertyScraper) {
@@ -43,7 +22,7 @@ public class PropertyScraperOptionGroup extends Widget {
 			return; // Ignore if the option grid has already been created
 
 		propertyScraperOptionGrid = new PropertyScraperOptionGrid(optionPropertyScraper);
-		add(propertyScraperOptionGrid, BorderLayout.SOUTH);
+		setContent(propertyScraperOptionGrid);
 	}
 
 	public void pushPreparationPropertyScrapers(List<PropertyScraper> propertyScrapers) {

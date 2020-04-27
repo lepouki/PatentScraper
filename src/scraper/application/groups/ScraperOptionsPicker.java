@@ -5,20 +5,20 @@ import scraper.application.widgets.*;
 import scraper.core.*;
 import scraper.core.scrapers.PageScraper;
 
-import java.awt.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 import javax.swing.*;
 
 public class ScraperOptionsPicker extends WidgetGroup {
 
 	private static final String TITLE = "Options";
-	private static final String NATIVE_LANGUAGE_CHECKBOX_TEXT = "Use native document language";
 
-	private JCheckBox nativeLanguageCheckbox;
-	private List<PropertyScraperOptionGroup> optionGroups;
-	private RecursionLayerCountPicker recursionLayerCountPicker;
-	private PageScraper pageScraper;
+	private final DataFrameScrapers dataFrameScrapers;
+	private final PageScraper pageScraper;
+
+	private final List<PropertyScraperOptionGroup> propertyScraperOptionGroups;
+	private ConcatenateOptionGroup concatenateOptionGroup;
+	private LanguageOptionGroup languageOptionGroup;
+	private RecursiveScrapingOptionGroup recursiveScrapingOptionGroup;
 
 	public ScraperOptionsPicker() {
 		super(TITLE, LayoutConfiguration.PADDING);
@@ -26,57 +26,58 @@ public class ScraperOptionsPicker extends WidgetGroup {
 		BoxLayout layout = new BoxLayout(this, BoxLayout.PAGE_AXIS);
 		setLayout(layout);
 
-		createNativeLanguageCheckbox();
-		createOptionGroups();
-		createCitationLayerCountPicker();
-	}
+		propertyScraperOptionGroups = new ArrayList<>();
 
-	private void createNativeLanguageCheckbox() {
-		nativeLanguageCheckbox = new JCheckBox(NATIVE_LANGUAGE_CHECKBOX_TEXT);
-		add(nativeLanguageCheckbox);
-		nativeLanguageCheckbox.setAlignmentX(Component.CENTER_ALIGNMENT);
-		createComponentSeparator();
+		dataFrameScrapers = new DataFrameScrapers();
+		pageScraper = dataFrameScrapers.getPageScraper();
+		createOptionGroups();
 	}
 
 	private void createOptionGroups() {
-		optionGroups = new ArrayList<>();
-		createDataFrameAdditionsOptionGroup();
+		createLanguageOptionGroup();
+		createConcatenateOptionGroup();
 		createExtraFilesOptionGroup();
 		createRecursiveScrapingOptionGroup();
 	}
 
-	private void createDataFrameAdditionsOptionGroup() {
-		DataFrameAdditionsOptionGroup optionGroup = new DataFrameAdditionsOptionGroup();
-		pushOptionGroup(optionGroup);
-		pageScraper = optionGroup.getPageScraper();
+	private void createConcatenateOptionGroup() {
+		concatenateOptionGroup = new ConcatenateOptionGroup();
+		pushOptionGroup(concatenateOptionGroup);
 	}
 
-	private void pushOptionGroup(PropertyScraperOptionGroup optionGroup) {
-		add(optionGroup);
-		optionGroups.add(optionGroup);
-		createComponentSeparator();
+	private void createLanguageOptionGroup() {
+		languageOptionGroup = new LanguageOptionGroup();
+		pushOptionGroup(languageOptionGroup);
 	}
 
 	private void createRecursiveScrapingOptionGroup() {
-		RecursiveScrapingOptionGroup optionGroup = new RecursiveScrapingOptionGroup(pageScraper);
-		pushOptionGroup(optionGroup);
+		recursiveScrapingOptionGroup = new RecursiveScrapingOptionGroup();
+		pushOptionGroup(recursiveScrapingOptionGroup);
+	}
+
+	private void pushOptionGroup(OptionGroup optionGroup) {
+		add(optionGroup);
+		createComponentSeparator();
 	}
 
 	private void createExtraFilesOptionGroup() {
 		ExtraFilesOptionGroup optionGroup = new ExtraFilesOptionGroup(pageScraper);
-		pushOptionGroup(optionGroup);
+		pushPropertyScraperOptionGroup(optionGroup);
 	}
 
-	private void createCitationLayerCountPicker() {
-		recursionLayerCountPicker = new RecursionLayerCountPicker();
-		add(recursionLayerCountPicker);
+	private void pushPropertyScraperOptionGroup(PropertyScraperOptionGroup optionGroup) {
+		pushOptionGroup(optionGroup);
+		propertyScraperOptionGroups.add(optionGroup);
 	}
 
 	public List<PropertyScraper> getPropertyScrapers(String outputDirectory) {
 		initializePageScraper();
-		List<PropertyScraper> propertyScrapers = new ArrayList<>();
 
-		for (PropertyScraperOptionGroup optionGroup : optionGroups) {
+		List<PropertyScraper> propertyScrapers = new ArrayList<>(
+			dataFrameScrapers.getPropertyScrapers()
+		);
+
+		for (PropertyScraperOptionGroup optionGroup : propertyScraperOptionGroups) {
 			propertyScrapers.addAll(
 				optionGroup.getPropertyScrapers()
 			);
@@ -87,7 +88,7 @@ public class ScraperOptionsPicker extends WidgetGroup {
 	}
 
 	private void initializePageScraper() {
-		boolean useNativeLanguage = nativeLanguageCheckbox.isSelected();
+		boolean useNativeLanguage = languageOptionGroup.useNativeLanguage();
 		pageScraper.setUseNativeLanguage(useNativeLanguage);
 	}
 
@@ -98,7 +99,7 @@ public class ScraperOptionsPicker extends WidgetGroup {
 	}
 
 	public int getLayerCount() {
-		return recursionLayerCountPicker.getValue();
+		return 1;
 	}
 
 }

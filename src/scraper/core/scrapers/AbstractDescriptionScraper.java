@@ -35,7 +35,7 @@ public class AbstractDescriptionScraper extends FileChangingPagePropertyScraper 
 	}
 
 	private void setOutputFileForDocument(Document document) {
-		setRelativeFileWriterFile("extra/abstract/" + document.identifier + ".txt");
+		setRelativeFileWriterFile("TEXT/ABSTRACT/" + document.identifier + ".txt");
 	}
 
 	@Override

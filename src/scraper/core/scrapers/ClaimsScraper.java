@@ -35,7 +35,7 @@ public class ClaimsScraper extends FileChangingPagePropertyScraper {
 	}
 
 	private void setOutputFileForDocument(Document document) {
-		setRelativeFileWriterFile("extra/claims/" + document.identifier + ".txt");
+		setRelativeFileWriterFile("TEXT/CLAIMS/" + document.identifier + ".txt");
 	}
 
 	@Override

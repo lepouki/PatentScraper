@@ -47,7 +47,7 @@ public class EventsScraper extends CsvConvertiblePagePropertyScraper {
 	}
 
 	private void setFileWriterFileForDocument(Document document) {
-		setRelativeFileWriterFile("extra/events/" + document.identifier + ".csv");
+		setRelativeFileWriterFile("CSV/EVENTS/" + document.identifier + ".csv");
 	}
 
 	private Event parseEvent(Element eventElement) {

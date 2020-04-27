@@ -72,11 +72,15 @@ public class Scraper extends EventSource {
 		layerSwapper.pushDocumentsToProgressionCounter(progressionCounter);
 
 		for (int i = 0; i < layerSwapper.getDocumentCount() && !worker.isCancelled(); ++i) {
-			Document document = layerSwapper.getDocument(i);
-			notifyEventListenersDocumentProgress(i, document.identifier);
-			documentScraper.scrape(document);
-			progressionCounter.incrementDocumentCount();
+			processDocument(i);
 		}
+	}
+
+	private void processDocument(int documentIndex) {
+		Document document = layerSwapper.getDocument(documentIndex);
+		progressionCounter.incrementDocumentCount();
+		notifyEventListenersDocumentProgress(documentIndex, document.identifier);
+		documentScraper.scrape(document);
 	}
 
 	private void notifyEventListenersDocumentProgress(int documentIndex, String documentStatus) {

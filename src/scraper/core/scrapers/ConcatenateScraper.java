@@ -61,7 +61,7 @@ public class ConcatenateScraper extends FileChangingPagePropertyScraper {
 	}
 
 	private void setOutputFileForDocument(Document document) {
-		setRelativeFileWriterFile("extra/concatenated/" + document.identifier + ".txt");
+		setRelativeFileWriterFile("TEXT/CONCATENATED/" + document.identifier + ".txt");
 	}
 
 	@Override

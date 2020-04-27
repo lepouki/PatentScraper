@@ -1,6 +1,8 @@
 package scraper.application;
 
 import scraper.application.groups.*;
+import scraper.application.parsers.CustomCsvParser;
+import scraper.application.parsers.GooglePatentsCsvParser;
 import scraper.core.*;
 
 import java.io.IOException;
@@ -25,12 +27,12 @@ public class Application extends JFrame {
 		MainPane mainPane = new MainPane();
 		setContentPane(mainPane);
 
-		createWidgetGroups();
+		createOptionGroups();
 		workerManager = new WorkerManager(this);
 		configureFrame();
 	}
 
-	private void createWidgetGroups() {
+	private void createOptionGroups() {
 		inputOutputChooser = new InputOutputChooser();
 		add(inputOutputChooser);
 
@@ -75,7 +77,15 @@ public class Application extends JFrame {
 	private List<Document> getInputDocuments() throws IOException {
 		String inputFilePath = inputOutputChooser.getInputFilePathText();
 		PathChecker.checkExists(inputFilePath);
-		return inputOutputChooser.getCsvParser().parseDocuments(inputFilePath);
+		return parseDocumentsFromCsv(inputFilePath);
+	}
+
+	private List<Document> parseDocumentsFromCsv(String inputFilePath) throws IOException {
+		CsvParser csvParser = CustomCsvChecker.isCustomCsv(inputFilePath)
+			? new CustomCsvParser()
+			: new GooglePatentsCsvParser();
+
+		return csvParser.parseDocuments(inputFilePath);
 	}
 
 	private List<PropertyScraper> getPropertyScrapers() throws IOException {
