@@ -1,5 +1,6 @@
 package scraper.core.scrapers;
 
+import scraper.application.ScraperPaths;
 import scraper.core.*;
 import scraper.core.writers.BasicFileWriter;
 
@@ -42,7 +43,7 @@ public class PdfScraper extends FileChangingPagePropertyScraper {
 	}
 
 	private void setOutputFileForDocument(Document document) {
-		setRelativeFileWriterFile("PDF/" + document.identifier + ".pdf");
+		setRelativeFileWriterFile(ScraperPaths.PDF_DIRECTORY + document.identifier + ".pdf");
 	}
 
 	@Override

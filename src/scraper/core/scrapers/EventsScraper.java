@@ -2,6 +2,7 @@ package scraper.core.scrapers;
 
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+import scraper.application.ScraperPaths;
 import scraper.core.*;
 import scraper.core.writers.CsvFileWriter;
 
@@ -31,7 +32,7 @@ public class EventsScraper extends CsvConvertiblePagePropertyScraper {
 	}
 
 	private static String[] getColumnNames() {
-		return new String[] {"date", "code", "title", "description"};
+		return new String[] {"Date", "Code", "Title", "Description"};
 	}
 
 	@Override
@@ -47,7 +48,7 @@ public class EventsScraper extends CsvConvertiblePagePropertyScraper {
 	}
 
 	private void setFileWriterFileForDocument(Document document) {
-		setRelativeFileWriterFile("CSV/EVENTS/" + document.identifier + ".csv");
+		setRelativeFileWriterFile(ScraperPaths.EVENTS_DIRECTORY + document.identifier + ".csv");
 	}
 
 	private Event parseEvent(Element eventElement) {

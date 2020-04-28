@@ -10,7 +10,7 @@ public class CitationCountScraperNonPatent extends ElementCountScraper {
 
 	@Override
 	public String[] getPropertyNames() {
-		return new String[] {"non patent citation count"};
+		return new String[] {READABLE_NAME};
 	}
 
 	@Override

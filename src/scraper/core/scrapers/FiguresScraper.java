@@ -2,6 +2,7 @@ package scraper.core.scrapers;
 
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+import scraper.application.ScraperPaths;
 import scraper.core.*;
 import scraper.core.writers.BasicFileWriter;
 
@@ -36,8 +37,7 @@ public class FiguresScraper extends FileChangingPagePropertyScraper {
 
 	private void setFileWriterFileForFigure(Document document, String figureLink) {
 		String figureName = getFigureNameInFigureLink(figureLink);
-		String relativeFigurePath = String.format("FIGURES/%s/%s", document.identifier, figureName);
-		setRelativeFileWriterFile(relativeFigurePath);
+		setRelativeFileWriterFile(ScraperPaths.FIGURES_DIRECTORY + document.identifier + '/' + figureName);
 	}
 
 	private String getFigureNameInFigureLink(String figureLink) {

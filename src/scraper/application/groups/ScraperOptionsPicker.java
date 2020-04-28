@@ -14,9 +14,8 @@ public class ScraperOptionsPicker extends WidgetGroup {
 
 	private final DataFrameScrapers dataFrameScrapers;
 	private final PageScraper pageScraper;
-
 	private final List<PropertyScraperOptionGroup> propertyScraperOptionGroups;
-	private ConcatenateOptionGroup concatenateOptionGroup;
+
 	private LanguageOptionGroup languageOptionGroup;
 	private RecursiveScrapingOptionGroup recursiveScrapingOptionGroup;
 
@@ -41,8 +40,8 @@ public class ScraperOptionsPicker extends WidgetGroup {
 	}
 
 	private void createConcatenateOptionGroup() {
-		concatenateOptionGroup = new ConcatenateOptionGroup();
-		pushOptionGroup(concatenateOptionGroup);
+		ConcatenationOptionGroup concatenationOptionGroup = new ConcatenationOptionGroup(pageScraper);
+		pushPropertyScraperOptionGroup(concatenationOptionGroup);
 	}
 
 	private void createLanguageOptionGroup() {

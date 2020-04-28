@@ -14,7 +14,7 @@ public class AssigneeScraper extends PagePropertyScraper {
 
 	@Override
 	public String[] getPropertyNames() {
-		return new String[] {"assignee"};
+		return new String[] {READABLE_NAME};
 	}
 
 	@Override

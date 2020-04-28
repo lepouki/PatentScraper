@@ -19,7 +19,7 @@ public class GenderWithProbabilityScraper extends PagePropertyScraper {
 
 	@Override
 	public String[] getPropertyNames() {
-		return new String[] {"gender", "gender probability"};
+		return new String[] {"Gender", "Gender probability"};
 	}
 
 	@Override

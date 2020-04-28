@@ -14,7 +14,7 @@ public class TitleScraper extends PagePropertyScraper {
 
 	@Override
 	public String[] getPropertyNames() {
-		return new String[] {"title"};
+		return new String[] {READABLE_NAME};
 	}
 
 	@Override

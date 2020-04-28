@@ -2,6 +2,7 @@ package scraper.core.scrapers;
 
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+import scraper.application.ScraperPaths;
 import scraper.core.*;
 import scraper.core.writers.CsvFileWriter;
 
@@ -31,12 +32,12 @@ public class SimilarDocumentsScraper extends CsvConvertiblePagePropertyScraper {
 	}
 
 	private static String[] getColumnNames() {
-		return new String[] {"document", "similar"};
+		return new String[] {"Document", "Similar"};
 	}
 
 	@Override
 	public void initialize(String rootDirectory) {
-		setFileWriterFile(rootDirectory + "/csv/" + READABLE_NAME + ".csv");
+		setFileWriterFile(rootDirectory + '/' + ScraperPaths.CSV_DIRECTORY + READABLE_NAME + ".csv");
 	}
 
 	@Override

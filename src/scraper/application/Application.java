@@ -20,6 +20,7 @@ public class Application extends JFrame {
 	private ScraperControls scraperControls;
 
 	private final WorkerManager workerManager;
+	private final StatusMessageUpdater statusMessageUpdater;
 
 	public Application() {
 		super(TITLE);
@@ -30,6 +31,8 @@ public class Application extends JFrame {
 		createOptionGroups();
 		workerManager = new WorkerManager(this);
 		configureFrame();
+
+		statusMessageUpdater = new StatusMessageUpdater(scraperControls);
 	}
 
 	private void createOptionGroups() {
@@ -120,29 +123,18 @@ public class Application extends JFrame {
 		else if (event instanceof Scraper.DocumentProgressEvent) {
 			updateDocumentProgressBar(event);
 		}
+
+		statusMessageUpdater.processScraperProgress(event);
 	}
 
 	private void updateLayerProgressBar(ProgressEvent event) {
-		String status = event.getStatus();
-		scraperControls.setLayerProgressBarText(status);
-
 		int progressPercentage = event.getPercentage();
 		scraperControls.setLayerProgressBarValue(progressPercentage);
 	}
 
 	private void updateDocumentProgressBar(ProgressEvent event) {
-		String status = event.getStatus();
-
-		scraperControls.setDocumentProgressBarText(
-			makeDocumentProgressString(event.getValue(), event.getMaximumValue(), status)
-		);
-
 		int progressPercentage = event.getPercentage();
 		scraperControls.setDocumentProgressBarValue(progressPercentage);
-	}
-
-	private String makeDocumentProgressString(int value, int maximumValue, String text) {
-		return String.format("%s (%d/%d)", text, value, maximumValue);
 	}
 
 	public void onWorkerDone() {
@@ -151,7 +143,7 @@ public class Application extends JFrame {
 	}
 
 	private void writeScraperSummary() {
-		String summaryFile = inputOutputChooser.getOutputDirectoryPathText() + "/csv/Summary.csv";
+		String summaryFile = inputOutputChooser.getOutputDirectoryPathText() + '/' + ScraperPaths.SUMMARY_PATH;
 		workerManager.writeScraperSummary(summaryFile);
 	}
 

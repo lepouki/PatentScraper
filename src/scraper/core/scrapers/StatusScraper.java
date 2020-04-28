@@ -4,7 +4,7 @@ import scraper.core.Document;
 
 public class StatusScraper extends PagePropertyScraper {
 
-	private static final String READABLE_NAME = "Current status";
+	private static final String READABLE_NAME = "Status";
 
 	private String status;
 
@@ -14,7 +14,7 @@ public class StatusScraper extends PagePropertyScraper {
 
 	@Override
 	public String[] getPropertyNames() {
-		return new String[] {"status"};
+		return new String[] {READABLE_NAME};
 	}
 
 	@Override

@@ -14,7 +14,7 @@ public class PriorityDateScraper extends PagePropertyScraper {
 
 	@Override
 	public String[] getPropertyNames() {
-		return new String[] {"priority date"};
+		return new String[] {READABLE_NAME};
 	}
 
 	@Override

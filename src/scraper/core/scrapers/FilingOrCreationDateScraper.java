@@ -14,7 +14,7 @@ public class FilingOrCreationDateScraper extends PagePropertyScraper {
 
 	@Override
 	public String[] getPropertyNames() {
-		return new String[] {"filing or creation date"};
+		return new String[] {READABLE_NAME};
 	}
 
 	@Override

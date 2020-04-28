@@ -2,6 +2,7 @@ package scraper.core.scrapers;
 
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+import scraper.application.ScraperPaths;
 import scraper.core.*;
 import scraper.core.writers.CsvFileWriter;
 
@@ -29,13 +30,13 @@ public abstract class CitationScraper extends CsvConvertiblePagePropertyScraper 
 	}
 
 	private static String[] getColumnNames() {
-		return new String[] {"source", "target", "cited by"};
+		return new String[] {"Source", "Target", "Cited by"};
 	}
 
 	@Override
 	public void initialize(String rootDirectory) {
 		super.initialize(rootDirectory);
-		setRelativeFileWriterFile("CSV/" + getCsvName() + ".csv");
+		setRelativeFileWriterFile(ScraperPaths.CSV_DIRECTORY + getCsvName() + ".csv");
 	}
 
 	@Override

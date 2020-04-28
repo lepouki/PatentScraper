@@ -2,6 +2,7 @@ package scraper.core.scrapers;
 
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+import scraper.application.ScraperPaths;
 import scraper.core.*;
 import scraper.core.writers.CsvFileWriter;
 
@@ -31,7 +32,7 @@ public class ClassificationsScraper extends CsvConvertiblePagePropertyScraper {
 	}
 
 	private static String[] getColumnNames() {
-		return new String[] {"code", "description"};
+		return new String[] {"Code", "Description"};
 	}
 
 	@Override
@@ -82,7 +83,7 @@ public class ClassificationsScraper extends CsvConvertiblePagePropertyScraper {
 	}
 
 	private void setOutputFileForDocument(Document document) {
-		setRelativeFileWriterFile("CSV/CLASSIFICATIONS/" + document.identifier + ".csv");
+		setRelativeFileWriterFile(ScraperPaths.CLASSIFICATIONS_DIRECTORY + document.identifier + ".csv");
 	}
 
 }

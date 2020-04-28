@@ -24,19 +24,7 @@ public class ScraperProgressBars extends Widget {
 	private JProgressBar createProgressBar() {
 		JProgressBar progressBar = new JProgressBar();
 		add(progressBar);
-
-		progressBar.setStringPainted(true);
-		progressBar.setString("");
-
 		return progressBar;
-	}
-
-	public void setLayerProgressBarText(String text) {
-		layerProgressBar.setString(text);
-	}
-
-	public void setDocumentProgressBarText(String text) {
-		documentProgressBar.setString(text);
 	}
 
 	public void setLayerProgressBarValue(int value) {
@@ -48,13 +36,8 @@ public class ScraperProgressBars extends Widget {
 	}
 
 	public void resetProgressBars() {
-		final String emptyString = "";
-
 		setLayerProgressBarValue(0);
-		setLayerProgressBarText(emptyString);
-
 		setDocumentProgressBarValue(0);
-		setDocumentProgressBarText(emptyString);
 	}
 
 }

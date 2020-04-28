@@ -14,7 +14,7 @@ public class InventorOrAuthorScraper extends PagePropertyScraper {
 
 	@Override
 	public String[] getPropertyNames() {
-		return new String[] {"inventor or author"};
+		return new String[] {READABLE_NAME};
 	}
 
 	@Override

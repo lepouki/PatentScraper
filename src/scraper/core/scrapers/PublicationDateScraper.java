@@ -14,7 +14,7 @@ public class PublicationDateScraper extends PagePropertyScraper {
 
 	@Override
 	public String[] getPropertyNames() {
-		return new String[] {"publication date"};
+		return new String[] {READABLE_NAME};
 	}
 
 	@Override

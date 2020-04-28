@@ -1,5 +1,6 @@
 package scraper.core.scrapers;
 
+import scraper.application.ScraperPaths;
 import scraper.core.Document;
 import scraper.core.writers.BasicFileWriter;
 
@@ -35,7 +36,7 @@ public class DescriptionScraper extends FileChangingPagePropertyScraper {
 	}
 
 	private void setOutputFileForDocument(Document document) {
-		setRelativeFileWriterFile("TEXT/DESCRIPTION/" + document.identifier + ".txt");
+		setRelativeFileWriterFile(ScraperPaths.DESCRIPTION_DIRECTORY + document.identifier + ".txt");
 	}
 
 	@Override

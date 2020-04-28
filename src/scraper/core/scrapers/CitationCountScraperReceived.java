@@ -10,7 +10,7 @@ public class CitationCountScraperReceived extends ElementCountScraper {
 
 	@Override
 	public String[] getPropertyNames() {
-		return new String[] {"received citation count"};
+		return new String[] {READABLE_NAME};
 	}
 
 	@Override

@@ -28,7 +28,7 @@ public class OptionGroup extends Widget {
 	}
 
 	public void setContent(Widget content) {
-		add(content, BorderLayout.SOUTH);
+		add(content, BorderLayout.WEST);
 	}
 
 }

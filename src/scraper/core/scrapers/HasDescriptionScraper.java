@@ -10,7 +10,7 @@ public class HasDescriptionScraper extends BooleanPagePropertyScraper {
 
 	@Override
 	public String[] getPropertyNames() {
-		return new String[] {"has description"};
+		return new String[] {READABLE_NAME};
 	}
 
 	@Override

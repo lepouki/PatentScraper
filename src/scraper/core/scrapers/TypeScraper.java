@@ -4,7 +4,7 @@ import scraper.core.Document;
 
 public class TypeScraper extends PagePropertyScraper {
 
-	private static final String READABLE_NAME = "Document type";
+	private static final String READABLE_NAME = "Type";
 
 	private String type;
 
@@ -14,7 +14,7 @@ public class TypeScraper extends PagePropertyScraper {
 
 	@Override
 	public String[] getPropertyNames() {
-		return new String[] {"type"};
+		return new String[] {READABLE_NAME};
 	}
 
 	@Override

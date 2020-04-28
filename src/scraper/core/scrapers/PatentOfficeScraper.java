@@ -14,7 +14,7 @@ public class PatentOfficeScraper extends PagePropertyScraper {
 
 	@Override
 	public String[] getPropertyNames() {
-		return new String[] {"patent office"};
+		return new String[] {READABLE_NAME};
 	}
 
 	@Override

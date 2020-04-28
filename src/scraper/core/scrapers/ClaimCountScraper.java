@@ -12,7 +12,7 @@ public class ClaimCountScraper extends IntegerPagePropertyScraper {
 
 	@Override
 	public String[] getPropertyNames() {
-		return new String[] {"claim count"};
+		return new String[] {READABLE_NAME};
 	}
 
 	@Override

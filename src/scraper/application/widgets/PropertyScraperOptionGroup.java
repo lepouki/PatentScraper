@@ -25,32 +25,23 @@ public class PropertyScraperOptionGroup extends OptionGroup {
 		setContent(propertyScraperOptionGrid);
 	}
 
-	public void pushPreparationPropertyScrapers(List<PropertyScraper> propertyScrapers) {
-		for (PropertyScraper propertyScraper : propertyScrapers) {
-			pushPreparationPropertyScraper(propertyScraper);
-		}
-	}
-
 	public void pushPreparationPropertyScraper(PropertyScraper propertyScraper) {
 		preparationPropertyScrapers.add(propertyScraper);
 	}
 
 	public List<PropertyScraper> getPropertyScrapers() {
 		List<PropertyScraper> propertyScrapers = new ArrayList<>(preparationPropertyScrapers);
+		pushOptionPropertyScrapersToPropertyScrapers(propertyScrapers);
+		return propertyScrapers;
+	}
+
+	private void pushOptionPropertyScrapersToPropertyScrapers(List<PropertyScraper> propertyScrapers) {
+		if (propertyScraperOptionGrid == null)
+			return;
 
 		propertyScrapers.addAll(
 			propertyScraperOptionGrid.getPropertyScrapers()
 		);
-
-		return propertyScrapers;
-	}
-
-	public void setPropertyScrapersFileDataWriter(FileWriter fileWriter) {
-		for (PropertyScraper propertyScraper : preparationPropertyScrapers) {
-			propertyScraper.setFileWriter(fileWriter);
-		}
-
-		propertyScraperOptionGrid.setPropertyScrapersFileDataWriter(fileWriter);
 	}
 
 }

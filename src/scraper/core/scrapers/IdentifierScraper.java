@@ -1,13 +1,11 @@
 package scraper.core.scrapers;
 
+import scraper.application.ScraperPaths;
 import scraper.core.Document;
-
-import java.io.File;
 
 public class IdentifierScraper extends PagePropertyScraper {
 
 	private static final String READABLE_NAME = "Identifier";
-	private static final String RELATIVE_DATA_FRAME_CSV_PATH = "CSV/Data frame.csv";
 
 	private String identifier;
 
@@ -17,7 +15,7 @@ public class IdentifierScraper extends PagePropertyScraper {
 
 	@Override
 	public void initialize(String rootDirectory) {
-		setFileWriterFile(rootDirectory + File.separator + RELATIVE_DATA_FRAME_CSV_PATH);
+		setFileWriterFile(rootDirectory + '/' + ScraperPaths.DATA_FRAME_PATH);
 	}
 
 	@Override
@@ -27,7 +25,7 @@ public class IdentifierScraper extends PagePropertyScraper {
 
 	@Override
 	public String[] getPropertyNames() {
-		return new String[] {"identifier"};
+		return new String[] {READABLE_NAME};
 	}
 
 	@Override

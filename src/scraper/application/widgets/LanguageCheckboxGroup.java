@@ -10,20 +10,28 @@ public class LanguageCheckboxGroup extends Widget {
 	private static final String ENGLISH_CHECKBOX_TEXT = "English";
 	private static final String NATIVE_LANGUAGE_CHECKBOX_TEXT = "Native";
 
-	private final JCheckBox nativeLanguageCheckbox;
+	private JCheckBox nativeLanguageCheckbox;
 
 	public LanguageCheckboxGroup() {
-		setAlignmentX(Component.LEFT_ALIGNMENT);
+		GridLayout layout = new GridLayout(0, 2);
+		setLayout(layout);
+		createLanguageCheckboxes();
+	}
 
+	private void createLanguageCheckboxes() {
 		ButtonGroup checkboxGroup = new ButtonGroup();
-		nativeLanguageCheckbox = new JCheckBox(NATIVE_LANGUAGE_CHECKBOX_TEXT);
-		add(nativeLanguageCheckbox);
-		checkboxGroup.add(nativeLanguageCheckbox);
+		nativeLanguageCheckbox = createCheckbox(checkboxGroup, NATIVE_LANGUAGE_CHECKBOX_TEXT, false);
+		createCheckbox(checkboxGroup, ENGLISH_CHECKBOX_TEXT, true);
+	}
 
-		JCheckBox englishCheckbox = new JCheckBox(ENGLISH_CHECKBOX_TEXT);
-		englishCheckbox.setSelected(true);
-		add(englishCheckbox);
-		checkboxGroup.add(englishCheckbox);
+	private JCheckBox createCheckbox(ButtonGroup checkboxGroup, String text, boolean selected) {
+		JCheckBox checkBox = new JCheckBox(text);
+
+		add(checkBox);
+		checkboxGroup.add(checkBox);
+
+		checkBox.setSelected(selected);
+		return checkBox;
 	}
 
 	public boolean useNativeLanguage() {

@@ -10,7 +10,7 @@ public class HasClaimsScraper extends BooleanPagePropertyScraper {
 
 	@Override
 	public String[] getPropertyNames() {
-		return new String[] {"has claims"};
+		return new String[] {READABLE_NAME};
 	}
 
 	@Override

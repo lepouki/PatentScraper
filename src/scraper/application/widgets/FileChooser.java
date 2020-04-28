@@ -25,7 +25,6 @@ public class FileChooser extends Widget implements ActionListener {
 
 	}
 
-	private static final int FILE_PATH_TEXT_COLUMN_COUNT = 45;
 	private static final String BASE_DIRECTORY = "./";
 	private static final String OPEN_BUTTON_TEXT = "Open";
 
@@ -42,7 +41,7 @@ public class FileChooser extends Widget implements ActionListener {
 	}
 
 	private void createComponents(FileMode fileMode, String dialogTitle) {
-		filePathText = new JTextField(FILE_PATH_TEXT_COLUMN_COUNT);
+		filePathText = new JTextField();
 		add(filePathText);
 
 		openButton = new JButton(OPEN_BUTTON_TEXT);

@@ -1,20 +1,27 @@
 package scraper.core.scrapers;
 
+import scraper.application.ScraperPaths;
+import scraper.core.ConcatenationOptions;
 import scraper.core.Document;
 import scraper.core.writers.BasicFileWriter;
 
-public class ConcatenateScraper extends FileChangingPagePropertyScraper {
+public class ConcatenationScraper extends FileChangingPagePropertyScraper {
 
 	private static final String READABLE_NAME = "Concatenated text";
 
 	private String concatenated;
+	private ConcatenationOptions options;
 
-	public ConcatenateScraper(PageScraper pageScraper) {
+	public ConcatenationScraper(PageScraper pageScraper) {
 		super(READABLE_NAME, pageScraper);
 
 		setFileWriter(
 			new BasicFileWriter()
 		);
+	}
+
+	public void setConcatenationOptions(ConcatenationOptions options) {
+		this.options = options;
 	}
 
 	@Override
@@ -31,9 +38,18 @@ public class ConcatenateScraper extends FileChangingPagePropertyScraper {
 
 	private void concatenateDocumentText() {
 		concatenated = "";
-		concatenated += retrieveAbstract();
-		concatenated += retrieveDescription();
-		concatenated += retrieveClaims();
+
+		if (options.concatenateAbstract) {
+			concatenated += retrieveAbstract();
+		}
+
+		if (options.concatenateDescription) {
+			concatenated += retrieveDescription();
+		}
+
+		if (options.concatenateClaims) {
+			concatenated += retrieveClaims();
+		}
 	}
 
 	private String retrieveAbstract() {
@@ -61,7 +77,7 @@ public class ConcatenateScraper extends FileChangingPagePropertyScraper {
 	}
 
 	private void setOutputFileForDocument(Document document) {
-		setRelativeFileWriterFile("TEXT/CONCATENATED/" + document.identifier + ".txt");
+		setRelativeFileWriterFile(ScraperPaths.CONCATENATED_TEXT_DIRECTORY + document.identifier + ".txt");
 	}
 
 	@Override

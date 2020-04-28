@@ -10,7 +10,7 @@ public class PageLinkScraper extends PagePropertyScraper {
 
 	@Override
 	public String[] getPropertyNames() {
-		return new String[] {"page link"};
+		return new String[] {READABLE_NAME};
 	}
 
 	@Override

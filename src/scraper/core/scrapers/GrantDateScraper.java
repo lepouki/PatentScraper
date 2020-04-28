@@ -16,7 +16,7 @@ public class GrantDateScraper extends PagePropertyScraper {
 
 	@Override
 	public String[] getPropertyNames() {
-		return new String[] {"grant date"};
+		return new String[] {READABLE_NAME};
 	}
 
 	@Override
