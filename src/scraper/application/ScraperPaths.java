@@ -11,7 +11,7 @@ public class ScraperPaths {
 	public static final String ABSTRACT_DIRECTORY = TEXT_DIRECTORY + "ABSTRACT/";
 	public static final String DESCRIPTION_DIRECTORY = TEXT_DIRECTORY + "DESCRIPTION/";
 	public static final String CLAIMS_DIRECTORY = TEXT_DIRECTORY + "CLAIMS/";
-	public static final String CONCATENATED_TEXT_DIRECTORY = TEXT_DIRECTORY + "CONCATENATED/";
 	public static final String PDF_DIRECTORY = "PDF/";
 	public static final String FIGURES_DIRECTORY = "FIGURES/";
+
 }

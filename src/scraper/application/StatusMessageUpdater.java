@@ -1,8 +1,7 @@
 package scraper.application;
 
 import scraper.application.groups.ScraperControls;
-import scraper.core.ProgressEvent;
-import scraper.core.Scraper;
+import scraper.core.*;
 
 public class StatusMessageUpdater {
 

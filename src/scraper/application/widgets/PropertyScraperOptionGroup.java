@@ -2,15 +2,14 @@ package scraper.application.widgets;
 
 import scraper.core.*;
 
-import java.util.*;
+import java.awt.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class PropertyScraperOptionGroup extends OptionGroup {
 
-	private PropertyScraperOptionGrid propertyScraperOptionGrid;
-
-	// Preparation property scrapers are not visible in the option grid
-	// They get run before the other property scrapers do
 	private final List<PropertyScraper> preparationPropertyScrapers;
+	private PropertyScraperOptionGrid propertyScraperOptionGrid;
 
 	public PropertyScraperOptionGroup(String title) {
 		super(title);
@@ -22,7 +21,7 @@ public class PropertyScraperOptionGroup extends OptionGroup {
 			return; // Ignore if the option grid has already been created
 
 		propertyScraperOptionGrid = new PropertyScraperOptionGrid(optionPropertyScraper);
-		setContent(propertyScraperOptionGrid);
+		add(propertyScraperOptionGrid, BorderLayout.CENTER);
 	}
 
 	public void pushPreparationPropertyScraper(PropertyScraper propertyScraper) {

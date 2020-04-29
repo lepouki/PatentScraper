@@ -2,7 +2,7 @@ package scraper.core.scrapers;
 
 public class CitationScraperReceived extends CitationScraper {
 
-	private static final String READABLE_NAME = "Citing documents";
+	private static final String READABLE_NAME = "Citing patents";
 
 	public CitationScraperReceived(PageScraper pageScraper) {
 		super(READABLE_NAME, pageScraper);
@@ -11,11 +11,6 @@ public class CitationScraperReceived extends CitationScraper {
 	@Override
 	protected boolean isGivenCitation() {
 		return false;
-	}
-
-	@Override
-	protected String getCsvName() {
-		return READABLE_NAME;
 	}
 
 	@Override

@@ -2,42 +2,26 @@ package scraper.application.widgets;
 
 import scraper.application.Widget;
 
-import javax.swing.*;
+import java.awt.*;
 
 public class RecursionLayerCountPicker extends Widget {
 
-	private static final String TITLE = "Number of recursion layers";
-	private static final int TEXT_FIELD_COLUMN_COUNT = 2;
+	private static final String TITLE = "Layer count";
 	private static final int MINIMUM_VALUE = 1;
-	private static final int MAXIMUM_VALUE = 50;
+	private static final int MAXIMUM_VALUE = 10;
 
-	private JSpinner integerSpinner;
+	private final IntegerSpinner layerCountSpinner;
 
 	public RecursionLayerCountPicker() {
-		JLabel titleLabel = new JLabel(TITLE);
-		add(titleLabel);
+		BorderLayout layout = new BorderLayout();
+		setLayout(layout);
 
-		createIntegerSpinner();
-		setSpinnerColumnCount();
+		layerCountSpinner = new IntegerSpinner(TITLE, MINIMUM_VALUE, MAXIMUM_VALUE);
+		add(layerCountSpinner, BorderLayout.CENTER);
 	}
 
-	private void createIntegerSpinner() {
-		integerSpinner = new JSpinner();
-		add(integerSpinner);
-		final int stepSize = 1;
-
-		integerSpinner.setModel(
-			new SpinnerNumberModel(MINIMUM_VALUE, MINIMUM_VALUE, MAXIMUM_VALUE, stepSize)
-		);
-	}
-
-	private void setSpinnerColumnCount() {
-		JSpinner.DefaultEditor editor = (JSpinner.DefaultEditor)integerSpinner.getEditor();
-		editor.getTextField().setColumns(TEXT_FIELD_COLUMN_COUNT);
-	}
-
-	public int getValue() {
-		return (Integer)integerSpinner.getValue();
+	public int getLayerCount() {
+		return layerCountSpinner.getValue();
 	}
 
 }

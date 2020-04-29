@@ -77,15 +77,15 @@ public class DataFrameScrapers {
 		);
 
 		propertyScrapers.add(
-			new HasAbstractScraper(pageScraper)
+			new WithAbstractScraper(pageScraper)
 		);
 
 		propertyScrapers.add(
-			new HasDescriptionScraper(pageScraper)
+			new WithDescriptionScraper(pageScraper)
 		);
 
 		propertyScrapers.add(
-			new HasClaimsScraper(pageScraper)
+			new WithClaimsScraper(pageScraper)
 		);
 
 		propertyScrapers.add(

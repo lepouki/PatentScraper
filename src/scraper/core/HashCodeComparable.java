@@ -4,7 +4,7 @@ public class HashCodeComparable {
 
 	@Override
 	public boolean equals(Object other) {
-		return hashCode() == other.hashCode();
+		return (other instanceof HashCodeComparable) && hashCode() == other.hashCode();
 	}
 
 }

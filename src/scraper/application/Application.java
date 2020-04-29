@@ -1,8 +1,7 @@
 package scraper.application;
 
 import scraper.application.groups.*;
-import scraper.application.parsers.CustomCsvParser;
-import scraper.application.parsers.GooglePatentsCsvParser;
+import scraper.application.parsers.*;
 import scraper.core.*;
 
 import java.io.IOException;
@@ -12,7 +11,6 @@ import javax.swing.*;
 public class Application extends JFrame {
 
 	private static final String TITLE = "Scraper";
-	private static final String WORKER_SCRAPING_MESSAGE = "Scraping";
 	private static final String WORKER_DONE_MESSAGE = "Done";
 
 	private InputOutputChooser inputOutputChooser;
@@ -99,7 +97,6 @@ public class Application extends JFrame {
 
 	public void onWorkerInitialized() {
 		setSettingsEnabled(false);
-		scraperControls.setStatus(WORKER_SCRAPING_MESSAGE);
 		scraperControls.toggleButtons();
 	}
 

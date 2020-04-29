@@ -1,10 +1,10 @@
 package scraper.core.scrapers;
 
-public class HasAbstractScraper extends BooleanPagePropertyScraper {
+public class WithAbstractScraper extends BooleanPagePropertyScraper {
 
-	private static final String READABLE_NAME = "Has abstract";
+	private static final String READABLE_NAME = "With abstract";
 
-	public HasAbstractScraper(PageScraper pageScraper) {
+	public WithAbstractScraper(PageScraper pageScraper) {
 		super(READABLE_NAME, pageScraper);
 	}
 

@@ -3,7 +3,6 @@ package scraper.application.widgets;
 import scraper.application.*;
 
 import java.awt.event.*;
-import java.util.Set;
 import javax.swing.*;
 
 public class FileChooser extends Widget implements ActionListener {

@@ -36,7 +36,7 @@ public abstract class CitationScraper extends CsvConvertiblePagePropertyScraper 
 	@Override
 	public void initialize(String rootDirectory) {
 		super.initialize(rootDirectory);
-		setRelativeFileWriterFile(ScraperPaths.CSV_DIRECTORY + getCsvName() + ".csv");
+		setRelativeFileWriterFile(ScraperPaths.CSV_DIRECTORY + getReadableName() + ".csv");
 	}
 
 	@Override
@@ -57,9 +57,9 @@ public abstract class CitationScraper extends CsvConvertiblePagePropertyScraper 
 	private void processCitationElements(Elements citationElements, Document document) throws NoSuchPropertyException {
 		for (Element citationElement : citationElements) {
 			String otherDocumentIdentifier = retrieveOtherDocumentIdentifier(citationElement);
-			char originCharacter = retrieveOriginCharacter(citationElement);
-
 			pushToNextLayerDocuments(otherDocumentIdentifier);
+
+			char originCharacter = retrieveOriginCharacter(citationElement);
 			pushCitationToProperties(document.identifier, otherDocumentIdentifier, originCharacter);
 		}
 	}
@@ -107,8 +107,6 @@ public abstract class CitationScraper extends CsvConvertiblePagePropertyScraper 
 	}
 
 	protected abstract boolean isGivenCitation();
-
-	protected abstract String getCsvName();
 
 	protected abstract String getCitationSelector();
 

@@ -1,27 +1,18 @@
 package scraper.application.widgets;
 
-import scraper.application.Widget;
-
 import javax.swing.*;
-import java.awt.*;
 
-public class LanguageCheckboxGroup extends Widget {
+public class LanguageCheckboxGroup extends CheckboxGroup {
 
 	private static final String ENGLISH_CHECKBOX_TEXT = "English";
 	private static final String NATIVE_LANGUAGE_CHECKBOX_TEXT = "Native";
 
-	private JCheckBox nativeLanguageCheckbox;
+	private final JCheckBox englishLanguageCheckbox;
 
 	public LanguageCheckboxGroup() {
-		GridLayout layout = new GridLayout(0, 2);
-		setLayout(layout);
-		createLanguageCheckboxes();
-	}
-
-	private void createLanguageCheckboxes() {
 		ButtonGroup checkboxGroup = new ButtonGroup();
-		nativeLanguageCheckbox = createCheckbox(checkboxGroup, NATIVE_LANGUAGE_CHECKBOX_TEXT, false);
-		createCheckbox(checkboxGroup, ENGLISH_CHECKBOX_TEXT, true);
+		englishLanguageCheckbox = createCheckbox(checkboxGroup, ENGLISH_CHECKBOX_TEXT, true);
+		createCheckbox(checkboxGroup, NATIVE_LANGUAGE_CHECKBOX_TEXT, false);
 	}
 
 	private JCheckBox createCheckbox(ButtonGroup checkboxGroup, String text, boolean selected) {
@@ -35,7 +26,7 @@ public class LanguageCheckboxGroup extends Widget {
 	}
 
 	public boolean useNativeLanguage() {
-		return nativeLanguageCheckbox.isSelected();
+		return !englishLanguageCheckbox.isSelected();
 	}
 
 }

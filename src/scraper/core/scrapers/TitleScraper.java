@@ -19,7 +19,12 @@ public class TitleScraper extends PagePropertyScraper {
 
 	@Override
 	public void processDocument(Document document) throws NoSuchPropertyException {
-		title = selectFirst("span[itemprop=title]").ownText();
+		String selector = getTitleSelector();
+		title = selectFirst(selector).ownText();
+	}
+
+	public static String getTitleSelector() {
+		return "span[itemprop=title]";
 	}
 
 	@Override

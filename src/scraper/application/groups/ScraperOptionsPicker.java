@@ -17,7 +17,7 @@ public class ScraperOptionsPicker extends WidgetGroup {
 	private final List<PropertyScraperOptionGroup> propertyScraperOptionGroups;
 
 	private LanguageOptionGroup languageOptionGroup;
-	private RecursiveScrapingOptionGroup recursiveScrapingOptionGroup;
+	private RecursionLayerCountPicker recursionLayerCountPicker;
 
 	public ScraperOptionsPicker() {
 		super(TITLE, LayoutConfiguration.PADDING);
@@ -26,10 +26,11 @@ public class ScraperOptionsPicker extends WidgetGroup {
 		setLayout(layout);
 
 		propertyScraperOptionGroups = new ArrayList<>();
-
 		dataFrameScrapers = new DataFrameScrapers();
 		pageScraper = dataFrameScrapers.getPageScraper();
+
 		createOptionGroups();
+		createLayerCountPicker();
 	}
 
 	private void createOptionGroups() {
@@ -40,8 +41,8 @@ public class ScraperOptionsPicker extends WidgetGroup {
 	}
 
 	private void createConcatenateOptionGroup() {
-		ConcatenationOptionGroup concatenationOptionGroup = new ConcatenationOptionGroup(pageScraper);
-		pushPropertyScraperOptionGroup(concatenationOptionGroup);
+		ConcatenationOptionGroup optionGroup = new ConcatenationOptionGroup(pageScraper);
+		pushPropertyScraperOptionGroup(optionGroup);
 	}
 
 	private void createLanguageOptionGroup() {
@@ -50,8 +51,8 @@ public class ScraperOptionsPicker extends WidgetGroup {
 	}
 
 	private void createRecursiveScrapingOptionGroup() {
-		recursiveScrapingOptionGroup = new RecursiveScrapingOptionGroup();
-		pushOptionGroup(recursiveScrapingOptionGroup);
+		RecursiveScrapingOptionGroup optionGroup = new RecursiveScrapingOptionGroup(pageScraper);
+		pushPropertyScraperOptionGroup(optionGroup);
 	}
 
 	private void pushOptionGroup(OptionGroup optionGroup) {
@@ -67,6 +68,11 @@ public class ScraperOptionsPicker extends WidgetGroup {
 	private void pushPropertyScraperOptionGroup(PropertyScraperOptionGroup optionGroup) {
 		pushOptionGroup(optionGroup);
 		propertyScraperOptionGroups.add(optionGroup);
+	}
+
+	private void createLayerCountPicker() {
+		recursionLayerCountPicker = new RecursionLayerCountPicker();
+		add(recursionLayerCountPicker);
 	}
 
 	public List<PropertyScraper> getPropertyScrapers(String outputDirectory) {
@@ -98,7 +104,7 @@ public class ScraperOptionsPicker extends WidgetGroup {
 	}
 
 	public int getLayerCount() {
-		return 1;
+		return recursionLayerCountPicker.getLayerCount();
 	}
 
 }

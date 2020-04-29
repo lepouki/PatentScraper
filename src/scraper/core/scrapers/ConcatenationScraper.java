@@ -1,8 +1,7 @@
 package scraper.core.scrapers;
 
 import scraper.application.ScraperPaths;
-import scraper.core.ConcatenationOptions;
-import scraper.core.Document;
+import scraper.core.*;
 import scraper.core.writers.BasicFileWriter;
 
 public class ConcatenationScraper extends FileChangingPagePropertyScraper {
@@ -39,6 +38,10 @@ public class ConcatenationScraper extends FileChangingPagePropertyScraper {
 	private void concatenateDocumentText() {
 		concatenated = "";
 
+		if (options.concatenateTitle) {
+			concatenated += retrieveTitle() + '\n';
+		}
+
 		if (options.concatenateAbstract) {
 			concatenated += retrieveAbstract();
 		}
@@ -50,6 +53,11 @@ public class ConcatenationScraper extends FileChangingPagePropertyScraper {
 		if (options.concatenateClaims) {
 			concatenated += retrieveClaims();
 		}
+	}
+
+	private String retrieveTitle() {
+		String titleSelector = TitleScraper.getTitleSelector();
+		return retrieveTextElement(titleSelector);
 	}
 
 	private String retrieveAbstract() {
@@ -77,7 +85,7 @@ public class ConcatenationScraper extends FileChangingPagePropertyScraper {
 	}
 
 	private void setOutputFileForDocument(Document document) {
-		setRelativeFileWriterFile(ScraperPaths.CONCATENATED_TEXT_DIRECTORY + document.identifier + ".txt");
+		setRelativeFileWriterFile(ScraperPaths.TEXT_DIRECTORY + document.identifier + ".txt");
 	}
 
 	@Override

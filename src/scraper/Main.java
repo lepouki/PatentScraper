@@ -7,11 +7,11 @@ import javax.swing.*;
 public class Main {
 
 	public static void main(String[] args) {
-		trySetInterfaceToCrossPlatformInterface();
+		trySetInterfaceToSystemInterface();
 		new Application();
 	}
 
-	private static void trySetInterfaceToCrossPlatformInterface() {
+	private static void trySetInterfaceToSystemInterface() {
 		try {
 			UIManager.setLookAndFeel(
 				UIManager.getSystemLookAndFeelClassName()
