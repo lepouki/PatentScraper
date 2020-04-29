@@ -35,15 +35,22 @@ public class IdentifierScraper extends PagePropertyScraper {
 
 	private String retrieveIdentifier() {
 		String selector = isPatent()
-			? "dd[itemprop=publicationNumber]"
+			? getPublicationNumberSelector()
 			: "dd[itemprop=docID]";
 
 		return retrieveElementText(selector);
 	}
 
+	private static String getPublicationNumberSelector() {
+		return "dd[itemprop=publicationNumber]";
+	}
+
 	private boolean isPatent() {
 		try {
-			selectFirst("dd[itemprop=publicationNumber]");
+			selectFirst(
+				getPublicationNumberSelector()
+			);
+
 			return true;
 		}
 		catch (NoSuchPropertyException exception) {
