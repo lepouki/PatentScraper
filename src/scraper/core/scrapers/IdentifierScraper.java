@@ -1,6 +1,6 @@
 package scraper.core.scrapers;
 
-import scraper.application.ScraperPaths;
+import scraper.core.ScraperPaths;
 import scraper.core.Document;
 
 public class IdentifierScraper extends PagePropertyScraper {
@@ -29,11 +29,11 @@ public class IdentifierScraper extends PagePropertyScraper {
 	}
 
 	@Override
-	public void processDocument(Document document) {
+	public void processDocument(Document document) throws NoSuchPropertyException {
 		identifier = retrieveIdentifier();
 	}
 
-	private String retrieveIdentifier() {
+	private String retrieveIdentifier() throws NoSuchPropertyException {
 		String selector = isPatent()
 			? getPublicationNumberSelector()
 			: "dd[itemprop=docID]";
@@ -58,13 +58,8 @@ public class IdentifierScraper extends PagePropertyScraper {
 		}
 	}
 
-	private String retrieveElementText(String selector) {
-		try {
-			return selectFirst(selector).ownText();
-		}
-		catch (NoSuchPropertyException ignored) {
-			return "";
-		}
+	private String retrieveElementText(String selector) throws NoSuchPropertyException {
+		return selectFirst(selector).ownText();
 	}
 
 	@Override

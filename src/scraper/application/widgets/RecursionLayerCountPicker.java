@@ -6,7 +6,7 @@ import java.awt.*;
 
 public class RecursionLayerCountPicker extends Widget {
 
-	private static final String TITLE = "Layer count";
+	private static final String TITLE = "Document layers";
 	private static final int MINIMUM_VALUE = 1;
 	private static final int MAXIMUM_VALUE = 10;
 

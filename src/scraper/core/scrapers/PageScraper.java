@@ -39,13 +39,21 @@ public class PageScraper extends PropertyScraper {
 			page = PageDownloader.retrieveDocument(pageLink);
 		}
 		catch (IOException exception) {
-			page = new org.jsoup.nodes.Document("");
+			makeEmptyPage();
 			throw new NoSuchPropertyException();
 		}
 	}
 
+	private void makeEmptyPage() {
+		page = new org.jsoup.nodes.Document("");
+	}
+
 	public Element getPage() {
 		return page;
+	}
+
+	public boolean isPageEmpty() {
+		return page.baseUri().equals("");
 	}
 
 	public String getPageLink() {

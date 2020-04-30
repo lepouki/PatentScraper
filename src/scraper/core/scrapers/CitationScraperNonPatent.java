@@ -2,7 +2,7 @@ package scraper.core.scrapers;
 
 public class CitationScraperNonPatent extends CitationScraper {
 
-	private static final String READABLE_NAME = "Cited scholars";
+	private static final String READABLE_NAME = "Cited literature";
 
 	public CitationScraperNonPatent(PageScraper pageScraper) {
 		super(READABLE_NAME, pageScraper);

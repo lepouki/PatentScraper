@@ -2,7 +2,7 @@ package scraper.core.scrapers;
 
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
-import scraper.application.ScraperPaths;
+import scraper.core.ScraperPaths;
 import scraper.core.*;
 import scraper.core.writers.CsvFileWriter;
 

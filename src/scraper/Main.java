@@ -7,14 +7,14 @@ import javax.swing.*;
 public class Main {
 
 	public static void main(String[] args) {
-		trySetInterfaceToSystemInterface();
+		trySetInterfaceToCrossPlatformInterface();
 		new Application();
 	}
 
-	private static void trySetInterfaceToSystemInterface() {
+	private static void trySetInterfaceToCrossPlatformInterface() {
 		try {
 			UIManager.setLookAndFeel(
-				UIManager.getSystemLookAndFeelClassName()
+				UIManager.getCrossPlatformLookAndFeelClassName()
 			);
 		}
 		catch (Exception ignored) {}

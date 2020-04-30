@@ -1,6 +1,6 @@
 package scraper.core.scrapers;
 
-import scraper.application.ScraperPaths;
+import scraper.core.ScraperPaths;
 import scraper.core.*;
 import scraper.core.writers.BasicFileWriter;
 

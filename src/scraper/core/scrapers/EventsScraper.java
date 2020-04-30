@@ -2,7 +2,7 @@ package scraper.core.scrapers;
 
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
-import scraper.application.ScraperPaths;
+import scraper.core.ScraperPaths;
 import scraper.core.*;
 import scraper.core.writers.CsvFileWriter;
 
@@ -52,11 +52,12 @@ public class EventsScraper extends CsvConvertiblePagePropertyScraper {
 	}
 
 	private Event parseEvent(Element eventElement) {
-		String code = eventElement.selectFirst("td[itemprop=code]").ownText();
-		String title = eventElement.selectFirst("td[itemprop=title]").ownText();
-		String date = eventElement.selectFirst("time[itemprop=date]").ownText();
-		String description = eventElement.selectFirst("td:last-of-type").text();
-		return new Event(code, title, date, description);
+		return new Event(
+			eventElement.selectFirst("td[itemprop=code]").ownText(),
+			eventElement.selectFirst("td[itemprop=title]").ownText(),
+			eventElement.selectFirst("time[itemprop=date]").ownText(),
+			eventElement.selectFirst("td:last-of-type").text()
+		);
 	}
 
 }
