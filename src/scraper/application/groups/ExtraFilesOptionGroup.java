@@ -31,14 +31,6 @@ public class ExtraFilesOptionGroup extends PropertyScraperOptionGroup {
 		);
 
 		extraInformationScrapers.add(
-			new FiguresScraper(pageScraper)
-		);
-
-		extraInformationScrapers.add(
-			new EventsScraper(pageScraper)
-		);
-
-		extraInformationScrapers.add(
 			new ClassificationsScraper(pageScraper)
 		);
 
@@ -47,11 +39,19 @@ public class ExtraFilesOptionGroup extends PropertyScraperOptionGroup {
 		);
 
 		extraInformationScrapers.add(
-			new CitationScraperGiven(pageScraper)
+			new FiguresScraper(pageScraper)
 		);
 
 		extraInformationScrapers.add(
-			new CitationScraperNonPatent(pageScraper)
+			new SimilarDocumentsScraper(pageScraper)
+		);
+
+		extraInformationScrapers.add(
+			new EventsScraper(pageScraper)
+		);
+
+		extraInformationScrapers.add(
+			new CitationScraperGiven(pageScraper)
 		);
 
 		extraInformationScrapers.add(
@@ -59,7 +59,7 @@ public class ExtraFilesOptionGroup extends PropertyScraperOptionGroup {
 		);
 
 		extraInformationScrapers.add(
-			new SimilarDocumentsScraper(pageScraper)
+			new CitationScraperNonPatent(pageScraper)
 		);
 
 		setOptionPropertyScrapers(extraInformationScrapers);
