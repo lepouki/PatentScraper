@@ -3,7 +3,7 @@ package scraper.application.groups;
 import scraper.application.*;
 import scraper.application.widgets.*;
 import scraper.core.*;
-import scraper.core.scrapers.PageScraper;
+import scraper.core.properties.PageScraper;
 
 import java.util.*;
 import javax.swing.*;

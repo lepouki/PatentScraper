@@ -2,7 +2,7 @@ package scraper.application.groups;
 
 import scraper.application.widgets.*;
 import scraper.core.PropertyScraper;
-import scraper.core.scrapers.*;
+import scraper.core.properties.*;
 
 import java.util.List;
 

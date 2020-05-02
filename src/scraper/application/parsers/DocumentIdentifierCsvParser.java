@@ -50,21 +50,21 @@ public abstract class DocumentIdentifierCsvParser implements CsvParser {
 				identifier.isEmpty()
 			) continue;
 
-			checkIdentifierFormat(identifier);
-			Document document = new Document(identifier);
-			documents.add(document);
+			checkIdentifierCharacters(identifier);
+			String formatted = IdentifierFormatManager.applyFormat(identifier);
+			pushDocumentToDocuments(formatted, documents);
 		}
 
 		return documents;
 	}
 
-	private void checkIdentifierFormat(String identifier) throws IdentifierFormatException {
-		boolean incorrectFormat =
+	private void checkIdentifierCharacters(String identifier) throws IdentifierFormatException {
+		boolean hasIncorrectCharacters =
 			containsCharacter(identifier, ' ') ||
 			containsCharacter(identifier, CsvCharacters.SEPARATOR) ||
 			containsCharacter(identifier, CsvCharacters.QUOTE);
 
-		if (incorrectFormat) {
+		if (hasIncorrectCharacters) {
 			throw new IdentifierFormatException(identifier);
 		}
 	}
@@ -72,6 +72,12 @@ public abstract class DocumentIdentifierCsvParser implements CsvParser {
 	private boolean containsCharacter(String identifier, char character) {
 		String characterString = Character.toString(character);
 		return identifier.contains(characterString);
+	}
+
+	private void pushDocumentToDocuments(String identifier, List<Document> documents) {
+		documents.add(
+			new Document(identifier)
+		);
 	}
 
 	protected String getNextDocumentLine() {

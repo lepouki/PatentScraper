@@ -1,7 +1,7 @@
 package scraper.application;
 
 import scraper.core.PropertyScraper;
-import scraper.core.scrapers.*;
+import scraper.core.properties.*;
 import scraper.core.writers.CsvFileWriter;
 
 import java.util.*;
