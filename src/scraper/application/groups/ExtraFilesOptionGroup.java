@@ -8,7 +8,7 @@ import java.util.*;
 
 public class ExtraFilesOptionGroup extends PropertyScraperOptionGroup {
 
-	private static final String TITLE = "Also scrape";
+	private static final String TITLE = "Scrape";
 
 	public ExtraFilesOptionGroup(PageScraper pageScraper) {
 		super(TITLE);
@@ -19,6 +19,22 @@ public class ExtraFilesOptionGroup extends PropertyScraperOptionGroup {
 		List<PropertyScraper> extraInformationScrapers = new ArrayList<>();
 
 		extraInformationScrapers.add(
+			new AbstractDescriptionScraper(pageScraper)
+		);
+
+		extraInformationScrapers.add(
+			new DescriptionScraper(pageScraper)
+		);
+
+		extraInformationScrapers.add(
+			new ClaimsScraper(pageScraper)
+		);
+
+		extraInformationScrapers.add(
+			new ClassificationsScraper(pageScraper)
+		);
+
+		extraInformationScrapers.add(
 			new PdfScraper(pageScraper)
 		);
 
@@ -27,11 +43,23 @@ public class ExtraFilesOptionGroup extends PropertyScraperOptionGroup {
 		);
 
 		extraInformationScrapers.add(
+			new SimilarDocumentsScraper(pageScraper)
+		);
+
+		extraInformationScrapers.add(
 			new EventsScraper(pageScraper)
 		);
 
 		extraInformationScrapers.add(
-			new ClassificationsScraper(pageScraper)
+			new CitationScraperGiven(pageScraper)
+		);
+
+		extraInformationScrapers.add(
+			new CitationScraperReceived(pageScraper)
+		);
+
+		extraInformationScrapers.add(
+			new CitationScraperNonPatent(pageScraper)
 		);
 
 		setOptionPropertyScrapers(extraInformationScrapers);

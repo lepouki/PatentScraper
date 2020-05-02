@@ -13,6 +13,10 @@ public class PagePropertyScraper extends PropertyScraper {
 		this.pageScraper = pageScraper;
 	}
 
+	protected boolean isPageEmpty() {
+		return pageScraper.isPageEmpty();
+	}
+
 	protected String getPageLink() {
 		return pageScraper.getPageLink();
 	}

@@ -72,7 +72,7 @@ public class GenderWithProbabilityScraper extends PagePropertyScraper {
 			gender = requestResultJson.getString("gender");
 			genderProbability = requestResultJson.getDouble("probability");
 		}
-		catch (JSONException ignored) {
+		catch (JSONException exception) {
 			throw new NoSuchPropertyException();
 		}
 	}

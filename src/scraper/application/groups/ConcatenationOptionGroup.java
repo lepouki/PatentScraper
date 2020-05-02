@@ -8,7 +8,7 @@ import java.util.List;
 
 public class ConcatenationOptionGroup extends PropertyScraperOptionGroup {
 
-	private static final String TITLE = "Concatenate text";
+	private static final String TITLE = "Concatenate";
 
 	private final ConcatenationScraper concatenationScraper;
 	private final ConcatenationCheckboxGroup concatenationCheckboxGroup;

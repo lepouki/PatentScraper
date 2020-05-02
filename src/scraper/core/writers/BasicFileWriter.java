@@ -78,7 +78,11 @@ public class BasicFileWriter implements FileWriter {
 
 	private void createFile(Path file) {
 		Path parentDirectory = file.getParent();
-		createDirectory(parentDirectory);
+
+		if (parentDirectory != null) {
+			createDirectory(parentDirectory);
+		}
+
 		tryCreateFile(file);
 	}
 

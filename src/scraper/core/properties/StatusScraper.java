@@ -18,12 +18,22 @@ public class StatusScraper extends PagePropertyScraper {
 	}
 
 	@Override
-	public void processDocument(Document document) {
+	public void processDocument(Document document) throws NoSuchPropertyException {
+		checkPageContent();
+
 		try {
 			status = selectFirst("span[itemprop=status]").ownText();
 		}
 		catch (NoSuchPropertyException exception) {
 			status = "Application"; // Patents not yet granted don't have a status element
+		}
+	}
+
+	private void checkPageContent() throws NoSuchPropertyException {
+		boolean isPageEmpty = isPageEmpty();
+
+		if (isPageEmpty) {
+			throw new NoSuchPropertyException();
 		}
 	}
 

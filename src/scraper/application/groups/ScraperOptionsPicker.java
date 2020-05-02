@@ -37,7 +37,6 @@ public class ScraperOptionsPicker extends WidgetGroup {
 		createLanguageOptionGroup();
 		createConcatenateOptionGroup();
 		createExtraFilesOptionGroup();
-		createRecursiveScrapingOptionGroup();
 	}
 
 	private void createConcatenateOptionGroup() {
@@ -48,11 +47,6 @@ public class ScraperOptionsPicker extends WidgetGroup {
 	private void createLanguageOptionGroup() {
 		languageOptionGroup = new LanguageOptionGroup();
 		pushOptionGroup(languageOptionGroup);
-	}
-
-	private void createRecursiveScrapingOptionGroup() {
-		RecursiveScrapingOptionGroup optionGroup = new RecursiveScrapingOptionGroup(pageScraper);
-		pushPropertyScraperOptionGroup(optionGroup);
 	}
 
 	private void pushOptionGroup(OptionGroup optionGroup) {

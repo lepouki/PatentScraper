@@ -24,7 +24,6 @@ public class FileChooser extends Widget implements ActionListener {
 
 	}
 
-	private static final String BASE_DIRECTORY = "./";
 	private static final String OPEN_BUTTON_TEXT = "Open";
 
 	private JTextField filePathText;
@@ -40,17 +39,29 @@ public class FileChooser extends Widget implements ActionListener {
 	}
 
 	private void createComponents(FileMode fileMode, String dialogTitle) {
+		createFilePathText();
+		createOpenButton();
+		createFileChooser(fileMode, dialogTitle);
+	}
+
+	private void createFilePathText() {
 		filePathText = new JTextField();
 		add(filePathText);
+	}
 
+	private void createOpenButton() {
 		openButton = new JButton(OPEN_BUTTON_TEXT);
 		add(openButton);
 		openButton.addActionListener(this);
+	}
 
-		fileChooser = new JFileChooser(BASE_DIRECTORY);
-		fileChooser.setDialogTitle(dialogTitle);
+	private void createFileChooser(FileMode fileMode, String dialogTitle) {
+		fileChooser = new JFileChooser();
+
 		int fileSelectionMode = fileMode.getFileSelectionMode();
 		fileChooser.setFileSelectionMode(fileSelectionMode);
+
+		fileChooser.setDialogTitle(dialogTitle);
 	}
 
 	private void applyLayoutConstraints(SpringLayout layout) {

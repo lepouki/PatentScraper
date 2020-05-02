@@ -1,12 +1,12 @@
 package scraper.core.properties;
 
-import scraper.application.ScraperPaths;
+import scraper.core.ScraperPaths;
 import scraper.core.*;
 import scraper.core.writers.BasicFileWriter;
 
 public class ConcatenationScraper extends FileChangingPagePropertyScraper {
 
-	private static final String READABLE_NAME = "Concatenated text";
+	private static final String READABLE_NAME = "Concatenate";
 
 	private String concatenated;
 	private ConcatenationOptions options;
@@ -85,7 +85,7 @@ public class ConcatenationScraper extends FileChangingPagePropertyScraper {
 	}
 
 	private void setOutputFileForDocument(Document document) {
-		setRelativeFileWriterFile(ScraperPaths.TEXT_DIRECTORY + document.identifier + ".txt");
+		setRelativeFileWriterFile(ScraperPaths.CONCATENATED_TEXT_DIRECTORY + document.identifier + ".txt");
 	}
 
 	@Override
