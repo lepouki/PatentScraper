@@ -6,7 +6,7 @@ import scraper.core.Document;
 
 public class InventorsOrAuthorsScraper extends PagePropertyScraper {
 
-	private static final String READABLE_NAME = "Inventor or author";
+	private static final String READABLE_NAME = "Inventors or authors";
 
 	private String inventorsOrAuthors;
 
