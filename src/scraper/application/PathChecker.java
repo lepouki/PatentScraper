@@ -25,9 +25,9 @@ public class PathChecker {
 		checkIsEmpty(filePath);
 
 		Path path = Paths.get(filePath);
-		boolean fileExists = Files.exists(path);
+		boolean exists = Files.exists(path);
 
-		if (!fileExists) {
+		if (!exists) {
 			throw new NoSuchPathException(filePath);
 		}
 	}

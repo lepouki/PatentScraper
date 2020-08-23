@@ -36,8 +36,7 @@ public class StatusMessageUpdater {
 	}
 
 	private void updateStatusMessage() {
-		String status = layerStatus + " - " + documentStatus;
-		scraperControls.setStatus(status);
+		scraperControls.setStatus(layerStatus + " - " + documentStatus);
 	}
 
 }

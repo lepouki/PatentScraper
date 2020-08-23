@@ -41,7 +41,7 @@ public class DataFrameScrapers {
 		);
 
 		propertyScrapers.add(
-			new InventorOrAuthorScraper(pageScraper)
+			new InventorsOrAuthorsScraper(pageScraper)
 		);
 
 		propertyScrapers.add(

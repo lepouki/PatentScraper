@@ -29,8 +29,13 @@ public class IdentifierScraper extends PagePropertyScraper {
 	}
 
 	@Override
-	public void processDocument(Document document) throws NoSuchPropertyException {
-		identifier = retrieveIdentifier();
+	public void processDocument(Document document) {
+		try {
+			identifier = retrieveIdentifier();
+		}
+		catch (NoSuchPropertyException exception) {
+			identifier = document.identifier;
+		}
 	}
 
 	private String retrieveIdentifier() throws NoSuchPropertyException {

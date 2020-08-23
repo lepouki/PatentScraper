@@ -32,7 +32,7 @@ public class AssigneeScraper extends PagePropertyScraper {
 	}
 
 	private void retrieveInventorOrAuthor() throws NoSuchPropertyException {
-		String selector = InventorOrAuthorScraper.getInventorSelector();
+		String selector = InventorsOrAuthorsScraper.getInventorsSelector();
 		assignees = selectFirst(selector).ownText();
 	}
 

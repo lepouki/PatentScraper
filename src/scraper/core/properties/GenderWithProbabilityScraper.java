@@ -30,7 +30,7 @@ public class GenderWithProbabilityScraper extends PagePropertyScraper {
 	}
 
 	private String getInventorOrAuthor() throws NoSuchPropertyException {
-		String selector = InventorOrAuthorScraper.getInventorSelector();
+		String selector = InventorsOrAuthorsScraper.getInventorsSelector();
 		return selectFirst(selector).ownText();
 	}
 
