@@ -51,8 +51,7 @@ public abstract class DocumentIdentifierCsvParser implements CsvParser {
 			) continue;
 
 			checkIdentifierCharacters(identifier);
-			String formatted = IdentifierFormatManager.applyFormat(identifier);
-			pushDocumentToDocuments(formatted, documents);
+			pushDocumentToDocuments(identifier, documents);
 		}
 
 		return documents;
