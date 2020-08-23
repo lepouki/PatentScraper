@@ -1,6 +1,5 @@
 package scraper.core.properties;
 
-import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import scraper.core.Document;
 
