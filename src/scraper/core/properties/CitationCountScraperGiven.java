@@ -15,7 +15,7 @@ public class CitationCountScraperGiven extends ElementCountScraper {
 
 	@Override
 	protected String getElementSelector() {
-		return "tr[itemprop=backwardReferencesOrig]";
+		return CitationScraperGiven.getGivenCitationSelector();
 	}
 
 }

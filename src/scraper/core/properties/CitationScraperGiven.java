@@ -15,6 +15,10 @@ public class CitationScraperGiven extends CitationScraper {
 
 	@Override
 	protected String getCitationSelector() {
+		return getGivenCitationSelector();
+	}
+
+	public static String getGivenCitationSelector() {
 		return "tr[itemprop=backwardReferencesOrig]";
 	}
 

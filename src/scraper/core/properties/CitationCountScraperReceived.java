@@ -15,7 +15,7 @@ public class CitationCountScraperReceived extends ElementCountScraper {
 
 	@Override
 	protected String getElementSelector() {
-		return "tr[itemprop=forwardReferencesOrig]";
+		return CitationScraperReceived.getReceivedCitationSelector();
 	}
 
 }
