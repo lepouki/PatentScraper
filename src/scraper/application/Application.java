@@ -5,7 +5,6 @@ import scraper.application.parsers.*;
 import scraper.core.*;
 
 import java.io.IOException;
-import java.lang.reflect.Array;
 import java.util.*;
 import javax.swing.*;
 
