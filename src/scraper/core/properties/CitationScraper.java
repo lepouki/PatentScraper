@@ -96,10 +96,10 @@ public abstract class CitationScraper extends CsvConvertiblePagePropertyScraper 
 		boolean isGivenCitation = isGivenCitation();
 
 		String source = isGivenCitation
-			? otherDocumentIdentifier : documentIdentifier;
+			? documentIdentifier : otherDocumentIdentifier;
 
 		String target = isGivenCitation
-			? documentIdentifier : otherDocumentIdentifier;
+			? otherDocumentIdentifier : documentIdentifier;
 
 		pushProperty(
 			new Citation(source, target, originCharacter)

@@ -19,7 +19,7 @@ public class CitationScraperReceived extends CitationScraper {
 	}
 
 	public static String getReceivedCitationSelector() {
-		return "tr[itemprop=backwardReferencesOrig]";
+		return "tr[itemprop=forwardReferencesOrig]";
 	}
 
 }
