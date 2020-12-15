@@ -16,3 +16,6 @@ res/
 
 # Java files
 META-INF/
+
+# Packr file
+pack.json
