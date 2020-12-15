@@ -3,12 +3,12 @@ A web scraper targeting the Google Patents database.
 
 Made during an internship.
 
-# Building on mac
+# Building
 
 Using [libgdx/packr](https://github.com/libgdx/packr):
 ```
 java -jar <packr-jar-name> \
-	--platform mac \
+	--platform <platform> \
 	--jdk <path-to-jdk-11-or-more> \
 	--useZgcIfSupportedOs \
 	--executable patent-scraper \
@@ -16,5 +16,5 @@ java -jar <packr-jar-name> \
 	--removelibs <path-to-scraper-jar> \
 	--mainclass scraper.Main \
 	--minimizejre soft \
-	--output <app-name>.app
+	--output <app-name>
 ```
