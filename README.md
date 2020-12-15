@@ -11,10 +11,10 @@ java -jar <packr-jar-name> \
 	--platform <platform> \
 	--jdk <path-to-jdk-11-or-more> \
 	--useZgcIfSupportedOs \
-	--executable patent-scraper \
+	--executable <executable-name> \
 	--classpath <path-to-scraper-jar> \
 	--removelibs <path-to-scraper-jar> \
 	--mainclass scraper.Main \
 	--minimizejre soft \
-	--output <app-name>
+	--output <output-directory>
 ```
