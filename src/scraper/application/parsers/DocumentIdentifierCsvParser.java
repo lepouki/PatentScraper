@@ -4,6 +4,7 @@ import scraper.application.CsvParser;
 import scraper.core.*;
 
 import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.util.*;
 
 public abstract class DocumentIdentifierCsvParser implements CsvParser {
@@ -32,10 +33,10 @@ public abstract class DocumentIdentifierCsvParser implements CsvParser {
 
 	private void tryCreateScanner(File file) {
 		try {
-			scanner = new Scanner(file);
+			scanner = new Scanner(file, StandardCharsets.UTF_8);
 		}
 		// The input file path gets checked before constructing the parser so this should never happen
-		catch (FileNotFoundException ignored) {}
+		catch (IOException ignored) {}
 	}
 
 	private List<Document> parseLines() throws IdentifierFormatException {

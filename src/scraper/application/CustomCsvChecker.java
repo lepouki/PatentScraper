@@ -3,6 +3,7 @@ package scraper.application;
 import scraper.core.CsvCharacters;
 
 import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.util.*;
 
 public class CustomCsvChecker {
@@ -30,7 +31,7 @@ public class CustomCsvChecker {
 
 	private static Scanner tryCreateScanner(File file) {
 		try {
-			return new Scanner(file);
+			return new Scanner(file, StandardCharsets.UTF_8);
 		}
 		catch (IOException exception) {
 			return null; // This should never happen, we know the input file exists at this point

@@ -19,7 +19,7 @@ public class CitationScraperGiven extends CitationScraper {
 	}
 
 	public static String getGivenCitationSelector() {
-		return "tr[itemprop=backwardReferencesOrig]";
+		return "tr[itemprop=forwardReferencesOrig]";
 	}
 
 }
